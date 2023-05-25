@@ -1,0 +1,26 @@
+{
+    "name": "QBY-VM-Backup",
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "Configure backup von virtual machines",
+      "description": "Contains the backup policies",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Backup"
+      },
+      "parameters": {
+        
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "Configure backup on virtual machines with a given tag to a new recovery services vault with a default policy",
+          "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-VM-Backup",
+          "parameters": {
+           
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

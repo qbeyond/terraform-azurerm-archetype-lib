@@ -4,19 +4,19 @@ locals {
   definiton_files_path = toset([for path in local.definiton_files : "${local.customer_lib}/${path}"])
 }
 
-resource "local_file" "created_file" {
+resource "local_file" "copied_files" {
   for_each = local.definiton_files_path
   source   = each.value
   filename = "${path.module}/customer_lib/${basename(each.key)}"
 }
 
 output "merged_libraries" {
-  depends_on  = [local_file.created_file]
   value       = path.module
-  description = "path to were the merged librarys are found. Can be given to the CAF"
+  description = "Path to where the merged libraries can be found. This output can be given to the CAF-Module."
+  depends_on  = [local_file.copied_files]
 }
 
-output "filenames" {
+output "file_names" {
   value       = local.definiton_files
-  description = "outputs the files wich were added to the library"
+  description = "Outputs the files wich were added to the library"
 }

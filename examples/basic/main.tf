@@ -1,4 +1,3 @@
-#this is the module needed to join both 
 module "archetype_lib" {
   source       = "qbeyond/archetype-lib/azurerm"
   version      = "0.0.1"

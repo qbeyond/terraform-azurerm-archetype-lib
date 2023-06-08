@@ -21,8 +21,8 @@ output "file_names" {
   value = module.archetype_lib.file_names
 }
 
-output "merged_libraries" {
-  value = module.archetype_lib.merged_libraries
+output "merged_librarie" {
+  value = module.archetype_lib.merged_librarie
 }
 ```
 
@@ -42,7 +42,7 @@ output "merged_libraries" {
 | Name | Description |
 |------|-------------|
 | <a name="output_file_names"></a> [file\_names](#output\_file\_names) | Outputs the files wich were added to the library |
-| <a name="output_merged_libraries"></a> [merged\_libraries](#output\_merged\_libraries) | Path to where the merged libraries can be found. This output can be given to the CAF-Module. |
+| <a name="output_merged_library"></a> [merged\_library](#output\_merged\_library) | Path to where the library, containing both libraries can be found. This output can be given to the CAF-Module. |
 
 ## Resource types
 | Type | Used |

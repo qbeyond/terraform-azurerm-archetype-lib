@@ -10,9 +10,9 @@ resource "local_file" "copied_files" {
   filename = "${path.module}/customer_lib/${basename(each.key)}"
 }
 
-output "merged_libraries" {
+output "merged_library" {
   value       = path.module
-  description = "Path to where the merged libraries can be found. This output can be given to the CAF-Module."
+  description = "Path to where the library, containing both libraries can be found. This output can be given to the CAF-Module."
   depends_on  = [local_file.copied_files]
 }
 

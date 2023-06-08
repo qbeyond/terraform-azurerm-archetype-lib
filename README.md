@@ -12,7 +12,7 @@ That folder containing the external and the q.beyond libraries. The planed useca
 ### Basic
 The given Template is first adding this Module as "archetype_lib". The Path of the library, that is supposed to be set as the value from "cutomer_lib".
 The output "file_names" can be used to manualy check, wether all Files that are supposed to be included in the merged library are include, as it outputs the name of all files that were added.
-The output of "merged_librarie" is suppoed to be the Input for the [CAF-Module](https://registry.terraform.io/modules/aztfmod/caf/azurerm/latest) for the variable named "source"
+The output of "merged_librarie" is suppoed to be the Input for the [CAF-Module](https://registry.terraform.io/modules/aztfmod/caf/azurerm/latest) for the variable named "archetype_lib"
 
 ```hcl
 module "archetype_lib" {
@@ -28,6 +28,7 @@ output "file_names" {
 output "merged_librarie" {
   value = module.archetype_lib.merged_librarie
 }
+
 ```
 
 ## Requirements

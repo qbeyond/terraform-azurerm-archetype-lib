@@ -18,5 +18,5 @@ output "merged_library" {
 
 output "file_names" {
   value       = local.definiton_files
-  description = "Outputs the files wich were added to the library"
+  description = "Outputs the files wich were added to the library."
 }

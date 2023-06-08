@@ -42,16 +42,16 @@ content: |-
   
   # Archetype Library
 
-  # Introduction
+  ## Introduction
   This [repository](https://github.com/qbeyond/terraform-azurerm-archetype-lib) is our central library of custom policy (set) definitions. Policies defined here will be usable by CAF archetypes in the future.
   Over this Module, named [archetype-lib](https://registry.terraform.io/modules/qbeyond/archetype-lib/azurerm/latest) all q.beyond archetype-, policy-, policy set- and roledefinitions and policy assignments will be summarized in one folder with all the azurerm compatible definitions and assignments.
   That folder containing the external and the q.beyond libraries. The planed usecase is to hand the output `merged_library` of this Module to the CAF-Module, as it can only handle one Folder as input containing definitions and assignements.
   
-  # Repository structure
+  ## Repository structure
 
-  # Examples
+  ## Examples
 
-  ## Basic
+  ### Basic
   The given Template is first adding this Module as "archetype_lib". The Path of the library, that is supposed to be set as the value from `cutomer_lib`. 
   The output "file_names" can be used to manualy check, wether all Files that are supposed to be included in the merged library are include, as it outputs the name of all files that were added.
   The output of `merged_library` is suppoed to be the Input for the [CAF-Module](https://registry.terraform.io/modules/aztfmod/caf/azurerm/latest) for the variable named `archetype_lib`

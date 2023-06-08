@@ -11,3 +11,4 @@ output "file_names" {
 output "merged_librarie" {
   value = module.archetype_lib.merged_librarie
 }
+

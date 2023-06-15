@@ -1,29 +1,24 @@
-  # Module
+# Archetype Library
 [![GitHub tag](https://img.shields.io/github/tag/qbeyond/terraform-azurerm-archetype-lib.svg)](https://registry.terraform.io/modules/qbeyond/terraform-azurerm-archetype-lib/provider/latest)
 [![License](https://img.shields.io/github/license/qbeyond/terraform-azurerm-archetype-lib.svg)](https://github.com/qbeyond/terraform-azurerm-archetype-lib/blob/main/LICENSE)
 
 ----
 
-  ## Introduction
-  This [repository](https://github.com/qbeyond/terraform-azurerm-archetype-lib) is our central library of custom policy (set) definitions. Policies defined here will be usable by CAF archetypes.
-  Over this Module, named [archetype-lib](https://registry.terraform.io/modules/qbeyond/archetype-lib/azurerm/latest), all q.beyond archetype-, policy-, policy set- and roledefinitions and policy assignments will be summarized in one folder with all the azurerm compatible definitions and assignments.
-  That folder will containin the external and the q.beyond definitions and assignments. The planed usecase is to hand the output `merged_library` of this Module to the CAF-Module, as it can only handle one Folder as input containing definitions and assignements.
-  
-  ## Root Repository Structure
-  - archetypes is a folder just containing archetype definitions: no subfolders, the name serves as description
-  - The main categories used by archetypes: policy_definition, role_definitions
-    - they each contain folders named by the topics that the policys or roles are for
-      - they each can contain a folder with tests for them selfs
-      - they each contain their needed policy-, policy set- and roledefinitions and policy assignments
-  - .tf files that are the archetype-lib module
-  - folder for examples
-    - contains folders of examples on how to use this module. Each example is described in this README under "Examples"
+This [repository](https://github.com/qbeyond/terraform-azurerm-archetype-lib) is our central library of custom policy (set) definitions. Policies defined here will be usable by CAF archetypes.
+Over this Module, named [archetype-lib](https://registry.terraform.io/modules/qbeyond/archetype-lib/azurerm/latest), all q.beyond archetype-, policy-, policy set- and roledefinitions and policy assignments will be summarized in one folder with all the azurerm compatible definitions and assignments.
+That folder will containin the external and the q.beyond definitions and assignments. The planed usecase is to hand the output `merged_library` of this Module to the CAF-Module, as it can only handle one Folder as input containing definitions and assignements.
+
+## Root Repository Structure
+- archetypes is a folder just containing archetype definitions: no subfolders, the name serves as description
+- The main categories used by archetypes: policy_definition, role_definitions
+  - they each contain folders named by the topics that the policys or roles are for
+    - they each can contain a folder with tests for them selfs
+    - they each contain their needed policy-, policy set- and roledefinitions and policy assignments
+- .tf files that are the archetype-lib module
+- folder for examples
+  - contains folders of examples on how to use this module. Each example is described in this README under "Examples"
 
 <!-- BEGIN_TF_DOCS -->
-##
-
-# Archetype Library
-
 ## Examples
 
 ### Basic

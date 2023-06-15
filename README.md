@@ -23,27 +23,27 @@
 # Archetype Library
 
 ## Introduction
-This [repository](https://github.com/qbeyond/terraform-azurerm-archetype-lib) is our central library of custom policy (set) definitions. Policies defined here will be usable by CAF archetypes in the future.
+This [repository](https://github.com/qbeyond/terraform-azurerm-archetype-lib) is our central library of custom policy (set) definitions. Policies defined here will be usable by CAF archetypes.
 Over this Module, named [archetype-lib](https://registry.terraform.io/modules/qbeyond/archetype-lib/azurerm/latest), all q.beyond archetype-, policy-, policy set- and roledefinitions and policy assignments will be summarized in one folder with all the azurerm compatible definitions and assignments.
-That folder containing the external and the q.beyond libraries. The planed usecase is to hand the output `merged_library` of this Module to the CAF-Module, as it can only handle one Folder as input containing definitions and assignements.
+That folder will containin the external and the q.beyond definitions and assignments. The planed usecase is to hand the output `merged_library` of this Module to the CAF-Module, as it can only handle one Folder as input containing definitions and assignements.
 
 ## Root Repository Structure
-- archetypes is a folder just containgn archetypedefinitions: no subfolders, the name should be describing enough
-- The main categorys used by archetypes: policy_definition, role_definitions
+- archetypes is a folder just containing archetype definitions: no subfolders, the name serves as description
+- The main categories used by archetypes: policy_definition, role_definitions
 - they each contain folders named by the topics that the policys or roles are for
-- they each contain a folder with test for //:TODO
+- they each can contain a folder with tests for them selfs
 - they each contain their needed policy-, policy set- and roledefinitions and policy assignments
-- .tf files that are the archetype-lib modulue
+- .tf files that are the archetype-lib module
 - folder for examples
-- contains folders of examples on how to use the module. Each example is described in this README under "Examples"
+- contains folders of examples on how to use this module. Each example is described in this README under "Examples"
 
 
 ## Examples
 
 ### Basic
-First, the given template is adding this Module as `archetype_lib`. The Path of the library that is supposed to be summorized with the q.beyond library, is set as the value of `cutomer_lib`.
+First, the given template is adding this Module as `archetype_lib`. The Path of the library that is supposed to be summarized with the q.beyond library, is set as the value of `cutomer_lib`.
 The output ´file_names´ can be used to manualy check whether all files that are supposed to be included in the merged library are included, as it outputs the names of all files that were added.
-The output of `merged_library` is supposed to be the input for the [CAF-Module](https://registry.terraform.io/modules/aztfmod/caf/azurerm/latest) for the parameter named `archetype_lib`
+The output of `merged_library` is supposed to be the input for the [CAF-Module](https://registry.terraform.io/modules/Azure/caf-enterprise-scale/azurerm/latest) for the parameter named `archetype_lib`
 
 ```hcl
 module "archetype_lib" {

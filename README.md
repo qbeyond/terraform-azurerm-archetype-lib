@@ -12,7 +12,7 @@ That folder will containin the external and the q.beyond definitions and assignm
 - archetypes is a folder just containing archetype definitions: no subfolders, the name serves as description
 - The main categories used by archetypes: policy_definition, role_definitions
   - they each contain folders named by the topics that the policys or roles are for
-    - they each can contain a folder with tests for them selfs
+    - they each can contain a folder with tests for themselves
     - they each contain their needed policy-, policy set- and roledefinitions and policy assignments
 - .tf files that are the archetype-lib module
 - folder for examples

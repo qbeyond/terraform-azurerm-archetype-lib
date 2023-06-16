@@ -26,7 +26,7 @@ That folder will contain the external and the q.beyond definitions and assignmen
 ## Examples
 
 ### Basic
-First, the given template is adding this Module as `archetype_lib`. The Path of the library that is supposed to be summarized with the q.beyond library is set as the value of `cutomer_lib`.
+First, the given template is adding this Module as `archetype_lib`. The Path of the library that is supposed to be summarized with the q.beyond library, is set as the value of `cutomer_lib`.
 The output ´file_names´ can be used to manualy check whether all files that are supposed to be included in the merged library are included, as it outputs the names of all files that were added.
 The output of `merged_library` is supposed to be the input for the [CAF-Module](https://registry.terraform.io/modules/Azure/caf-enterprise-scale/azurerm/latest) for the parameter named `archetype_lib`
 

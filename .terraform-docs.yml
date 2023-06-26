@@ -1,0 +1,101 @@
+formatter: "markdown"
+
+# Tested with this version
+# As Majorversion is 0 any change may break
+version: ">=0.16.0"
+
+sections:
+  hide:
+    - header
+    - providers
+
+output:
+  file: "README.md"
+  mode: inject
+
+sort:
+  enabled: true
+  by: required
+
+content: |-
+  {{- define "setDict" -}}
+    {{- $resource := list -}}
+    {{- if hasKey .Dict .Key -}}
+      {{- $resource = get .Dict .Key -}}
+    {{- else -}}
+       {{- $resource = list -}}
+    {{- end -}}
+    {{- $resource := append $resource .Resource -}}
+    {{- $_ := set .Dict .Key $resource -}}
+  {{- end -}}
+  
+  {{- $filesResources := dict -}}
+  {{- $resourceTypes := dict -}}
+  {{- range .Module.Resources -}}
+    {{- template "setDict" dict "Dict" $filesResources "Key" .Position.Filename "Resource" . -}}
+    {{- $isResource := eq "resource" (printf "%s" .GetMode) -}}
+    {{- if $isResource -}}
+      {{- template "setDict" dict "Dict" $resourceTypes "Key" (printf "%s_%s" .ProviderName .Type) "Resource" . -}}
+    {{- end -}}
+  {{- end -}}
+  {{ indent 0 "#" }}
+  
+  ## Examples
+
+  ### Basic
+  First, the given template is adding this Module as `archetype_lib`. The Path of the library that is supposed to be summarized with the q.beyond library is set as the value of `cutomer_lib`. 
+  The output ´file_names´ can be used to manualy check whether all files that are supposed to be included in the merged library are included, as it outputs the names of all files that were added.
+  The output of `merged_library` is supposed to be the input for the [CAF-Module](https://registry.terraform.io/modules/Azure/caf-enterprise-scale/azurerm/latest) for the parameter named `archetype_lib`
+  
+  ```hcl
+  {{ include "examples/basic/main.tf" }}
+  ```
+
+
+  {{ .Requirements }}
+  {{ .Providers }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ if .Config.Sections.Resources -}}
+    {{- if not (keys $resourceTypes) -}}
+        {{- if not .Config.Settings.HideEmpty -}}
+            {{- indent 0 "#" }} Resource types
+            No resources.
+        {{ end }}
+      {{ else }}
+        {{ indent 0 "#" }} Resource types
+        | Type | Used |
+        |------|-------|
+        {{- range $type,$resources := $resourceTypes }}
+          {{- $url := (first $resources).URL -}}
+          {{- $type = ternary $url (printf "[%s](%s)" $type $url) $type }}
+          | {{ $type }} | {{ len $resources }} |
+        {{- end }}
+        **`Used` only includes resource blocks.** `for_each` and `count` meta arguments, as well as resource blocks of modules are not considered.
+      {{ end }}
+  {{ end -}}
+  {{ .Modules }}
+  {{ if or .Config.Sections.Resources .Config.Sections.DataSources -}}
+      {{- if not (keys $filesResources) -}}
+          {{- if not .Config.Settings.HideEmpty -}}
+              {{ indent 0 "#" }} Resources by Files
+              No resources.
+          {{ end }}
+      {{ else }}
+          {{ indent 0 "#" }} Resources by Files
+          {{- range $fileName,$resources := $filesResources }}
+              {{ indent 1 "#" }} {{ $fileName }}
+              | Name | Type |
+              |------|------|
+              
+              {{- range $resources -}}
+                {{- $isResource := and $.Config.Sections.Resources ( eq "resource" (printf "%s" .GetMode)) }}
+                {{- $isDataResource := and $.Config.Sections.DataSources ( eq "data source" (printf "%s" .GetMode)) }}
+                {{- if or $isResource $isDataResource }}
+                    {{- $fullspec := ternary .URL (printf "[%s](%s)" .Spec .URL) .Spec }}
+                    | {{ $fullspec }} | {{ .GetMode }} |
+                {{- end }}
+              {{- end -}}
+          {{- end }}
+      {{ end }}
+  {{- end -}}

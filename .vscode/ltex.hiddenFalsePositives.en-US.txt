@@ -1,0 +1,1 @@
+{"rule":"LOCAL","sentence":"^\\Qproperties = merge(local.policy_input[\"properties\"][\"policyRule\"][\"then\"][\"details\"][\"deployment\"][\"properties\"],{\r\n        template = local.template\r\n    })\r\n    deployment = merge(local.policy_input[\"properties\"][\"policyRule\"][\"then\"][\"details\"][\"deployment\"], {\r\n        properties = local.properties\r\n    })\\E$"}

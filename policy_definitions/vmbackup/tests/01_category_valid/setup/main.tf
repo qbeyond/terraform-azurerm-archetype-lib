@@ -22,7 +22,33 @@ locals {
   policy = module.policy_definition_qby_deploy_vm_backup.policy
 }
 
-resource "azurerm_policy_definition" "policy" {
+locals {
+  policy_set_definition = jsondecode(templatefile("./../../../policy_set_definition_vm_backup.json", {root_scope_resource_id = "/subscriptions/${data.azurerm_client_config.this.subscription_id}"}))
+}
+
+data "azurerm_client_config" "this" {
+}
+
+resource "azurerm_resource_group" "this" {
+  name      = "rg-VmPolicyTest-dev-01" 
+  location  = "westeurope"
+}
+
+resource "azurerm_policy_set_definition" "this" {
+  name = local.policy_set_definition.name
+  policy_type = local.policy_set_definition.properties.policyType 
+  display_name = local.policy_set_definition.properties.displayName
+  
+  dynamic "policy_definition_reference" {
+    for_each = toset(local.policy_set_definition.properties.policyDefinitions) 
+    content {
+      policy_definition_id = policy_definition_reference.value.policyDefinitionId
+      reference_id = policy_definition_reference.value.policyDefinitionReferenceId
+    }
+  }
+}
+
+resource "azurerm_policy_definition" "this" {
   name         = local.policy.name
   policy_type  = local.policy.properties.policyType
   mode         = local.policy.properties.mode
@@ -35,4 +61,13 @@ resource "azurerm_policy_definition" "policy" {
 
 
   parameters = jsonencode(local.policy.properties.parameters)
+}
+
+module "policy_set_assignment" {
+  source  = "qbeyond/policy-set-assignment/azurerm"
+  version = "1.0.2"
+  scope = azurerm_resource_group.this.id
+  location = azurerm_resource_group.this.location
+  policy_definitions = [azurerm_policy_definition.this]
+  policy_set_definition = azurerm_policy_set_definition.this
 }

@@ -81,7 +81,7 @@ output "merged_librarie" {
 No modules.
 
 ## Resources by Files
-### main.tf
+### /terraform-docs/main.tf
 | Name                                                                                                          | Type     |
 | ------------------------------------------------------------------------------------------------------------- | -------- |
 | [local_file.copied_files](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |

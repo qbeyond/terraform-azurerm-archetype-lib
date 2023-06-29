@@ -14,9 +14,8 @@ provider "azurerm" {
 }
 
 module "policy_definition_qby_deploy_vm_backup" {
-  source           = "./../../../../../modules/merge_DINE_policy"
-  policy_file_path = "./../../../policy_definition_qby_deploy_vm_backup.json"
-  # description = "Path to the policy that is to be tested"
+  source           = "./../../../../modules/merge_DINE_policy"
+  policy_file_path = "./../../policy_definition_qby_deploy_vm_backup.json"
 }
 
 locals {
@@ -24,16 +23,15 @@ locals {
 }
 
 locals {
-  policy_set_definition = jsondecode(templatefile("./../../../policy_set_definition_vm_backup.json", {root_scope_resource_id = "/subscriptions/${data.azurerm_client_config.this.subscription_id}"}))
+  policy_set_definition = jsondecode(templatefile("./../../policy_set_definition_vm_backup.json", {root_scope_resource_id = "/subscriptions/${data.azurerm_client_config.this.subscription_id}"}))
 }
 
 data "azurerm_client_config" "this" {
 }
 
 resource "azurerm_resource_group" "this" {
-  name      = "rg-VmPolicyTest-dev-01" 
+  name      = var.resource_group_name
   location  = "westeurope"
-  description = "The resource group will be deployed as part of this specific setup."
 }
 
 resource "azurerm_policy_set_definition" "this" {

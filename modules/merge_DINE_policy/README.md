@@ -7,19 +7,20 @@ This module merges the ARM template and rest of a deploy if not exist policy.
 You just need to specify the Policy JSON file. The module will look for a file ending in `_ARM.json` with the same name.
 
 <!-- BEGIN_TF_DOCS -->
-
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.7.0 |
+No requirements.
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_policy_file_path"></a> [policy\_file\_path](#input\_policy\_file\_path) | The path to the policy JSON containing everything except the ARM-template. | `string` | n/a | yes |
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_policy"></a> [policy](#output\_policy) | The merged policy JSON with the ARM template as terraform object. |
 ## Resource types
 
 No resources.

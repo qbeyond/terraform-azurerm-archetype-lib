@@ -34,6 +34,21 @@ resource "azurerm_resource_group" "this" {
   location  = "westeurope"
 }
 
+resource "azurerm_policy_definition" "this" {
+  name         = "${resource_group_name}${local.policy.name}"
+  policy_type  = local.policy.properties.policyType
+  mode         = local.policy.properties.mode
+  display_name = local.policy.properties.displayName
+
+  metadata = jsonencode(local.policy.properties.metadata)
+
+
+  policy_rule = jsonencode(local.policy.properties.policyRule)
+
+
+  parameters = jsonencode(local.policy.properties.parameters)
+}
+
 resource "azurerm_policy_set_definition" "this" {
   name = local.policy_set_definition.name
   policy_type = local.policy_set_definition.properties.policyType 
@@ -46,21 +61,6 @@ resource "azurerm_policy_set_definition" "this" {
       reference_id = policy_definition_reference.value.policyDefinitionReferenceId
     }
   }
-}
-
-resource "azurerm_policy_definition" "this" {
-  name         = local.policy.name
-  policy_type  = local.policy.properties.policyType
-  mode         = local.policy.properties.mode
-  display_name = local.policy.properties.displayName
-
-  metadata = jsonencode(local.policy.properties.metadata)
-
-
-  policy_rule = jsonencode(local.policy.properties.policyRule)
-
-
-  parameters = jsonencode(local.policy.properties.parameters)
 }
 
 module "policy_set_assignment" {

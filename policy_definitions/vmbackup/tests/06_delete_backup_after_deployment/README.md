@@ -1,6 +1,6 @@
 # Test Delete Backup Test after deployment
 
-Test if the Policy
+Test if the Policy has a tag that can't be deleted.
 
 ## Setup
 

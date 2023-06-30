@@ -1,8 +1,15 @@
 # Test Change Backup manually
 
-Test if the Policy 
+It shouldn't be possible to change the configured backup policy of a VM manually (not via tags).
 
 ## Setup
+
+The test requires:
+
+- Resource group
+- Policy set definition deployed and assigned to resource group
+- VM with tag `backup=QbyDefault` deployed to resource group
+  - VM configured with backup policy `QbyDefault`
 
 To set up the test environment run `terraform apply` in subfolder [`setup`](./setup/).
 
@@ -14,7 +21,7 @@ Change BackupPolicy of VM to `EnhancedPolicy`.
 
 BackupPolicy can't be changed.
 
-# Cleanup
+## Cleanup
 
 - Delete Resource Group created in *Setup*
 - Delete Resource Group `TODO: Add name here` created by Policy

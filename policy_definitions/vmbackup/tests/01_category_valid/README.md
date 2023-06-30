@@ -1,4 +1,4 @@
-# Test Category valid
+# Test valid tag value
 
 The policy initiative should configure the backup policy based on the value of tag backup of a VM if the tag value is valid.
 

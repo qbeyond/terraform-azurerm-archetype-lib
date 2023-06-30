@@ -32,13 +32,13 @@ data "azurerm_client_config" "this" {
 }
 
 resource "azurerm_resource_group" "this" {
-  name      = "rg-VmPolicyTest-dev-01" 
+  name      = var.resource_group_name
   location  = "westeurope"
   #description = "The resource group will be deployed as part of this specific setup."
 }
 
 resource "azurerm_policy_set_definition" "this" {
-  name = "${local.policy_set_definition.name}differentname"
+  name = "${local.policy_set_definition.name}${var.resource_group_name}"
   policy_type = local.policy_set_definition.properties.policyType 
   display_name = local.policy_set_definition.properties.displayName
   

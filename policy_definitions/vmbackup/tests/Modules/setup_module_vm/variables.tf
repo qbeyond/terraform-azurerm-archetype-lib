@@ -1,5 +1,5 @@
 variable "vm_name" {
-description = "Custom name for the resource group."
+description = "Custom name for the vm."
 type = string
 }
 

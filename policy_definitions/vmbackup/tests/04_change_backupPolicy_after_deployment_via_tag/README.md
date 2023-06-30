@@ -6,9 +6,13 @@ If the `backup` tag value is changed to a valid value, the backup should be conf
 
 The test requires:
 
+- Policy set definition deployed
+- Resource Group named `<TODO: name from Policy>`
+  - Recovery Services Vault named `<TODO>`
+    - Backup policy named `QbyDefault`
 - Resource group
-- Policy set definition deployed and assigned to resource group
-- VM with tag `backup=QbyDefault` deployed to resource group
+  - VM with tag `backup=QbyDefault` deployed to resource group
+    - VM configured with backup policy `QbyDefault`
 
 To set up the test environment run `terraform apply` in subfolder [`setup`](./setup/).
 

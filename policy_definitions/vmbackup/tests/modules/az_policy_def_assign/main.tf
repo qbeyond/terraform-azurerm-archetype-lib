@@ -14,14 +14,14 @@ provider "azurerm" {
   skip_provider_registration = true
 }
 
-module "policy_definition_qby_deploy_vm_backup" {
+module "assign_azure_policy_definition_to_resource_group" {
   source           = "./../../../../../modules/merge_DINE_policy"
-  policy_file_path = "./../../../policy_definition_qby_deploy_vm_backup.json"
+  policy_file_path = "./../../../assign_azure_policy_definition_to_resource_group.json"
   # description = "Path to the policy that is to be tested"
 }
 
 locals {
-  policy = module.policy_definition_qby_deploy_vm_backup.policy
+  policy = module.assign_azure_policy_definition_to_resource_group.policy
 }
 
 locals {
@@ -32,13 +32,12 @@ data "azurerm_client_config" "this" {
 }
 
 resource "azurerm_resource_group" "this" {
-  name      = var.resource_group_name
+  name      = var.rg_name
   location  = "westeurope"
-  #description = "The resource group will be deployed as part of this specific setup."
 }
 
 resource "azurerm_policy_set_definition" "this" {
-  name = "${local.policy_set_definition.name}${var.resource_group_name}"
+  name = "${local.policy_set_definition.name}${var.rg_name}"
   policy_type = local.policy_set_definition.properties.policyType 
   display_name = local.policy_set_definition.properties.displayName
   

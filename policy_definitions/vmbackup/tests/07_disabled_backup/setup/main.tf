@@ -1,4 +1,4 @@
-module "policy_definition_qby_deploy_vm_backup" {
-  source           = "../../setup_module"
-  resource_group_name = "rg-VmPolicyTest-dev-07" 
+module "assign_azure_policy_definition_to_resource_group" {
+  source           = "../../modules/az_policy_def_assign"
+  rg_name = "rg-VmPolicyTest-dev-07" 
 }

@@ -8,7 +8,7 @@ output "file_names" {
   value = module.archetype_lib.file_names
 }
 
-output "merged_librarie" {
-  value = module.archetype_lib.merged_librarie
+output "merged_library" {
+  value = module.archetype_lib.merged_library
 }
 

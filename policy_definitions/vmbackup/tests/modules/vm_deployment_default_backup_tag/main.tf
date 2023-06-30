@@ -16,7 +16,7 @@ provider "azurerm" {
 
 locals {
   vm_name = var.vm_name 
-  rg_name = var.resource_group_name 
+  rg_name = var.rg_name 
 }
 
 resource "azurerm_resource_group" "vm_module" {
@@ -73,3 +73,14 @@ resource "azurerm_virtual_machine" "vm_module" {
   }
 }
 
+data "azurerm_virtual_machine" "deployed_vm" {
+  name                = local.vm_name
+  resource_group_name = local.rg_name
+  depends_on = [azurerm_virtual_machine.vm_module]
+}
+
+output "virtual_machine_id" {
+  value = data.azurerm_virtual_machine.deployed_vm.id
+  depends_on  = [data.azurerm_virtual_machine.deployed_vm]
+  description = "vm_id of deployed vm"
+}

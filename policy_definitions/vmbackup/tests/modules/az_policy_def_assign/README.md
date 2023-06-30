@@ -6,4 +6,4 @@
 # description
 
 The name of the Policy indicates the related resource group and test it is used for.
-This module deploys the policy definition and assigns it to the resource group.
+This module deploys the Azure policy definition and assigns it to the resource group.

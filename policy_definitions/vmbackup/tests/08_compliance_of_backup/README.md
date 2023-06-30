@@ -1,8 +1,14 @@
 # Test Compliance of Backups
 
-Test if the Policy 
+VMs that have no backup configured should be marked non compliant.
 
 ## Setup
+
+The test requires:
+
+- Resource group
+- Policy set definition deployed
+- VM with tag `backup=QbyDefault` deployed to resource group
 
 To set up the test environment run `terraform apply` in subfolder [`setup`](./setup/).
 
@@ -14,7 +20,7 @@ Assign Policy(Initiative).
 
 VM marked as non compliant.
 
-# Cleanup
+## Cleanup
 
 - Delete Resource Group created in *Setup*
 - Delete Resource Group `TODO: Add name here` created by Policy

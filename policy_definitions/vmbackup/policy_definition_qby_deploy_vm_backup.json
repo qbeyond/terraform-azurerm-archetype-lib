@@ -1,5 +1,6 @@
 {
   "name": "QBY-Deploy-VM-Backup",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Configure backup on virtual machines with a given tag to a new recovery services vault with a default policy",
     "policyType": "Custom",
@@ -119,6 +120,181 @@
             "location": "westeurope",
             "properties": {
               "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Name of Azure Virtual Machines"
+                    }
+                  },
+                  "vmRgName": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Resource group containing the virtual machines."
+                    }
+                  },
+                  "location": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Location for VM and Backup vault"
+                    }
+                  },
+                  "backupPolicyLogicalName": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Logical name of the custom backup policy that will be used (PascalCase). Defaults to QbyDefault"
+                    },
+                    "defaultValue": "QbyDefault"
+                  },
+                  "rgLogicalNameOverride": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Logical name of the RG for the RSV. Defaults to <SubscriptionLogicalName>Backup"
+                    },
+                    "defaultValue": ""
+                  },
+                  "activeBackupPolicy": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Which of the 3 possible backup policies should be used. Either on of azures default policies or QbyDefault"
+                    },
+                    "allowedValues": [
+                      "DefaultPolicy",
+                      "EnhancedPolicy",
+                      "QbyDefault"
+                    ],
+                    "defaultValue": "QbyDefault"
+                  }
+                },
+                "variables": {
+                  "backupFabric": "Azure",
+                  "backupPolicy": "[concat('bkpol-', parameters('backupPolicyLogicalName'), '-vm')]",
+                  "activeBackupPolicy": "[if(equals(parameters('activeBackupPolicy'), 'QbyDefault'), variables('backupPolicy'), parameters('activeBackupPolicy'))]",
+                  "v2VmType": "Microsoft.Compute/virtualMachines",
+                  "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
+                  "v2Vm": "vm;iaasvmcontainerv2;",
+                  "vaultName": "[concat('rsv-',split(subscription().displayName,'-')[1],'-01-',parameters('location'))]",
+                  "rgName": "[concat('rg-',if(equals(parameters('rgLogicalNameOverride'), ''), split(subscription().displayName,'-')[1], parameters('rgLogicalNameOverride')),'Backup-', split(subscription().displayName,'-')[0],'-01')]"
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Resources/resourceGroups",
+                    "apiVersion": "2021-04-01",
+                    "name": "[variables('rgName')]",
+                    "location": "[parameters('location')]",
+                    "properties": {}
+                  },
+                  {
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2021-04-01",
+                    "name": "[concat('NestedPolicyDeployment-', uniqueString(deployment().name))]",
+                    "resourceGroup": "[variables('rgName')]",
+                    "dependsOn": [
+                      "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', variables('rgName'))]"
+                    ],
+                    "properties": {
+                      "mode": "Incremental",
+                      "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {},
+                        "variables": {},
+                        "resources": [
+                          {
+                            "name": "[variables('vaultName')]",
+                            "type": "Microsoft.RecoveryServices/vaults",
+                            "apiVersion": "2016-06-01",
+                            "location": "[parameters('location')]",
+                            "properties": {},
+                            "sku": {
+                              "name": "Standard"
+                            }
+                          },
+                          {
+                            "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
+                            "name": "[concat(variables('vaultName'), '/', variables('backupFabric'), '/', variables('v2VmContainer'), concat(parameters('vmRgName'),';',parameters('vmName')), '/', variables('v2Vm'), concat(parameters('vmRgName'),';',parameters('vmName')))]",
+                            "apiVersion": "2016-12-01",
+                            "location": "[parameters('location')]",
+                            "dependsOn": [
+                              "[resourceId(subscription().subscriptionId, variables('rgName'), 'Microsoft.RecoveryServices/vaults/', variables('vaultName'))]",
+                              "[concat(resourceId(subscription().subscriptionId, variables('rgName'), 'Microsoft.RecoveryServices/vaults/', variables('vaultName')), '/backupPolicies/', variables('backupPolicy'))]"
+                            ],
+                            "properties": {
+                              "protectedItemType": "[variables('v2VmType')]",
+                              "policyId": "[resourceId(subscription().subscriptionId, variables('rgName'), 'Microsoft.RecoveryServices/vaults/backupPolicies', variables('vaultName'),variables('activeBackupPolicy'))]",
+                              "sourceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('vmRgName'), '/providers/Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+                            }
+                          },
+                          {
+                            "name": "[concat(variables('vaultName'), '/', variables('backupPolicy'))]",
+                            "apiVersion": "2021-12-01",
+                            "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+                            "location": "[parameters('location')]",
+                            "dependsOn": [
+                              "[resourceId(subscription().subscriptionId, variables('rgName'), 'Microsoft.RecoveryServices/vaults/', variables('vaultName'))]"
+                            ],
+                            "properties": {
+                              "backupManagementType": "AzureIaasVM",
+                              "policyType": "V2",
+                              "instantRPDetails": {
+                                "azureBackupRGNamePrefix": "[take(variables('rgName'), sub(length(variables('rgName')), 1))]"
+                              },
+                              "schedulePolicy": {
+                                "schedulePolicyType": "SimpleSchedulePolicyV2",
+                                "scheduleRunFrequency": "Hourly",
+                                "hourlySchedule": {
+                                  "interval": 4,
+                                  "scheduleWindowStartTime": "2023-03-20T00:30:00Z",
+                                  "scheduleWindowDuration": 24
+                                }
+                              },
+                              "retentionPolicy": {
+                                "retentionPolicyType": "LongTermRetentionPolicy",
+                                "dailySchedule": {
+                                  "retentionTimes": [
+                                    "2023-03-20T00:30:00Z"
+                                  ],
+                                  "retentionDuration": {
+                                    "count": 7,
+                                    "durationType": "Days"
+                                  }
+                                },
+                                "weeklySchedule": {
+                                  "daysOfTheWeek": [
+                                    "Monday"
+                                  ],
+                                  "retentionTimes": [
+                                    "2023-03-20T00:30:00Z"
+                                  ],
+                                  "retentionDuration": {
+                                    "count": 4,
+                                    "durationType": "Weeks"
+                                  }
+                                }
+                              },
+                              "tieringPolicy": {
+                                "ArchivedRP": {
+                                  "tieringMode": "DoNotTier",
+                                  "duration": 0,
+                                  "durationType": "Invalid"
+                                }
+                              },
+                              "instantRpRetentionRangeInDays": 6,
+                              "timeZone": "UTC",
+                              "protectedItemsCount": 0
+                            }
+                          }
+                        ],
+                        "outputs": {}
+                      }
+                    }
+                  }
+                ],
+                "outputs": {}
+              },
               "parameters": {
                 "vmName": {
                   "value": "[field('name')]"

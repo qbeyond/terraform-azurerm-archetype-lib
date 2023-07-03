@@ -1,6 +1,6 @@
 {
   "name": "QBY-VM-Backup",
-  "Type": "Microsoft.Authorization/policySetDefinitions",
+  "type": "Microsoft.Authorization/policySetDefinitions",
   "properties": {
     "policyType": "Custom",
     "displayName": "Configure backup von virtual machines",

@@ -2,11 +2,9 @@
     "qby_root": {
         "policy_assignments": [
             "Deploy-AzActivity-Log",
-            "Deploy-LX-Arc-Monitoring",
             "Deploy-Resource-Diag",
             "Deploy-VM-Monitoring",
-            "Deploy-VMSS-Monitoring",
-            "Deploy-WS-Arc-Monitoring"
+            "Deploy-VMSS-Monitoring"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",

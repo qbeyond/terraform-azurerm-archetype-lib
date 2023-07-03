@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualHubName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the virtual hub"
+      }
+    },
+    "remoteVirtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Vitual Network"
+      }
+    },
+    "remoteVirtualNetworkId": {
+      "type": "string",
+      "metadata": {
+        "description": "Id of the Vitual Network"
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+      "apiVersion": "2022-07-01",
+      "name": "[concat(parameters('virtualHubName'),'/',parameters('remoteVirtualNetworkName'),'-to-vwan')]",
+      "properties": {
+        "enableInternetSecurity": true,
+        "remoteVirtualNetwork": {
+          "id": "[parameters('remoteVirtualNetworkId')]"
+        },
+        "routingConfiguration": {
+          "associatedRouteTable": {
+            "id": "adhgffdsghdsgh/hubRouteTables/defaultRouteTable"
+          },
+          "propagatedRouteTables": {
+            "ids": [
+              {
+                "id": "adhgffdsghdsgh/hubRouteTables/noneRouteTable"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

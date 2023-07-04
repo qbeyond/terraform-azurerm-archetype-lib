@@ -26,11 +26,10 @@
         },
         "defaultValue": "Disabled"
       },
-      "virtualHubName": {
-        "type": "String",
+      "virtualHubId": {
+        "type": "string",
         "metadata": {
-          "displayName": "virtualHubName",
-          "description": "Name of the Virtual WAN hub"
+          "description": "Id of the virtual hub"
         }
       },
       "virtualHubResourceGroupName": {
@@ -54,7 +53,7 @@
         ]
       },
       "then": {
-        "effect": "[parameters('effect')]",
+        "effect": "DeployIfNotExists",
         "details": {
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
@@ -70,8 +69,14 @@
                 },
                 "remoteVirtualNetworkId": {
                   "value": "[field('id')]"
-                }
-              }
+                },
+                "virtualHubId": {
+                    "value": "[parameters('virtualHubId')]"
+                },
+                "virtualHubResourceGroupName": {
+                    "value": "[parameters('virtualHubResourceGroupName')]"
+                    }
+                  }
             }
           }
         }

@@ -1,85 +1,75 @@
 {
-    "name": "QBY-Deploy-virtual-hub-connection",
-    "properties": {
-      "displayName": "Configure virtual hub connections from virtual networks to virtual wan hub",
-      "policyType": "Custom",
-      "mode": "Indexed",
-      "description": "Deploy virtual hub connections from virtual networks to virtual wan hub",
-      "metadata": {
-        "version": "1.0.0",
-        "category": "Network"
+  "name": "QBY-Deploy-virtual-hub-connection",
+  "properties": {
+    "displayName": "Configure virtual hub connections from virtual networks to virtual wan hub",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Deploy virtual hub connections from virtual networks to virtual wan hub",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {
+      "exclusionTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Exclusion Tag Name",
+          "description": "Name of the tag to use for excluding VMs in the scope of this policy. This should be used along with the Exclusion Tag Value parameter."
+        },
+        "defaultValue": "VWANHubConnection"
       },
-      "parameters": {
-        "exclusionTagName": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Exclusion Tag Name",
-            "description": "Name of the tag to use for excluding VMs in the scope of this policy. This should be used along with the Exclusion Tag Value parameter."
-          },
-          "defaultValue": "VWANHubConnection"
+      "exclusionTagValue": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Exclusion Tag Values",
+          "description": "Value of the tag to use for excluding VMs in the scope of this policy. This should be used along with the Exclusion Tag Name parameter."
         },
-        "exclusionTagValue": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Exclusion Tag Values",
-            "description": "Value of the tag to use for excluding VMs in the scope of this policy. This should be used along with the Exclusion Tag Name parameter."
+        "defaultValue": "Disabled"
+      },
+      "virtualHubName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "virtualHubName",
+          "description": "Name of the Virtual WAN hub"
+        }
+      },
+      "virtualHubResourceGroupName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name of the resource group from the virtual hub"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
           },
-          "defaultValue": "Disabled"
-        },
-        "virtualHubName": {
-            "type": "String",
-            "metadata": {
-              "displayName": "virtualHubName",
-              "description": "Name of the Virtual WAN hub"
-            }
+          {
+            "field": "[concat('tags[', parameters('exclusionTagName'), ']')]",
+            "notEquals": "[parameters('exclusionTagValue')]"
           }
+        ]
       },
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections"
-            },
-            {
-              "field": "[concat('tags[', parameters('exclusionTagName'), ']')]",
-              "notEquals": "[parameters('exclusionTagValue')]"
-            }
-          ]
-        },
-        "then": {
-          "effect": "[parameters('effect')]",
-          "details": {
-            "type": "Microsoft.RecoveryServices/backupprotecteditems",
-            "roleDefinitionIds": [
-              "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c",
-              "/providers/Microsoft.Authorization/roleDefinitions/5e467623-bb1f-42f4-a55d-6e525e11384b",
-              "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-            ],
-            "DeploymentScope": "Subscription",
-            "deployment": {
-              "location": "westeurope",
-              "properties": {
-                "mode": "incremental",
-                "parameters": {
-                  "vmName": {
-                    "value": "[field('name')]"
-                  },
-                  "location": {
-                    "value": "[parameters('location')]"
-                  },
-                  "vmRgName": {
-                    "value": "[resourceGroup().name]"
-                  },
-                  "backupPolicyLogicalName": {
-                    "value": "[parameters('backupPolicyLogicalName')]"
-                  },
-                  "rgLogicalNameOverride": {
-                    "value": "[parameters('rgLogicalNameOverride')]"
-                  },
-                  "activeBackupPolicy": {
-                    "value": "[parameters('activeBackupPolicy')]"
-                  }
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+          ],
+          "DeploymentScope": "resourceGroup",
+          "deployment": {
+            "location": "westeurope",
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "remoteVirtualNetworkName": {
+                  "value": "[field('name')]"
+                },
+                "remoteVirtualNetworkId": {
+                  "value": "[field('id')]"
                 }
               }
             }
@@ -88,3 +78,4 @@
       }
     }
   }
+}

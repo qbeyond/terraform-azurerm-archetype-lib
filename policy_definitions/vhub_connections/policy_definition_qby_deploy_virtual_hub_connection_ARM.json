@@ -1,11 +1,17 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "virtualHubName": {
+    "virtualHubId": {
       "type": "string",
       "metadata": {
-        "description": "Name of the virtual hub"
+        "description": "Id of the virtual hub"
+      }
+    },
+    "virtualHubResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the resource group from the virtual hub"
       }
     },
     "remoteVirtualNetworkName": {
@@ -21,28 +27,48 @@
       }
     }
   },
-  "variables": {},
+  "variables": {
+    "virtualHubName": "[last(split(parameters('virtualHubId'), '/'))]"
+  },
   "resources": [
     {
-      "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
-      "apiVersion": "2022-07-01",
-      "name": "[concat(parameters('virtualHubName'),'/',parameters('remoteVirtualNetworkName'),'-to-vwan')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "[concat('NestedPolicyDeployment-', uniqueString(deployment().name))]",
+      "resourceGroup": "[parameters('virtualHubResourceGroupName')]",
       "properties": {
-        "enableInternetSecurity": true,
-        "remoteVirtualNetwork": {
-          "id": "[parameters('remoteVirtualNetworkId')]"
-        },
-        "routingConfiguration": {
-          "associatedRouteTable": {
-            "id": "adhgffdsghdsgh/hubRouteTables/defaultRouteTable"
-          },
-          "propagatedRouteTables": {
-            "ids": [
-              {
-                "id": "adhgffdsghdsgh/hubRouteTables/noneRouteTable"
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {},
+          "variables": {},
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+              "apiVersion": "2022-07-01",
+              "name": "[concat(variables('virtualHubName'),'/',parameters('remoteVirtualNetworkName'),'-to-vwan')]",
+              "properties": {
+                "enableInternetSecurity": true,
+                "remoteVirtualNetwork": {
+                  "id": "[parameters('remoteVirtualNetworkId')]"
+                },
+                "routingConfiguration": {
+                  "associatedRouteTable": {
+                    "id": "[concat(parameters('virtualHubId'),'/hubRouteTables/defaultRouteTable')]"
+                  },
+                  "propagatedRouteTables": {
+                    "ids": [
+                      {
+                        "id": "[concat(parameters('virtualHubId'),'/hubRouteTables/noneRouteTable')]"
+                      }
+                    ]
+                  }
+                }
               }
-            ]
-          }
+            }
+          ],
+          "outputs": {}
         }
       }
     }

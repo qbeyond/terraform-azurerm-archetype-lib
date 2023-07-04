@@ -1,10 +1,19 @@
 {
     "qby_root": {
         "policy_assignments": [
+            "Audit-UnusedResources",
+            "Deny-Classic-Resources",
+            "Deny-UnmanagedDisk",
+            "Deploy-ASC-Monitoring",
             "Deploy-AzActivity-Log",
+            "Deploy-MDEndpoints",
+            "Deploy-MDFC-Config",
+            "Deploy-MDFC-OssDb",
+            "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
             "Deploy-VM-Monitoring",
-            "Deploy-VMSS-Monitoring"
+            "Deploy-VMSS-Monitoring",
+            "Enforce-ACSB"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",
@@ -12,7 +21,11 @@
             "Append-KV-SoftDelete",
             "Append-Redis-disableNonSslPort",
             "Append-Redis-sslEnforcement",
+            "Audit-Disks-UnusedResourcesCostOptimization",
             "Audit-MachineLearning-PrivateEndpointId",
+            "Audit-PrivateLinkDnsZones",
+            "Audit-PublicIpAddresses-UnusedResourcesCostOptimization",
+            "Audit-ServerFarms-UnusedResourcesCostOptimization",
             "Deny-AA-child-resources",
             "Deny-AppGW-Without-WAF",
             "Deny-AppServiceApiApp-http",
@@ -29,6 +42,7 @@
             "Deny-MachineLearning-HbiWorkspace",
             "Deny-MachineLearning-PublicAccessWhenBehindVnet",
             "Deny-MachineLearning-PublicNetworkAccess",
+            "Deny-MgmtPorts-From-Internet",
             "Deny-MySql-http",
             "Deny-PostgreSql-http",
             "Deny-Private-DNS-Zones",
@@ -55,6 +69,8 @@
             "Deploy-Diagnostics-ApiForFHIR",
             "Deploy-Diagnostics-APIMgmt",
             "Deploy-Diagnostics-ApplicationGateway",
+            "Deploy-Diagnostics-AVDScalingPlans",
+            "Deploy-Diagnostics-Bastion",
             "Deploy-Diagnostics-CDNEndpoints",
             "Deploy-Diagnostics-CognitiveServices",
             "Deploy-Diagnostics-CosmosDB",
@@ -72,6 +88,7 @@
             "Deploy-Diagnostics-HDInsight",
             "Deploy-Diagnostics-iotHub",
             "Deploy-Diagnostics-LoadBalancer",
+            "Deploy-Diagnostics-LogAnalytics",
             "Deploy-Diagnostics-LogicAppsISE",
             "Deploy-Diagnostics-MariaDB",
             "Deploy-Diagnostics-MediaService",
@@ -92,6 +109,7 @@
             "Deploy-Diagnostics-VM",
             "Deploy-Diagnostics-VMSS",
             "Deploy-Diagnostics-VNetGW",
+            "Deploy-Diagnostics-VWanS2SVPNGW",
             "Deploy-Diagnostics-WebServerFarm",
             "Deploy-Diagnostics-Website",
             "Deploy-Diagnostics-WVDAppGroup",
@@ -109,17 +127,23 @@
             "Deploy-Sql-vulnerabilityAssessments",
             "Deploy-SqlMi-minTLS",
             "Deploy-Storage-sslEnforcement",
+            "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin"
         ],
         "policy_set_definitions": [
+            "Audit-UnusedResourcesCostOptimization",
             "Deny-PublicPaaSEndpoints",
             "Deploy-Diagnostics-LogAnalytics",
             "Deploy-MDFC-Config",
             "Deploy-Private-DNS-Zones",
             "Deploy-Sql-Security",
+            "Enforce-ACSB",
+            "Enforce-ALZ-Decomm",
+            "Enforce-ALZ-Sandbox",
             "Enforce-Encryption-CMK",
-            "Enforce-EncryptTransit"
+            "Enforce-EncryptTransit",
+            "Enforce-Guardrails-KeyVault"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

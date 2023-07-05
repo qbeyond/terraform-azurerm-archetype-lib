@@ -1,5 +1,6 @@
 {
   "name": "QBY-Deploy-virtual-hub-connection",
+  "type": "Microsoft",
   "properties": {
     "displayName": "Configure virtual hub connections from virtual networks to virtual wan hub",
     "policyType": "Custom",
@@ -55,6 +56,12 @@
       "then": {
         "effect": "DeployIfNotExists",
         "details": {
+          "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+          "name": "[last(split(parameters('virtualHubId'), '/'))]",
+          "existenceCondition": {
+            "field": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/remoteVirtualNetwork.id",
+            "equals": "[field('id')]"
+          },
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
           ],
@@ -71,12 +78,12 @@
                   "value": "[field('id')]"
                 },
                 "virtualHubId": {
-                    "value": "[parameters('virtualHubId')]"
+                  "value": "[parameters('virtualHubId')]"
                 },
                 "virtualHubResourceGroupName": {
-                    "value": "[parameters('virtualHubResourceGroupName')]"
-                    }
-                  }
+                  "value": "[parameters('virtualHubResourceGroupName')]"
+                }
+              }
             }
           }
         }

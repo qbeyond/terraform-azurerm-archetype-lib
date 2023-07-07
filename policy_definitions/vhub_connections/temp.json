@@ -134,7 +134,7 @@
                           {
                             "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
                             "apiVersion": "2022-07-01",
-                            "name": "[concat(variables('virtualHubName'),'/',parameters('remoteVirtualNetworkName'),'-to-vwan')]",
+                            "name": "[concat(variables('virtualHubName'),'/',parameters('remoteVirtualNetworkName'),'-to-vhub')]",
                             "properties": {
                               "enableInternetSecurity": true,
                               "remoteVirtualNetwork": {

@@ -129,7 +129,8 @@
             "Deploy-Storage-sslEnforcement",
             "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
-            "Deploy-Windows-DomainJoin"
+            "Deploy-Windows-DomainJoin",
+            "QBY-Deploy-VM-Backup"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",

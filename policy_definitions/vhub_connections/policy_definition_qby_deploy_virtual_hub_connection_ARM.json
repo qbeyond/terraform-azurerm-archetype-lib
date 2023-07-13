@@ -8,16 +8,10 @@
         "description": "Id of the virtual hub"
       }
     },
-    "virtualHubResourceGroupName": {
+    "hubVirtualNetworkConnectionName": {
       "type": "string",
       "metadata": {
-        "description": "Name of the resource group from the virtual hub"
-      }
-    },
-    "remoteVirtualNetworkName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the Vitual Network"
+        "description": "The name of the connection to deploy."
       }
     },
     "remoteVirtualNetworkId": {
@@ -28,14 +22,15 @@
     }
   },
   "variables": {
-    "virtualHubName": "[last(split(parameters('virtualHubId'), '/'))]"
+    "virtualHubName": "[last(split(parameters('virtualHubId'), '/'))]",
+    "virtualHubResourceGroupName": "[split(parameters('virtualHubId'), '/')[4]]"
   },
   "resources": [
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "name": "[concat('NestedPolicyDeployment-', uniqueString(deployment().name))]",
-      "resourceGroup": "[parameters('virtualHubResourceGroupName')]",
+      "resourceGroup": "[variables('virtualHubResourceGroupName')]",
       "properties": {
         "mode": "Incremental",
         "template": {
@@ -47,7 +42,7 @@
             {
               "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
               "apiVersion": "2022-07-01",
-              "name": "[concat(variables('virtualHubName'),'/',parameters('remoteVirtualNetworkName'),'-to-vhub')]",
+              "name": "[concat(variables('virtualHubName'),'/',parameters('hubVirtualNetworkConnectionName'))]",
               "properties": {
                 "enableInternetSecurity": true,
                 "remoteVirtualNetwork": {

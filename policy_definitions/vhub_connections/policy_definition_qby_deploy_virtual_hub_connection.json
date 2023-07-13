@@ -56,8 +56,8 @@
         "effect": "DeployIfNotExists",
         "details": {
           "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
-          "name": "[last(split(parameters('virtualHubId'), '/'))]",
-          "ResourceGroupName": "[parameters('virtualHubResourceGroupName')]",
+          "name": "[concat(last(split(parameters('virtualHubId'), '/')),'/',concat(field('name'),'to-vhub'))]",
+          "ResourceGroupName": "[split(parameters('virtualHubId'), '/'))[4]]",
           "existenceCondition": {
             "field": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/remoteVirtualNetwork.id",
             "equals": "[field('id')]"
@@ -72,17 +72,14 @@
             "properties": {
               "mode": "Incremental",
               "parameters": {
-                "remoteVirtualNetworkName": {
-                  "value": "[field('name')]"
+                "hubVirtualNetworkConnectionName": {
+                  "value": "[concat(field('name'),'to-vhub')]"
                 },
                 "remoteVirtualNetworkId": {
                   "value": "[field('id')]"
                 },
                 "virtualHubId": {
                   "value": "[parameters('virtualHubId')]"
-                },
-                "virtualHubResourceGroupName": {
-                  "value": "[parameters('virtualHubResourceGroupName')]"
                 }
               }
             }

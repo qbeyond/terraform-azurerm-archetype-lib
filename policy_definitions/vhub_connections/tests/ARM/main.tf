@@ -10,10 +10,9 @@ locals {
   policy_path = "../../policy_definition_qby_deploy_virtual_hub_connection"
   policy      = jsondecode(file("${local.policy_path}.json"))
   parameters = {
-    virtualHubId                = module.setup.virtual_hub.id
-    virtualHubResourceGroupName = module.setup.virtual_hub.resource_group_name
-    remoteVirtualNetworkId      = module.setup.virtual_network.id
-    remoteVirtualNetworkName    = module.setup.virtual_network.name
+    virtualHubId                    = module.setup.virtual_hub.id
+    hubVirtualNetworkConnectionName = "${module.setup.virtual_network.name}-to-vhub"
+    remoteVirtualNetworkId          = module.setup.virtual_network.id
   }
 }
 

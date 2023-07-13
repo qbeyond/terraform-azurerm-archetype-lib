@@ -68,7 +68,6 @@
           "DeploymentScope": "resourceGroup",
           "EvaluationDelay": "EvaluationDelay",
           "deployment": {
-            "location": "westeurope",
             "properties": {
               "mode": "Incremental",
               "parameters": {

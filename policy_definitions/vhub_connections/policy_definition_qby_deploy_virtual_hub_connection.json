@@ -31,12 +31,6 @@
         "metadata": {
           "description": "Id of the virtual hub"
         }
-      },
-      "virtualHubResourceGroupName": {
-        "type": "string",
-        "metadata": {
-          "description": "Name of the resource group from the virtual hub"
-        }
       }
     },
     "policyRule": {
@@ -57,7 +51,7 @@
         "details": {
           "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
           "name": "[concat(last(split(parameters('virtualHubId'), '/')),'/',concat(field('name'),'to-vhub'))]",
-          "ResourceGroupName": "[split(parameters('virtualHubId'), '/'))[4]]",
+          "ResourceGroupName": "[last(take(split(parameters('virtualHubId'), '/'),5))]",
           "existenceCondition": {
             "field": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/remoteVirtualNetwork.id",
             "equals": "[field('id')]"

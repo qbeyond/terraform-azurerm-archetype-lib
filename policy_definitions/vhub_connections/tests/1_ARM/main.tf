@@ -10,22 +10,27 @@ locals {
   policy_path = "../../policy_definition_qby_deploy_virtual_hub_connection"
   policy      = jsondecode(file("${local.policy_path}.json"))
   parameters = {
-    virtualHubId                    = module.setup.virtual_hub.id
-    hubVirtualNetworkConnectionName = "${module.setup.virtual_network.name}-to-vhub"
-    remoteVirtualNetworkId          = module.setup.virtual_network.id
+    virtualHubId                    = module.setup_hub.virtual_hub.id
+    hubVirtualNetworkConnectionName = "${azurerm_virtual_network.setup.name}-to-vhub"
+    remoteVirtualNetworkId          = azurerm_virtual_network.setup.id
   }
 }
 
-module "setup" {
-  source                 = "../setup"
-  deploy_virtual_network = true
-  assign_policy          = false
+module "setup_hub" {
+  source = "../setup_hub"
+}
+
+resource "azurerm_virtual_network" "setup" {
+  name                = "example-network"
+  location            = module.setup_hub.resource_group.location
+  resource_group_name = module.setup_hub.resource_group.name
+  address_space       = ["192.168.1.0/24"]
 }
 
 resource "azurerm_resource_group_template_deployment" "exercise" {
   deployment_mode     = local.policy.properties.policyRule.then.details.deployment.properties.mode
   name                = "VirtualHubConnection"
-  resource_group_name = module.setup.resource_group.name
+  resource_group_name = module.setup_hub.resource_group.name
   template_content    = file("${local.policy_path}_ARM.json")
   parameters_content = jsonencode({
     for key, parameter_value in local.parameters : key => {

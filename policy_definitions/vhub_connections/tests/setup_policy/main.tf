@@ -17,6 +17,9 @@ locals {
 
 resource "random_pet" "this" {
   length = 1
+  keepers = {
+    number_of_parameters = length(keys(local.policy.properties.parameters))
+  }
 }
 
 resource "azurerm_policy_definition" "this" {

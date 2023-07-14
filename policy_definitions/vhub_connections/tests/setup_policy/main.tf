@@ -12,7 +12,6 @@ resource "random_pet" "this" {
 }
 
 resource "azurerm_policy_definition" "this" {
-  count        = var.assign_policy ? 1 : 0
   name         = "${local.policy.name}${random_pet.this.id}"
   policy_type  = local.policy.properties.policyType
   mode         = local.policy.properties.mode
@@ -26,7 +25,6 @@ resource "azurerm_policy_definition" "this" {
 }
 
 module "policy_assignment" {
-  count            = var.assign_policy ? 1 : 0
   source           = "gettek/policy-as-code/azurerm//modules/def_assignment" # use a random module from registry, as this is just a test
   version          = "2.8.2"
   definition       = azurerm_policy_definition.this

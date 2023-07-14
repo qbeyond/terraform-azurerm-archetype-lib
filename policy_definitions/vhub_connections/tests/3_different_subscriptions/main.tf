@@ -35,7 +35,7 @@ module "setup_policy" {
     "azurerm" = azurerm.vnet
   }
   virtual_hub_id = module.setup_hub.virtual_hub.id
-  scope          = "/subscriptions/${azurerm_client_config.current.subscription_id}"
+  scope          = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
 }
 
 resource "random_pet" "this" {

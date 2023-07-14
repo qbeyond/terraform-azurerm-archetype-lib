@@ -23,7 +23,8 @@
   },
   "variables": {
     "virtualHubName": "[last(split(parameters('virtualHubId'), '/'))]",
-    "virtualHubResourceGroupName": "[split(parameters('virtualHubId'), '/')[4]]"
+    "virtualHubResourceGroupName": "[split(parameters('virtualHubId'), '/')[4]]",
+    "virtualHubSubscriptionId": "[split(parameters('virtualHubId'), '/')[2]]"
   },
   "resources": [
     {
@@ -31,6 +32,7 @@
       "apiVersion": "2021-04-01",
       "name": "[concat('NestedPolicyDeployment-', uniqueString(deployment().name))]",
       "resourceGroup": "[variables('virtualHubResourceGroupName')]",
+      "subscriptionId": "[variables('virtualHubSubscriptionId')]",
       "properties": {
         "mode": "Incremental",
         "template": {

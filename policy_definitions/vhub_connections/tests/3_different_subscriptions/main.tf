@@ -34,6 +34,12 @@ module "setup_policy" {
   scope          = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
 }
 
+resource "azurerm_role_assignment" "virtual_hub" {
+  principal_id         = module.setup_policy.identity_id
+  scope                = module.setup_hub.resource_group.id
+  role_definition_name = "Network Contributor"
+}
+
 resource "random_pet" "this" {
   length = 1
 }
@@ -43,7 +49,7 @@ resource "azurerm_resource_group" "this" {
   location = "WestEurope"
 }
 
-resource "azurerm_virtual_network" "setup" {
+resource "azurerm_virtual_network" "exercise" {
   count               = var.exercise ? 1 : 0
   name                = "vnet-192-168-1-0-24-westeurope"
   location            = azurerm_resource_group.this.location

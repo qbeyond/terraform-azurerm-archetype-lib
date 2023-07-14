@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">=3.0.0"
+    }
+  }
+}
 module "policy_definition_merge" {
   source           = "./../../../../modules/merge_DINE_policy"
   policy_file_path = "./../../policy_definition_qby_deploy_virtual_hub_connection.json"

@@ -6,7 +6,6 @@ provider "azurerm" {
 }
 
 provider "azurerm" {
-  alias = "vnet"
   features {
   }
 }
@@ -30,10 +29,7 @@ module "setup_hub" {
 
 
 module "setup_policy" {
-  source = "../setup_policy"
-  providers = {
-    "azurerm" = azurerm.vnet
-  }
+  source         = "../setup_policy"
   virtual_hub_id = module.setup_hub.virtual_hub.id
   scope          = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
 }

@@ -44,9 +44,9 @@ The test requires:
 - virtual Hub
 - Policy definition deployed and assigned to resource group
 
-To set up the test environment run `terraform apply` in subfolder [`./2_same_resource_group`](./2_same_resource_group) with `exercise=false`.
+To set up the test environment run `terraform apply -target module.setup_hub.azurerm_resource_group.this` first (Due to a poorly implemented module used to assign the policy) in subfolder [`./2_same_resource_group`](./2_same_resource_group) with `exercise=false`. Afterwards run `terraform apply` with same inputs.
 
-Afterward run the command that is outputted to trigger a evaluation to make sure that the policy is ready.
+Afterwards run the command that is outputted to trigger an evaluation to make sure that the policy is ready.
 
 ### Exercise
 

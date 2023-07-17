@@ -56,3 +56,10 @@ resource "azurerm_virtual_network" "exercise" {
   resource_group_name = azurerm_resource_group.this.name
   address_space       = ["192.168.1.0/24"]
 }
+
+module "verify" {
+  source               = "../verify"
+  count                = var.exercise ? 1 : 0
+  virtual_hub          = module.setup_hub.virtual_hub
+  virtual_network_name = one(azurerm_virtual_network.exercise).name
+}

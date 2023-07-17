@@ -25,7 +25,7 @@ To set up and exercise the test run `terraform apply` in (`./1_ARM`)[./1_ARM]
 
 ### Verify
 
-ARM template deployed successfully and connection created.
+ARM template deployed successfully and connection status is `Connected`. This is automatically checked by terraform if `exercise=true`.
 
 ## Cleanup
 
@@ -56,7 +56,7 @@ You can deploy the VNet by run `terraform apply` in subfolder [`./2_same_resourc
 
 ### Verify
 
-A VNet connection should be created between the VNet and virtual Hub.
+A VNet connection should be created between the VNet and virtual Hub and connection status is `Connected`. This is automatically checked by terraform if `exercise=true`.
 
 ## Cleanup
 
@@ -89,7 +89,7 @@ You can deploy the VNet by run `terraform apply` in subfolder [`setup`](./setup/
 
 ### Verify
 
-A VNet connection should be created between the VNet and virtual Hub.
+A VNet connection should be created between the VNet and virtual Hub and connection status is `Connected`. This is automatically checked by terraform if `exercise=true`.
 
 ## Cleanup
 

@@ -38,3 +38,10 @@ resource "azurerm_resource_group_template_deployment" "exercise" {
     }
   })
 }
+
+module "verify" {
+  source               = "../verify"
+  virtual_hub          = module.setup_hub.virtual_hub
+  virtual_network_name = azurerm_virtual_network.setup.name
+  depends_on           = [azurerm_resource_group_template_deployment.exercise]
+}

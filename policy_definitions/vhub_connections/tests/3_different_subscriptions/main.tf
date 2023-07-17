@@ -51,15 +51,15 @@ resource "azurerm_resource_group" "this" {
 
 resource "azurerm_virtual_network" "exercise" {
   count               = var.exercise ? 1 : 0
-  name                = "vnet-192-168-1-0-24-westeurope"
+  name                = "vnet-192-168-2-0-24-westeurope"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
-  address_space       = ["192.168.1.0/24"]
+  address_space       = ["192.168.2.0/24"]
 }
 
 module "verify" {
-  source               = "../verify"
-  count                = var.exercise ? 1 : 0
-  virtual_hub          = module.setup_hub.virtual_hub
-  virtual_network_name = one(azurerm_virtual_network.exercise).name
+  source          = "../verify"
+  count           = var.exercise ? 1 : 0
+  virtual_hub     = module.setup_hub.virtual_hub
+  virtual_network = one(azurerm_virtual_network.exercise)
 }

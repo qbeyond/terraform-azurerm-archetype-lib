@@ -1,6 +1,9 @@
-variable "virtual_network_name" {
-  type        = string
-  description = "Name of the vNet. Used to build the name of the connection by adding `to-vhub`"
+variable "virtual_network" {
+  type = object({
+    name = string
+    id   = string
+  })
+  description = "Data of the vNet. Used to build the name of the connection by adding `to-vhub` and verify the deployed connection."
 }
 
 variable "virtual_hub" {

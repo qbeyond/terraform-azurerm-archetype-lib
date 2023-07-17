@@ -22,8 +22,8 @@ resource "azurerm_virtual_network" "exercise" {
 }
 
 module "verify" {
-  source               = "../verify"
-  count                = var.exercise ? 1 : 0
-  virtual_hub          = module.setup_hub.virtual_hub
-  virtual_network_name = one(azurerm_virtual_network.exercise).name
+  source          = "../verify"
+  count           = var.exercise ? 1 : 0
+  virtual_hub     = module.setup_hub.virtual_hub
+  virtual_network = one(azurerm_virtual_network.exercise)
 }

@@ -58,6 +58,8 @@ You can deploy the VNet by run `terraform apply` in subfolder [`./2_same_resourc
 
 A VNet connection should be created between the VNet and virtual Hub and connection status is `Connected`. This is automatically checked by terraform if `exercise=true`.
 
+The vNet is `compliant`.
+
 ## Cleanup
 
 - run `terraform destroy`
@@ -90,6 +92,8 @@ You can deploy the VNet by run `terraform apply` in subfolder [`setup`](./setup/
 ### Verify
 
 A VNet connection should be created between the VNet and virtual Hub and connection status is `Connected`. This is automatically checked by terraform if `exercise=true`.
+
+The vNet is `compliant`.
 
 ## Cleanup
 

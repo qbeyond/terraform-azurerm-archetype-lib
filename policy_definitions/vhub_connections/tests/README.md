@@ -79,7 +79,7 @@ The test requires:
   - Policy definition deployed and assigned to resource group
   - Managed Identity with role `Network Contributor` in ResourceGroup of Subscription A
 
-To set up the test environment run `terraform apply` in subfolder [`setup`](./setup/) with `assign_policy=true` and `deploy_virtual_network=false`.
+To set up the test environment run `terraform apply` in subfolder [`3_different_subscriptions`](./3_different_subscriptions/) with `assign_policy=true` and `deploy_virtual_network=false`.
 
 Wait a bit, until you are sure the policy is successfully assigned.
 
@@ -87,7 +87,7 @@ Wait a bit, until you are sure the policy is successfully assigned.
 
 Deploy a VNet to the in *Setup* created resource group. 
 
-You can deploy the VNet by run `terraform apply` in subfolder [`setup`](./setup/) with `assign_policy=true` and `deploy_virtual_network=true`.
+You can deploy the VNet by run `terraform apply` in subfolder [`3_different_subscriptions`](./3_different_subscriptions/) with `assign_policy=true` and `deploy_virtual_network=true`.
 
 ### Verify
 

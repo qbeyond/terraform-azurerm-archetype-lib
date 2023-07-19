@@ -46,7 +46,7 @@ The test requires:
 
 To set up the test environment run `terraform apply -target module.setup_hub.azurerm_resource_group.this` first (Due to a poorly implemented module used to assign the policy) in subfolder [`./2_same_resource_group`](./2_same_resource_group) with `exercise=false`. Afterwards run `terraform apply` with same inputs.
 
-Afterwards run the command that is outputted to trigger an evaluation to make sure that the policy is ready.
+Wait a bit, until you are sure the policy is successfully assigned by running the outputted command.
 
 ### Exercise
 
@@ -79,15 +79,15 @@ The test requires:
   - Policy definition deployed and assigned to resource group
   - Managed Identity with role `Network Contributor` in ResourceGroup of Subscription A
 
-To set up the test environment run `terraform apply` in subfolder [`3_different_subscriptions`](./3_different_subscriptions/) with `assign_policy=true` and `deploy_virtual_network=false`.
+To set up the test environment run `terraform apply` in subfolder [`3_different_subscriptions`](./3_different_subscriptions/) with `exercise=false` and `subscription_id_hub` to another subscription id then shown in `az account show`.
 
-Wait a bit, until you are sure the policy is successfully assigned.
+Wait a bit, until you are sure the policy is successfully assigned by running the outputted command.
 
 ### Exercise
 
 Deploy a VNet to the in *Setup* created resource group. 
 
-You can deploy the VNet by run `terraform apply` in subfolder [`3_different_subscriptions`](./3_different_subscriptions/) with `assign_policy=true` and `deploy_virtual_network=true`.
+You can deploy the VNet by run `terraform apply` in subfolder [`3_different_subscriptions`](./3_different_subscriptions/) with `exercise=false` and `subscription_id_hub` same as in Setup.
 
 ### Verify
 
@@ -95,6 +95,39 @@ A VNet connection should be created between the VNet and virtual Hub and connect
 
 The vNet is `compliant`.
 
-## Cleanup
+### Cleanup
 
 - run `terraform destroy`
+
+## 4 Connection creation in different subscription under same assignment to management group
+
+The policy should deploy a VNet connection to the virtual hub in another subscription under the same management group where the policy is assigned, when a new VNet is deployed.
+
+### Setup
+
+The test requires:
+
+- Resource group in Subscription A
+  - virtual WAN
+  - virtual Hub
+- Resource group in Subscription B
+- Management Group
+  - Subscription A & B as a child
+  - Policy definition deployed and assigned to management group
+  - Managed Identity with role `Network Contributor` in at management group
+
+To set up the test environment run `terraform apply -target azurerm_management_group.this` in subfolder [`4_management_group`](./4_management_group/) with `exercise=false` and `subscription_id_hub` to another subscription id then shown in `az account show`. Afterwards run again without `target`.
+
+Wait a bit, until you are sure the policy is successfully assigned by running the outputted command.
+
+### Exercise
+
+Deploy a VNet to the in *Setup* created resource group. 
+
+You can deploy the VNet by run `terraform apply` in subfolder [`3_different_subscriptions`](./3_different_subscriptions/) with `exercise=false` and `subscription_id_hub` same as in Setup.
+
+### Verify
+
+A VNet connection should be created between the VNet and virtual Hub and connection status is `Connected`. This is automatically checked by terraform if `exercise=true`.
+
+The vNet is `compliant`.

@@ -19,25 +19,30 @@ data "azurerm_client_config" "current" {
   }
 }
 
+resource "azurerm_management_group" "this" {
+  display_name = "VHubConnection${random_pet.this.id}"
+
+  subscription_ids = [
+    data.azurerm_client_config.current.subscription_id,
+    var.subscription_id_hub
+  ]
+}
+
 module "setup_hub" {
   source = "../setup_hub"
   providers = {
     azurerm = azurerm.hub
   }
-  depends_on = [data.azurerm_client_config.current]
+  random_string = random_pet.this.id
+  depends_on    = [data.azurerm_client_config.current]
 }
 
 
 module "setup_policy" {
   source         = "../setup_policy"
   virtual_hub_id = module.setup_hub.virtual_hub.id
-  scope          = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
-}
-
-resource "azurerm_role_assignment" "virtual_hub" {
-  principal_id         = module.setup_policy.identity_id
-  scope                = module.setup_hub.resource_group.id
-  role_definition_name = "Network Contributor"
+  scope          = azurerm_management_group.this.id
+  random_string  = random_pet.this.id
 }
 
 resource "random_pet" "this" {

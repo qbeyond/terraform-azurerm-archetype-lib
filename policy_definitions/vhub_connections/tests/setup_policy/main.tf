@@ -6,6 +6,10 @@ terraform {
     }
   }
 }
+
+locals {
+  random_string = var.random_string == null ? random_pet.this.id : var.random_string
+}
 module "policy_definition_merge" {
   source           = "./../../../../modules/merge_DINE_policy"
   policy_file_path = "./../../policy_definition_qby_deploy_virtual_hub_connection.json"
@@ -23,16 +27,18 @@ resource "random_pet" "this" {
 }
 
 resource "azurerm_policy_definition" "this" {
-  name         = "${local.policy.name}${random_pet.this.id}"
+  name         = "${local.policy.name}${random_pet.this.id}-${local.random_string}"
   policy_type  = local.policy.properties.policyType
   mode         = local.policy.properties.mode
-  display_name = local.policy.properties.displayName
+  display_name = "${local.policy.properties.displayName}${local.random_string}"
 
   metadata = jsonencode(local.policy.properties.metadata)
 
   policy_rule = jsonencode(local.policy.properties.policyRule)
 
   parameters = jsonencode(local.policy.properties.parameters)
+
+  management_group_id = startswith(var.scope, "/providers/Microsoft.Management/managementGroups/") ? var.scope : null
 }
 
 module "policy_assignment" {
@@ -43,4 +49,5 @@ module "policy_assignment" {
   assignment_parameters = {
     virtualHubId = var.virtual_hub_id
   }
+  skip_remediation = true
 }

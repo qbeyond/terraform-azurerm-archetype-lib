@@ -8,7 +8,8 @@ terraform {
 }
 
 locals {
-  logical_name = "VirtualHubConnection"
+  logical_name  = "VirtualHubConnection"
+  random_string = var.random_string == null ? random_pet.this.id : var.random_string
 }
 
 resource "random_pet" "this" {
@@ -16,7 +17,7 @@ resource "random_pet" "this" {
 }
 
 resource "azurerm_resource_group" "this" {
-  name     = "rg-dev-${local.logical_name}${random_pet.this.id}-01"
+  name     = "rg-dev-${local.logical_name}${local.random_string}-01"
   location = "WestEurope"
 }
 

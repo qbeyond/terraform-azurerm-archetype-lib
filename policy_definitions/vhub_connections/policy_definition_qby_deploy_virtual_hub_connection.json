@@ -60,7 +60,7 @@
               },
               {
                 "field": "[concat('tags[', parameters('tagName'), ']')]",
-                "notEquals": "[parameters('inclusionTagValue')]"
+                "equals": "[parameters('inclusionTagValue')]"
               }
             ]
           }

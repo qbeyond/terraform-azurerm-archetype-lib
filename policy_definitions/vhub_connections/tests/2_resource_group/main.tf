@@ -8,9 +8,10 @@ module "setup_hub" {
 }
 
 module "setup_policy" {
-  source         = "../setup_policy"
-  virtual_hub_id = module.setup_hub.virtual_hub.id
-  scope          = module.setup_hub.resource_group.id
+  source              = "../setup_policy"
+  virtual_hub_id      = module.setup_hub.virtual_hub.id
+  scope               = module.setup_hub.resource_group.id
+  inclusion_tag_value = "2${module.setup_hub.random_string}"
 }
 
 resource "azurerm_virtual_network" "exercise" {
@@ -19,6 +20,9 @@ resource "azurerm_virtual_network" "exercise" {
   location            = module.setup_hub.resource_group.location
   resource_group_name = module.setup_hub.resource_group.name
   address_space       = ["192.168.1.0/24"]
+  tags = {
+    "inclusionTagValue" = module.setup_policy.inclusion_tag_value
+  }
 }
 
 module "verify" {

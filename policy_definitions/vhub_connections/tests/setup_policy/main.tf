@@ -47,7 +47,8 @@ module "policy_assignment" {
   definition       = azurerm_policy_definition.this
   assignment_scope = var.scope
   assignment_parameters = {
-    virtualHubId = var.virtual_hub_id
+    virtualHubId      = var.virtual_hub_id
+    inclusionTagValue = var.inclusion_tag_value
   }
   skip_remediation = true
 }

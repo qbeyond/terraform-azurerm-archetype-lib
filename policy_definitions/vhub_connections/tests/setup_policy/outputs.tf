@@ -7,3 +7,8 @@ output "random_string" {
   description = "The random value used to generate names. May be used for other resources to have the same namings."
   value       = random_pet.this.id
 }
+
+output "inclusion_tag_value" {
+  description = "The value used as inclusionTagValue for policy assignment."
+  value       = var.inclusion_tag_value
+}

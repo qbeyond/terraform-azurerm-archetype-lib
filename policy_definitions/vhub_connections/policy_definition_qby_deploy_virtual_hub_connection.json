@@ -14,7 +14,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Tag Name",
-          "description": "Name of the tag to use for excluding or including VMs in the scope of this policy. See inclusionTagValue and exclusionTagValue for detailed information."
+          "description": "Name of the tag to use for excluding or including vNets in the scope of this policy. See inclusionTagValue and exclusionTagValue for detailed information."
         },
         "defaultValue": "VWANHubConnection"
       },
@@ -22,7 +22,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Exclusion Tag Value",
-          "description": "Value of the tag to exclude VMs in the scope of this policy."
+          "description": "Value of the tag to exclude VNets in the scope of this policy."
         },
         "defaultValue": "Disabled"
       },
@@ -30,7 +30,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Inclusion Tag Value",
-          "description": "If set to a different value then empty string, only include VMs with that tag value."
+          "description": "If set to a different value then empty string, only include vNets with that tag value."
         },
         "defaultValue": ""
       },

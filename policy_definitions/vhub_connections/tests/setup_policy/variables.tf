@@ -13,3 +13,9 @@ variable "random_string" {
   type        = string
   default     = null
 }
+
+variable "inclusion_tag_value" {
+  description = "Only include VMs tagged with this value. Value to use for the `inclusionTagValue` of policy assignment parameter."
+  type        = string
+  default     = ""
+}

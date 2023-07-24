@@ -11,10 +11,11 @@ module "setup_hub" {
 }
 
 module "setup_policy" {
-  source         = "../setup_policy"
-  virtual_hub_id = module.setup_hub.virtual_hub.id
-  scope          = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
-  random_string  = module.setup_hub.random_string
+  source              = "../setup_policy"
+  virtual_hub_id      = module.setup_hub.virtual_hub.id
+  scope               = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
+  random_string       = module.setup_hub.random_string
+  inclusion_tag_value = "3${module.setup_hub.random_string}"
 }
 
 resource "azurerm_resource_group" "this" {
@@ -28,6 +29,9 @@ resource "azurerm_virtual_network" "exercise" {
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
   address_space       = ["192.168.1.0/24"]
+  tags = {
+    inclusionTagValue = module.setup_policy.inclusion_tag_value
+  }
 }
 
 module "verify" {

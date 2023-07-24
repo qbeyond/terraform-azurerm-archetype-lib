@@ -22,7 +22,7 @@ resource "azurerm_virtual_network" "exercise" {
   resource_group_name = module.setup_hub.resource_group.name
   address_space       = ["192.168.1.0/24"]
   tags = {
-    "inclusionTagValue" = module.setup_policy.inclusion_tag_value
+    "VWANHubConnection" = module.setup_policy.inclusion_tag_value
   }
 }
 

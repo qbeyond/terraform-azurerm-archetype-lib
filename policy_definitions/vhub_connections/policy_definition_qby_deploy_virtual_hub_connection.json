@@ -10,21 +10,29 @@
       "category": "Network"
     },
     "parameters": {
-      "exclusionTagName": {
+      "tagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Exclusion Tag Name",
-          "description": "Name of the tag to use for excluding VMs in the scope of this policy. This should be used along with the Exclusion Tag Value parameter."
+          "displayName": "Tag Name",
+          "description": "Name of the tag to use for excluding or including VMs in the scope of this policy. See inclusionTagValue and exclusionTagValue for detailed information."
         },
         "defaultValue": "VWANHubConnection"
       },
       "exclusionTagValue": {
         "type": "String",
         "metadata": {
-          "displayName": "Exclusion Tag Values",
-          "description": "Value of the tag to use for excluding VMs in the scope of this policy. This should be used along with the Exclusion Tag Name parameter."
+          "displayName": "Exclusion Tag Value",
+          "description": "Value of the tag to exclude VMs in the scope of this policy."
         },
         "defaultValue": "Disabled"
+      },
+      "inclusionTagValue": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Inclusion Tag Value",
+          "description": "If set to a different value then empty string, only include VMs with that tag value."
+        },
+        "defaultValue": ""
       },
       "virtualHubId": {
         "type": "string",
@@ -41,8 +49,20 @@
             "equals": "Microsoft.Network/virtualNetworks"
           },
           {
-            "field": "[concat('tags[', parameters('exclusionTagName'), ']')]",
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
             "notEquals": "[parameters('exclusionTagValue')]"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[parameters('inclusionTagValue')",
+                "equals": ""
+              },
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "notEquals": "[parameters('inclusionTagValue')]"
+              }
+            ]
           }
         ]
       },

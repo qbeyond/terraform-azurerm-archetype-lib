@@ -11,6 +11,7 @@ module "setup_policy" {
   source              = "../setup_policy"
   virtual_hub_id      = module.setup_hub.virtual_hub.id
   scope               = module.setup_hub.resource_group.id
+  random_string       = module.setup_hub.random_string
   inclusion_tag_value = "2${module.setup_hub.random_string}"
 }
 

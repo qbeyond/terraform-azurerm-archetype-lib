@@ -31,7 +31,7 @@ ARM template deployed successfully and connection status is `Connected`. This is
 
 - run `terraform destroy` or just delete the Resource Group created in *Setup*
 
-## 2 Test connection creation in same Resource Group
+## 2 Test connection creation in Resource Group
 
 The policy should deploy a VNet connection to the virtual hub, if a new VNet is deployed.
 
@@ -40,11 +40,11 @@ The policy should deploy a VNet connection to the virtual hub, if a new VNet is 
 The test requires:
 
 - Resource group
-- virtual WAN
-- virtual Hub
-- Policy definition deployed and assigned to resource group
+  - virtual WAN
+  - virtual Hub
+  - Policy definition deployed and assigned to resource group
 
-To set up the test environment run `terraform apply -target module.setup_hub.azurerm_resource_group.this` first (Due to a poorly implemented module used to assign the policy) in subfolder [`./2_same_resource_group`](./2_same_resource_group) with `exercise=false`. Afterwards run `terraform apply` with same inputs.
+To set up the test environment run `terraform apply -target module.setup_hub.azurerm_resource_group.this` first (Due to a poorly implemented module used to assign the policy) in subfolder [`./2_resource_group`](./2_resource_group) with `exercise=false`. Afterwards run `terraform apply` with same inputs.
 
 Wait a bit, until you are sure the policy is successfully assigned by running the outputted command.
 
@@ -52,7 +52,41 @@ Wait a bit, until you are sure the policy is successfully assigned by running th
 
 Deploy a VNet to the in *Setup* created resource group. 
 
-You can deploy the VNet by run `terraform apply` in subfolder [`./2_same_resource_group`](./2_same_resource_group) with `exercise=true`.
+You can deploy the VNet by run `terraform apply` in subfolder [`./2_resource_group`](./2_resource_group) with `exercise=true`.
+
+### Verify
+
+A VNet connection should be created between the VNet and virtual Hub and connection status is `Connected`. This is automatically checked by terraform if `exercise=true`.
+
+The vNet is `compliant`.
+
+## Cleanup
+
+- run `terraform destroy`
+
+## 3 Test connection creation in Subscription
+
+The policy should deploy a VNet connection to the virtual hub in another resource group, if a new VNet is deployed.
+
+### Setup
+
+The test requires:
+
+- Resource group 1
+  - virtual WAN
+  - virtual Hub
+- Resource group 2
+- Policy definition deployed and assigned to subscription
+
+To set up the test environment run `terraform apply -target module.setup_hub.azurerm_resource_group.this` first (Due to a poorly implemented module used to assign the policy) in subfolder [`./3_subscription`](./3_subscription) with `exercise=false`. Afterwards run `terraform apply` with same inputs.
+
+Wait a bit, until you are sure the policy is successfully assigned by running the outputted command.
+
+### Exercise
+
+Deploy a VNet to the in *Setup* created resource group. 
+
+You can deploy the VNet by run `terraform apply` in subfolder [`./3_subscription`](./3_subscription) with `exercise=true`.
 
 ### Verify
 

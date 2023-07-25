@@ -7,6 +7,7 @@ If the virtual Hub is not in the same subscription as the policy is assigned, ma
 The policy works as expected when assigned in the following scenarios. For other scenarios view the known bugs.
 
 - vNets in the same resource group as vHub 
+- vNets in other resource groups then vHub, but still in the same subscription
 
 ## Known Bugs
 

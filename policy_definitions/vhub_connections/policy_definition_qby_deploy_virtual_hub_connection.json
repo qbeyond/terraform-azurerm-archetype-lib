@@ -72,6 +72,7 @@
           "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
           "name": "[concat(last(split(parameters('virtualHubId'), '/')),'/',concat(field('name'),'-to-vhub'))]",
           "ExistenceScope": "resourceGroup",
+          "ResourceGroupName": "[last(take(split(parameters('virtualHubId'), '/'),5))]",
           "existenceCondition": {
             "field": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/remoteVirtualNetwork.id",
             "equals": "[field('id')]"

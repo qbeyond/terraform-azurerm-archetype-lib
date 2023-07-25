@@ -4,6 +4,10 @@ This policy deploys a vNet connection to a vHub. If the vHub is in another subsc
 
 If the virtual Hub is not in the same subscription as the policy is assigned, make sure that the managed identity of the policy assignment got `Microsoft.Resources/deployments/*` (eg. *Network Contributor*) at the resource group of the virtual hub.
 
+The policy works as expected when assigned in the following scenarios. For other scenarios view the known bugs.
+
+- vNets in the same resource group as vHub 
+
 ## Known Bugs
 
 ### vNets not compliant although connected

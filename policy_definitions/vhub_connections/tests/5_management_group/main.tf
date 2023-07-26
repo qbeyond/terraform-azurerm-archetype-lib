@@ -39,10 +39,11 @@ module "setup_hub" {
 
 
 module "setup_policy" {
-  source         = "../setup_policy"
-  virtual_hub_id = module.setup_hub.virtual_hub.id
-  scope          = azurerm_management_group.this.id
-  random_string  = random_pet.this.id
+  source              = "../setup_policy"
+  virtual_hub_id      = module.setup_hub.virtual_hub.id
+  scope               = azurerm_management_group.this.id
+  random_string       = random_pet.this.id
+  inclusion_tag_value = "5${random_pet.this.id}"
 }
 
 resource "random_pet" "this" {
@@ -60,6 +61,9 @@ resource "azurerm_virtual_network" "exercise" {
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
   address_space       = ["192.168.2.0/24"]
+  tags = {
+    VWANHubConnection = module.setup_policy.inclusion_tag_value
+  }
 }
 
 module "verify" {

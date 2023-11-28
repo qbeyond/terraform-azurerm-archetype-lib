@@ -15,7 +15,7 @@ Automatic domain join of windows vms can be enabled
 
 - Added policy for automatic domain join of windows vms.
 
-# [2.0.0] - 2023-07-18
+# [1.1.2] - 2023-07-18
 
 Add QBY Backup Policy
 

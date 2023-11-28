@@ -29,7 +29,8 @@
       "domainPassword": {
         "type": "String",
         "metadata": {
-          "displayName": "domainPassword"
+          "displayName": "domainPassword",
+          "description": "Name of the secret holding the password of the domainuser to use for domain join."
         }
       },
       "domainFQDN": {

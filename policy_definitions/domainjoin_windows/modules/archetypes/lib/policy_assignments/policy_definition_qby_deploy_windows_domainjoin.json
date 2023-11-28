@@ -22,7 +22,8 @@
       "domainUsername": {
         "type": "String",
         "metadata": {
-          "displayName": "domainUsername"
+          "displayName": "SecretNameUsername",
+          "description": "Name of the secret holding the username to use for domain join."
         }
       },
       "domainPassword": {

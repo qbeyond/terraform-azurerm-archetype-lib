@@ -46,7 +46,9 @@
       "keyVaultResourceId": {
         "type": "String",
         "metadata": {
-          "displayName": "keyVaultResourceId"
+          "displayName": "Key Vault",
+          "strongType": "Microsoft.KeyVault/vaults",
+          "assignPermissions": true
         }
       },
       "effect": {

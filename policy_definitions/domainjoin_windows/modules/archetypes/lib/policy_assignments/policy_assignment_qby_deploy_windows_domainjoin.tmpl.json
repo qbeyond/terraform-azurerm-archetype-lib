@@ -14,7 +14,7 @@
     "enforcementMode": "Default",
     "nonComplianceMessages": [
       {
-        "message": "Windows Domain Join extension will be deployed on applicable images."
+        "message": "Windows Domain Join extension is not configured for VM."
       }
     ],
     "parameters": {

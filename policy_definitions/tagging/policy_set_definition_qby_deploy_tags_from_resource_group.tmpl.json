@@ -1,0 +1,39 @@
+{
+    "name": "QBY-Deploy-Tag-Inheritance",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "Deploy tags from resource group to resources",
+      "description": "Assigns the Microsoft built in policy to inherit a set of tags from a the resource group to resources if missing.",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Tags"
+      },
+      "parameters": {},
+      "policyDefinitions": ${jsonencode(flatten([for tag_name in tags: [
+        {
+            "policyDefinitionReferenceId": "Inherit '${tag_name}' tag from resource group to resources if missing",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+                "tagName": {
+                    "value": "${tag_name}"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "Inherit '${tag_name}' tag from subscription to resource groups if missing",
+            "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Tags-To-RG",
+            "parameters": {
+                "tagName": {
+                    "value": "${tag_name}"
+                }
+            },
+            "groupNames": []
+        }
+      ]]))},
+      "policyDefinitionGroups": null
+    }
+}

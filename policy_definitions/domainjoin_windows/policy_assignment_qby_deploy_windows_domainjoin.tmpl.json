@@ -19,10 +19,10 @@
     ],
     "parameters": {
       "domainUsername": {
-        "value": "DomainJoinUsernameFromKV"
+        "value": "DomainJoinUsername"
       },
       "domainPassword": {
-        "value": "DomainJoinPasswordFromKV"
+        "value": "DomainJoinPassword"
       },
       "domainFQDN": {
         "value": "replace-me.lan"

@@ -1,0 +1,45 @@
+{
+    "name": "QBY-Require-Tag",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2021-06-01",
+    "properties": {
+        "policyType": "Custom",
+        "mode": "All",
+        "displayName": "QBY-Require-Tag",
+        "description": "This policy ensures tag for update management severity group exists and is not empty",
+        "parameters": {
+            "tagName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Tag Name",
+                    "description": "Name of the tag, such as 'severity group monthly'"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Compute/virtualMachines"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                                "exists": false
+                            },
+                            {
+                                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                                "equals": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "name": "QBY-Require-Tag",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+        "description": "This policy ensures tag for update management severity group exists and is not empty.",
+        "displayName": "QBY-Require-Tag",
+        "notScopes": [],
+        "parameters": {
+            "tagName": {
+                "value": "Severity Group Monthly"
+            }
+        },
+        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
+        "nonComplianceMessages": [
+            {
+                "message": "The tag Severity Group Monthly does not exist or its value is empty."
+            }
+        ],
+        "scope": "${current_scope_resource_id}",
+        "enforcementMode": null
+    },
+    "location": "${default_location}"
+}

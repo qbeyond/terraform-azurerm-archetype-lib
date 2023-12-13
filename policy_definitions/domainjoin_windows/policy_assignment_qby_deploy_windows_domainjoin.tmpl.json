@@ -1,7 +1,7 @@
 {
   "type": "Microsoft.Authorization/policyAssignments",
   "apiVersion": "2022-06-01",
-  "name": "Deploy-Windows-DomainJoin",
+  "name": "QBY-Deploy-DomainJoin",
   "location": "${default_location}",
   "dependsOn": [],
   "identity": {
@@ -19,10 +19,10 @@
     ],
     "parameters": {
       "domainUsername": {
-        "value": "DomainJoinUsernameFromKV"
+        "value": "DomainJoinUsername"
       },
       "domainPassword": {
-        "value": "DomainJoinPasswordFromKV"
+        "value": "DomainJoinPassword"
       },
       "domainFQDN": {
         "value": "replace-me.lan"

@@ -7,6 +7,10 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+# [1.3.0] - 2023-11-28
+
+Automatic domain join of windows assigned
+
 # [1.2.0] - 2023-11-28
 
 Automatic domain join of windows vms can be enabled

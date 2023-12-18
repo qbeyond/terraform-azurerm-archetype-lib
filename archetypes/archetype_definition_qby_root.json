@@ -14,7 +14,7 @@
             "Deploy-VM-Monitoring",
             "Deploy-VMSS-Monitoring",
             "Enforce-ACSB",
-            "QBY-Deploy-Tag-Inheritance"
+            "QBY-Deploy-Tag-Structure"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",

@@ -1,5 +1,5 @@
 {
-    "name": "QBY-Deploy-Tag-Inheritance",
+    "name": "QBY-Deploy-Tag-Structure",
     "type": "Microsoft.Authorization/policyAssignments",
     "apiVersion": "2022-06-01",
     "dependsOn": [],

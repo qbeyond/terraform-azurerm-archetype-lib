@@ -7,6 +7,10 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+# [2.1.0] - 2023-12-18
+
+- Added tag inheritance policy setup
+
 # [2.0.0] - 2023-12-13
 
 Automatic domain join of windows assigned

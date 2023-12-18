@@ -1,0 +1,43 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2022-06-01",
+  "name": "QBY-Deploy-DomainJoin",
+  "location": "${default_location}",
+  "dependsOn": [],
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "description": "Deploy Windows Domain Join Extension with keyvault configuration when the extension does not exist on a given windows Virtual Machine",
+    "displayName": "Deploy Windows Domain Join Extension with keyvault configuration",
+    "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/Deploy-Windows-DomainJoin",
+    "enforcementMode": "Default",
+    "nonComplianceMessages": [
+      {
+        "message": "Windows Domain Join extension is not configured for VM."
+      }
+    ],
+    "parameters": {
+      "domainUsername": {
+        "value": "DomainJoinUsername"
+      },
+      "domainPassword": {
+        "value": "DomainJoinPassword"
+      },
+      "domainFQDN": {
+        "value": "replace-me.lan"
+      },
+      "domainOUPath": {
+        "value": "OU=NEW,DC=replace-me,DC=lan"
+      },
+      "keyVaultResourceId": {
+        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/${root_scope_id}-identity/providers/Microsoft.KeyVault/vaults/${root_scope_id}-kv"
+      },
+      "effect": {
+        "value": "DeployIfNotExists"
+      }
+    },
+    "scope": "${current_scope_resource_id}",
+    "notScopes": []
+  }
+}

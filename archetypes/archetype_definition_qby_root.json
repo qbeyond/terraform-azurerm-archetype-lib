@@ -13,7 +13,8 @@
             "Deploy-Resource-Diag",
             "Deploy-VM-Monitoring",
             "Deploy-VMSS-Monitoring",
-            "Enforce-ACSB"
+            "Enforce-ACSB",
+            "QBY-Deploy-Tag-Inheritance"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",
@@ -130,7 +131,8 @@
             "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
-            "QBY-Deploy-VM-Backup"
+            "QBY-Deploy-VM-Backup",
+            "QBY-Deploy-Tags-To-RG"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",
@@ -144,7 +146,8 @@
             "Enforce-ALZ-Sandbox",
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
-            "Enforce-Guardrails-KeyVault"
+            "Enforce-Guardrails-KeyVault",
+            "QBY-Deploy-Tag-Inheritance"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

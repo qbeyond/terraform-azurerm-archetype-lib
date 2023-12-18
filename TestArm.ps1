@@ -1,1 +1,3 @@
-New-AzResourceGroupDeployment -name "dfbgsdfgh" -ResourceGroupName "vm-cta-dev-01_group" -TemplateParameterFile "C:\Users\CTA\OneDrive - q.beyond AG\Dokumente\Git\terraform-azurerm-archetype-lib\TestParameters.json" -TemplateFile "C:\Users\CTA\OneDrive - q.beyond AG\Dokumente\Git\terraform-azurerm-archetype-lib\policy_definitions\update_management\policy_definition_qby_deploy_maintenance_resources.json"
+az deployment group create --resource-group "vm-cta-dev-01_group" --template-file "C:\Users\CTA\OneDrive - q.beyond AG\Dokumente\Git\terraform-azurerm-archetype-lib\Testtemppolicy.json" --parameters "C:\Users\CTA\OneDrive - q.beyond AG\Dokumente\Git\terraform-azurerm-archetype-lib\TestParameters.json"
+
+az deployment group validate --template-file "C:\Users\CTA\OneDrive - q.beyond AG\Dokumente\Git\terraform-azurerm-archetype-lib\Testtemppolicy.json"

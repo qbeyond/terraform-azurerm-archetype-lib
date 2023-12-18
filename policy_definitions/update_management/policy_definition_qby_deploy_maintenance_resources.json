@@ -11,12 +11,6 @@
       "category": "Azure Update Manager"
     },
     "parameters": {
-      "severityGroupName": {
-        "type": "string",
-        "metadata": {
-          "description": "Name of the severity group/ maintenance configuration."
-        }
-      },
       "managementSubscriptionId": {
         "type": "string",
         "metadata": {
@@ -42,7 +36,11 @@
         }
       },
       "rebootSetting": {
-        "allowedValues": [ "Always", "IfRequired", "Never" ],
+        "allowedValues": [
+          "Always",
+          "IfRequired",
+          "Never"
+        ],
         "type": "String",
         "metadata": {
           "description": "Reboot preference of the maintenance configuration."
@@ -82,10 +80,6 @@
           {
             "field": "tags['Severity Group Monthly']",
             "exists": true
-          },
-          {
-            "field": "tags['Severity Group Monthly']",
-            "exists": true
           }
         ]
       },
@@ -97,114 +91,132 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "deployment": {
-             "mode": "Incremental",
-
-        }
-      }
-
-
-      {
-        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-        "contentVersion": "1.0.0.0",
-
-        "variables": {
-          "tagFilter": {
-            "Severity Group Monthly": "[parameters('severityGroupName')]",
-            "Update allowed": "yes"
-          }
-        },
-        "resources": [
-          {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "name": "megadeployment",
-            "subscriptionId": "[parameters('managementSubscriptionId')]",
-            "resourceGroup": "[parameters('managementResourceGroup')]",
             "properties": {
               "mode": "Incremental",
-              "template": {
-                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                "contentVersion": "1.0.0.0",
-                "parameters": {},
-                "variables": {},
-                "resources": [
-                  {
-                    "type": "Microsoft.Maintenance/maintenanceConfigurations",
-                    "apiVersion": "2023-04-01",
-                    "name": "[parameters('severityGroupName')]",
-                    "location": "[parameters('location')]",
-                    "properties": {
-                      "extensionProperties": {
-                        "InGuestPatchMode": "User"
-                      },
-                      "installPatches": {
-                        "rebootSetting": "[parameters('rebootSetting')]",
-                        "windowsParameters": {
-                          "classificationsToInclude": "[parameters('updateClassification')]",
-                          "excludeKbsRequiringReboot": "",
-                          "kbNumbersToExclude": [],
-                          "kbNumbersToInclude": []
+              "parameters": {
+                "machineResourceId": {
+                  "value": "[field('id')]"
+                },
+                "severityGroupName": {
+                  "value": "tags['Severity Group Monthly']"
+                },
+                "managementSubscriptionId": {
+                  "value": "[parameters('managementSubscriptionId')]"
+                },
+                "managementResourceGroup" : {
+                  "value": "[parameters('managementResourceGroup')]"
+                },
+                "location": {
+                  "value": "[parameters('location')]"
+                },
+                "updateClassification": {
+                  "value": "[parameters('updateClassification')]"
+                },
+                "rebootSetting": {
+                  "value": "[parameters('rebootSetting')]"
+                },
+                "duration": {
+                  "value": "[parameters('duration')]"
+                },
+                "recurEvery": {
+                  "value": "[parameters('recurEvery')]"
+                },
+                "startDateTime": {
+                  "value": "[parameters('startDateTime')]"
+                },
+                "timeZone": {
+                  "value": "[parameters('timeZone')]"
+                }
+              },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "parameters": {},
+                  "resources": [
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2019-10-01",
+                      "name": "NestedDeployer",
+                      "subscriptionId": "[parameters('managementSubscriptionId')]",
+                      "resourceGroup": "[parameters('managementResourceGroup')]",
+                      "properties": {
+                        "mode": "Incremental",
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "variables": {},
+                          "resources": [
+                            {
+                              "type": "Microsoft.Maintenance/maintenanceConfigurations",
+                              "apiVersion": "2023-04-01",
+                              "name": "[parameters('severityGroupName')]",
+                              "location": "[parameters('location')]",
+                              "properties": {
+                                "extensionProperties": {
+                                  "InGuestPatchMode": "User"
+                                },
+                                "installPatches": {
+                                  "rebootSetting": "[parameters('rebootSetting')]",
+                                  "windowsParameters": {
+                                    "classificationsToInclude": "[parameters('updateClassification')]",
+                                    "excludeKbsRequiringReboot": "",
+                                    "kbNumbersToExclude": [],
+                                    "kbNumbersToInclude": []
+                                  }
+                                },
+                                "maintenanceScope": "InGuestPatch",
+                                "maintenanceWindow": {
+                                  "duration": "[parameters('duration')]",
+                                  "recurEvery": "[parameters('recurEvery')]",
+                                  "startDateTime": "[parameters('startDateTime')]",
+                                  "timeZone": "[parameters('timeZone')]"
+                                }
+                              }
+                            }
+                          ]
                         }
-                      },
-                      "maintenanceScope": "InGuestPatch",
-                      "maintenanceWindow": {
-                        "duration": "[parameters('duration')]",
-                        "recurEvery": "[parameters('recurEvery')]",
-                        "startDateTime": "[parameters('startDateTime')]",
-                        "timeZone": "[parameters('timeZone')]"
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Maintenance/configurationAssignments",
+                      "apiVersion": "2023-04-01",
+                      "name": "[parameters('severityGroupName')]",
+                      "location": "[parameters('location')]",
+                      "dependsOn": [
+                        "Microsoft.Resources/deployments/NestedDeployer"
+                      ],
+                      "properties": {
+                        "filter": {
+                          "resourceTypes": [
+                            "microsoft.compute/virtualmachines"
+                          ],
+                          "locations": [],
+                          "osTypes": [
+                            "Linux",
+                            "Windows"
+                          ],
+                          "resourceGroups": [],
+                          "tagSettings": {
+                            "filterOperator": "All",
+                            "tags": {
+                              "Severity Group Monthly": [
+                                "parameters('severityGroupName')"
+                              ],
+                              "Update Allowed": [
+                                "yes"
+                              ]
+                            }
+                          }
+                        },
+                        "maintenanceConfigurationId": "[resourceId(subscription().subscriptionId, parameters('managementResourceGroup'), 'microsoft.maintenance/maintenanceconfigurations', parameters('severityGroupName'))]"
                       }
                     }
-                  }
-                ]
+                  ]
+                }
               }
             }
-          },
-          {
-            "type": "Microsoft.Maintenance/maintenanceConfigurations",
-            "apiVersion": "2023-04-01",
-            "name": "[parameters('severityGroupName')]",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-              "Microsoft.Resources/deployments/megadeployment"
-            ],
-            "properties": {
-              "extensionProperties": {
-                "InGuestPatchMode": "User"
-              },
-              "installPatches": {
-                "rebootSetting": "[parameters('rebootSetting')]",
-                "windowsParameters": {
-                  "classificationsToInclude": "[parameters('updateClassification')]",
-                  "excludeKbsRequiringReboot": "",
-                  "kbNumbersToExclude": [],
-                  "kbNumbersToInclude": []
-                }
-              },
-              "maintenanceScope": "InGuestPatch",
-              "maintenanceWindow": {
-                "duration": "[parameters('duration')]",
-                "recurEvery": "[parameters('recurEvery')]",
-                "startDateTime": "[parameters('startDateTime')]",
-                "timeZone": "[parameters('timeZone')]"
-              }
-            }
-          },
-          {
-            "type": "Microsoft.Maintenance/configurationAssignments",
-            "apiVersion": "2023-04-01",
-            "name": "[parameters('severityGroupName')]",
-            "location": "[parameters('location')]",
-            "properties": {
-              "filter": {
-                "tagSettings": {
-                  "filterOperator": "All",
-                  "tags": "[variables('tagFilter')]"
-                }
-              },
-              "maintenanceConfigurationId": "[resourceId(subscription().subscriptionId, parameters('managementResourceGroup'), 'microsoft.maintenance/maintenanceconfigurations', parameters('severityGroupName'))]",
-              "resourceId": "string"
-            }
-          },
-          
-        ]
+          }
+        }
       }
+    }
+  }

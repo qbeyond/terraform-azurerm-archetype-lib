@@ -2,6 +2,7 @@
     "qby_root": {
         "policy_assignments": [
             "Audit-UnusedResources",
+            "Deploy-AzActivity-Log",
             "Deploy-Resource-Diag",
             "Deploy-VM-Monitoring",
             "Deploy-VMSS-Monitoring",

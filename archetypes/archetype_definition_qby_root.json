@@ -2,18 +2,9 @@
     "qby_root": {
         "policy_assignments": [
             "Audit-UnusedResources",
-            "Deny-Classic-Resources",
-            "Deny-UnmanagedDisk",
-            "Deploy-ASC-Monitoring",
-            "Deploy-AzActivity-Log",
-            "Deploy-MDEndpoints",
-            "Deploy-MDFC-Config",
-            "Deploy-MDFC-OssDb",
-            "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
             "Deploy-VM-Monitoring",
             "Deploy-VMSS-Monitoring",
-            "Enforce-ACSB",
             "QBY-Deploy-Tag-Structure"
         ],
         "policy_definitions": [

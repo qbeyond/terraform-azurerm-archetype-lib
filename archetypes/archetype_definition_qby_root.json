@@ -138,7 +138,6 @@
             "Enforce-ALZ-Decomm",
             "Enforce-ALZ-Sandbox",
             "Enforce-Encryption-CMK",
-            "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
             "QBY-Deploy-Tag-Inheritance"
         ],

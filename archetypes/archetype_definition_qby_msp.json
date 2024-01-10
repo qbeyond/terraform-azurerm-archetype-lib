@@ -2,8 +2,7 @@
     "qby_msp": {
         "policy_assignments": [
             "QBY-Deploy-VM-Backup",
-            "QBY-Deploy-DomainJoin",
-            "QBY-Deploy-LAW-Agent"
+            "QBY-Deploy-DomainJoin"            
         ],
         "policy_definitions": [],
         "policy_set_definitions": [],

@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "severityGroupName": {
-        "value": "01-second-friday-1000-XCSUFEDTG-reboot" 
+        "value": "01-second-sunday-1100-CSUFEDTG-reboot" 
       },
       "managementSubscriptionId": {
         "value": "dd9e3e68-2b6a-4439-bb77-bce864452e7c"
@@ -13,18 +13,6 @@
       },
       "location": {
         "value": "germanywestcentral"
-      },
-      "updateClassification": {
-        "value": [ "Critical", "Security" ]
-      },
-      "rebootSetting": {
-        "value": "IfRequired"
-      },
-      "recurEvery": {
-        "value": "Month Last Sunday"
-      },
-      "startDateTime": {
-        "value": "2023-12-14 14:00"
       }
     }
   }

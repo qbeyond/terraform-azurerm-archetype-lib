@@ -12,62 +12,54 @@
     },
     "parameters": {
       "managementSubscriptionId": {
-        "type": "string",
+        "type": "String",
         "metadata": {
           "description": "Subscription ID of the management subscription."
         }
       },
       "managementResourceGroup": {
-        "type": "string",
+        "type": "String",
         "metadata": {
           "description": "Name of the management resource group. The maintenance configuration will be deloyed there."
         }
       },
       "location": {
-        "type": "string",
-        "metadata": {
-          "description": "Location of the maintenance resources."
-        }
-      },
-      "updateClassification": {
-        "type": "array",
-        "metadata": {
-          "description": "Classification category of patches to be patched."
-        }
-      },
-      "rebootSetting": {
-        "allowedValues": [
-          "Always",
-          "IfRequired",
-          "Never"
-        ],
         "type": "String",
         "metadata": {
-          "description": "Reboot preference of the maintenance configuration."
+          "description": "Location of the maintenance resources.",
+          "strongType": "location"
         }
       },
       "duration": {
-        "defaultValue": "03:55",
         "type": "String",
         "metadata": {
           "description": "Duration of the maintance window in format hh:mm. Maximum value is 03:55."
-        }
-      },
-      "recurEvery": {
-        "type": "String",
-        "metadata": {
-          "description": "Rate at which a Maintenance window is expected to recur. The rate can be expressed as daily, weekly, or monthly schedules. Format example: Month Last Sunday."
-        }
-      },
-      "startDateTime": {
-        "type": "String",
-        "metadata": {
-          "description": "StartDateTime in Format YYYY-MM-DD hh:mm. The StartDateTime can be a maximum of 24 hours back."
-        }
+        },
+        "defaultValue": "03:55"
       },
       "timeZone": {
-        "defaultValue": "W. Europe Standard Time",
-        "type": "String"
+        "type": "String",
+        "metadata": {},
+        "defaultValue": "W. Europe Standard Time"
+      },
+      "osTypes": {
+        "type": "array",
+        "defaultValue": [
+          "Windows"
+        ],
+        "metadata": {
+          "description": "OS Types that get filtered for in the cinfiguration assignment."
+        }
+      },
+      "resourceTypes": {
+        "type": "array",
+        "defaultValue": [
+          "microsoft.compute/virtualmachines",
+          "Microsoft.HybridCompute/machines"
+        ],
+        "metadata": {
+          "description": "ResourceTypes that get filtered for in the cinfiguration assignment."
+        }
       }
     },
     "policyRule": {
@@ -86,19 +78,27 @@
       "then": {
         "effect": "DeployIfNotExists",
         "details": {
-          "type": "Microsoft.Maintenance/maintenanceConfigurations",
+          "type": "Microsoft.Maintenance/configurationAssignments",
+          "ExistenceScope": "Subscription",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "name",
+                "equals": "[field(concat('tags[Severity Group Monthly]'))]"
+              }
+            ]
+          },
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
+          "DeploymentScope": "Subscription",
           "deployment": {
+            "location": "westeurope",
             "properties": {
               "mode": "Incremental",
               "parameters": {
-                "machineResourceId": {
-                  "value": "[field('id')]"
-                },
                 "severityGroupName": {
-                  "value": "tags['Severity Group Monthly']"
+                  "value": "[field(concat('tags[Severity Group Monthly]'))]"
                 },
                 "managementSubscriptionId": {
                   "value": "[parameters('managementSubscriptionId')]"
@@ -109,81 +109,104 @@
                 "location": {
                   "value": "[parameters('location')]"
                 },
-                "updateClassification": {
-                  "value": "[parameters('updateClassification')]"
-                },
-                "rebootSetting": {
-                  "value": "[parameters('rebootSetting')]"
-                },
                 "duration": {
                   "value": "[parameters('duration')]"
                 },
-                "recurEvery": {
-                  "value": "[parameters('recurEvery')]"
-                },
-                "startDateTime": {
-                  "value": "[parameters('startDateTime')]"
-                },
                 "timeZone": {
                   "value": "[parameters('timeZone')]"
+                },
+                "osTypes": {
+                  "value": "[parameters('osTypes')]"
+                },
+                "resourceTypes": {
+                  "value": "[parameters('resourceTypes')]"
                 }
               },
               "template": {
-                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
-                  "machineResourceId": {
-                    "type": "string"
-                  },
                   "severityGroupName": {
-                    "type": "string"
+                    "type": "string",
+                    "metadata": {
+                      "description": "Name of the severity group/ maintenance configuration."
+                    }
                   },
                   "managementSubscriptionId": {
-                    "type": "string"
+                    "type": "string",
+                    "metadata": {
+                      "description": "Subscription ID of the management subscription."
+                    }
                   },
                   "managementResourceGroup": {
-                    "type": "string"
+                    "type": "string",
+                    "metadata": {
+                      "description": "Name of the management resource group. The maintenance configuration will be deloyed there."
+                    }
                   },
                   "location": {
-                    "type": "string"
-                  },
-                  "updateClassification": {
-                    "type": "array"
-                  },
-                  "rebootSetting": {
-                    "allowedValues": [
-                      "Always",
-                      "IfRequired",
-                      "Never"
-                    ],
-                    "type": "String"
+                    "type": "string",
+                    "metadata": {
+                      "description": "Location of the maintenance resources."
+                    }
                   },
                   "duration": {
                     "defaultValue": "03:55",
-                    "type": "String"
-                  },
-                  "recurEvery": {
-                    "type": "String"
-                  },
-                  "startDateTime": {
-                    "type": "String"
+                    "type": "String",
+                    "metadata": {
+                      "description": "Duration of the maintance window in format hh:mm. Maximum value is 03:55."
+                    }
                   },
                   "timeZone": {
                     "defaultValue": "W. Europe Standard Time",
                     "type": "String"
+                  },
+                  "startDate": {
+                    "defaultValue": "[utcNow('yyyy-MM-dd')]",
+                    "type": "string"
+                  },
+                  "osTypes": {
+                    "type": "array",
+                    "metadata": {
+                      "description": "OS Types that get filtered for in the cinfiguration assignment."
+                    }
+                  },
+                  "resourceTypes": {
+                    "type": "array",
+                    "metadata": {
+                      "description": "ResourceTypes that get filtered for in the cinfiguration assignment."
+                    }
                   }
                 },
                 "variables": {
-                  [variables('myArrayVar')[
-                      2
-                    ]
-                  ]
+                  "updateOptions": {
+                    "C": "Critical",
+                    "S": "Security",
+                    "U": "UpdateRollup",
+                    "F": "FeaturePack",
+                    "E": "ServicePack",
+                    "D": "Definition",
+                    "T": "Tools",
+                    "G": "Updates"
+                  },
+                  "rebootOptions": {
+                    "reboot": "IfRequired",
+                    "alwaysreboot": "Always",
+                    "neverreboot": "Never"
+                  },
+                  "splitSeverityGroup": "[split(parameters('severityGroupName'),'-')]",
+                  "recurEvery": "[concat(variables('splitSeverityGroup')[0], 'Month', ' ', variables('splitSeverityGroup')[1],' ', variables('splitSeverityGroup')[2])]",
+                  "startTime": "[concat(substring(variables('splitSeverityGroup')[3], 0, 2), ':', substring(variables('splitSeverityGroup')[3], 2, 2)  )]",
+                  "startDateTime": "[concat(parameters('startDate'), ' ', variables('startTime'))]",
+                  "updateClassification": "[map(range(0, sub(length(replace(variables('splitSeverityGroup')[4],'X', '')), 1 )), lambda('i', variables('updateOptions')[substring(replace(variables('splitSeverityGroup')[4],'X',''), lambdaVariables('i'),1 )] )) ]",
+                  "rebootSetting": "[variables('rebootOptions')[variables('splitSeverityGroup')[5]]]",
+                  "uniqueDeploymentName": "[concat('NestedDeploymentName-', uniqueString(deployment().name))]"
                 },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "[concat('NestedPolicyDeployment-', uniqueString(deployment().name))]",
+                    "name": "[variables('uniqueDeploymentName')]",
                     "subscriptionId": "[parameters('managementSubscriptionId')]",
                     "resourceGroup": "[parameters('managementResourceGroup')]",
                     "properties": {
@@ -191,7 +214,6 @@
                       "template": {
                         "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
                         "contentVersion": "1.0.0.0",
-                        "parameters": {},
                         "variables": {},
                         "resources": [
                           {
@@ -204,9 +226,9 @@
                                 "InGuestPatchMode": "User"
                               },
                               "installPatches": {
-                                "rebootSetting": "[parameters('rebootSetting')]",
+                                "rebootSetting": "[variables('rebootSetting')]",
                                 "windowsParameters": {
-                                  "classificationsToInclude": "[parameters('updateClassification')]",
+                                  "classificationsToInclude": "[variables('updateClassification')]",
                                   "excludeKbsRequiringReboot": "",
                                   "kbNumbersToExclude": [],
                                   "kbNumbersToInclude": []
@@ -215,8 +237,8 @@
                               "maintenanceScope": "InGuestPatch",
                               "maintenanceWindow": {
                                 "duration": "[parameters('duration')]",
-                                "recurEvery": "[parameters('recurEvery')]",
-                                "startDateTime": "[parameters('startDateTime')]",
+                                "recurEvery": "[variables('recurEvery')]",
+                                "startDateTime": "[variables('startDateTime')]",
                                 "timeZone": "[parameters('timeZone')]"
                               }
                             }
@@ -229,26 +251,20 @@
                     "type": "Microsoft.Maintenance/configurationAssignments",
                     "apiVersion": "2023-04-01",
                     "name": "[parameters('severityGroupName')]",
-                    "location": "[parameters('location')]",
                     "dependsOn": [
-                      "Microsoft.Resources/deployments/NestedDeployer"
+                      "[concat('Microsoft.Resources/deployments/',variables('uniqueDeploymentName'))]"
                     ],
                     "properties": {
                       "filter": {
-                        "resourceTypes": [
-                          "microsoft.compute/virtualmachines"
-                        ],
+                        "resourceTypes": "[parameters('resourceTypes')]",
                         "locations": [],
-                        "osTypes": [
-                          "Linux",
-                          "Windows"
-                        ],
+                        "osTypes": "[parameters('osTypes')]",
                         "resourceGroups": [],
                         "tagSettings": {
                           "filterOperator": "All",
                           "tags": {
                             "Severity Group Monthly": [
-                              "parameters('severityGroupName')"
+                              "[parameters('severityGroupName')]"
                             ],
                             "Update Allowed": [
                               "yes"

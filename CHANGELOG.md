@@ -7,6 +7,10 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+# [2.2.0] - 2024-01-10
+
+- Added deploy log analytics policy
+
 # [2.1.1] - 2023-12-28
 
 - Renamed tagging policy assignment

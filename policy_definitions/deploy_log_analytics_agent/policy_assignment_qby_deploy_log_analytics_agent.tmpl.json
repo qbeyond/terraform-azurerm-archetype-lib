@@ -17,12 +17,15 @@
                 "message": "Log Analytics extension is not configured for VM."
             }
         ],
-        "listOfImageSKUs": {
-            "value": {
-                "value": "2022-datacenter-azure-edition"
+        "parameters": {
+            "listOfImageSKUs": {
+                "value": ["2022-datacenter-azure-edition"]
+            },
+            "logAnalytics": {
+                "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/${root_scope_id}-mgmt/providers/Microsoft.OperationalInsights/workspaces/${root_scope_id}-la"
             }
-        },
-        "scope": "${current_scope_resource_id}",
-        "notScopes": []
-    }
+        }
+    },
+    "scope": "${current_scope_resource_id}",
+    "notScopes": []
 }

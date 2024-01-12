@@ -13,8 +13,7 @@
             "Deploy-Resource-Diag",
             "Deploy-VMSS-Monitoring",
             "Enforce-ACSB",
-            "QBY-Deploy-Tag-Structure",
-            "QBY-Deploy-LAW-Agent"
+            "QBY-Deploy-Tag-Structure"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",
@@ -132,7 +131,8 @@
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
             "QBY-Deploy-VM-Backup",
-            "QBY-Deploy-Tags-To-RG"
+            "QBY-Deploy-Tags-To-RG",
+            "QBY-Deploy-LAW-Agent"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",

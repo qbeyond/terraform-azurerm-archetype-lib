@@ -1,5 +1,5 @@
 {
-    "name": "QBY-Deploy-Update_management",
+    "name": "QBY-Deploy-Update-Mgmt",
     "type": "Microsoft.Authorization/policySetDefinitions",
     "apiVersion": "2021-06-01",
     "scope": null,
@@ -14,22 +14,45 @@
         "parameters": {},
         "policyDefinitions": [
                     {
-                        "policyDefinitionReferenceId": "Inherit '${tag_name}' tag from resource group to resources if missing",
-                        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+                        "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager",
+                        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
                         "parameters": {
-                            "tagName": {
-                                "value": "${tag_name}"
+                            "managementSubscriptionId": {
+                                "value": "00000000-0000-0000-0000-000000000000"
+                            },
+                            "managementResourceGroup": {
+                                "value": "rg-Management-prd-01"
+                            },
+                            "location": {
+                                "value": "westeurope"
                             }
                         },
                         "groupNames": []
                     },
                     {
-                        "policyDefinitionReferenceId": "Inherit '${tag_name}' tag from subscription to resource groups if missing",
-                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Tags-To-RG",
+                        "policyDefinitionReferenceId": "Require a tag 'severity group monthly' exists and is not empty",
+                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
                         "parameters": {
                             "tagName": {
-                                "value": "${tag_name}"
+                                "value": "Severity Group Monthly"
                             }
+                        },
+                        "groupNames": []
+                    },
+                    {
+                        "policyDefinitionReferenceId": "Require a tag 'update allowed' exists and is not empty",
+                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
+                        "parameters": {
+                            "tagName": {
+                                "value": "Update allowed"
+                            }
+                        },
+                        "groupNames": []
+                    },
+                    {
+                        "policyDefinitionReferenceId": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of windows vm for Azure Update Manager",
+                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Set-Update-Settings",
+                        "parameters": {
                         },
                         "groupNames": []
                     }

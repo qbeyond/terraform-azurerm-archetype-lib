@@ -35,7 +35,7 @@
         "policyDefinitions": [
             {
                 "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
                 "parameters": {
                     "managementSubscriptionId": {
                         "value": "[parameters('managementSubscriptionId')]"

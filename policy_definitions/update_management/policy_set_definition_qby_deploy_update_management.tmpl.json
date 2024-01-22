@@ -11,52 +11,71 @@
             "version": "1.0.0",
             "category": "Azure Update Manager"
         },
-        "parameters": {},
+        "parameters": {
+            "managementSubscriptionId": {
+                "type": "String",
+                "metadata": {
+                    "description": "Subscription ID of the management subscription."
+                }
+            },
+            "managementResourceGroup": {
+                "type": "String",
+                "metadata": {
+                    "description": "Name of the management resource group. The maintenance configuration will be deloyed there."
+                }
+            },
+            "location": {
+                "type": "String",
+                "metadata": {
+                    "description": "Location of the maintenance resources.",
+                    "strongType": "location"
+                }
+            }
+        },
         "policyDefinitions": [
-                    {
-                        "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager",
-                        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
-                        "parameters": {
-                            "managementSubscriptionId": {
-                                "value": "00000000-0000-0000-0000-000000000000"
-                            },
-                            "managementResourceGroup": {
-                                "value": "rg-Management-prd-01"
-                            },
-                            "location": {
-                                "value": "westeurope"
-                            }
-                        },
-                        "groupNames": []
+            {
+                "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
+                "parameters": {
+                    "managementSubscriptionId": {
+                        "value": "[parameters('managementSubscriptionId')]"
                     },
-                    {
-                        "policyDefinitionReferenceId": "Require a tag 'severity group monthly' exists and is not empty",
-                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
-                        "parameters": {
-                            "tagName": {
-                                "value": "Severity Group Monthly"
-                            }
-                        },
-                        "groupNames": []
+                    "managementResourceGroup": {
+                        "value": "[parameters('managementResourceGroup')]"
                     },
-                    {
-                        "policyDefinitionReferenceId": "Require a tag 'update allowed' exists and is not empty",
-                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
-                        "parameters": {
-                            "tagName": {
-                                "value": "Update allowed"
-                            }
-                        },
-                        "groupNames": []
-                    },
-                    {
-                        "policyDefinitionReferenceId": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of windows vm for Azure Update Manager",
-                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Set-Update-Settings",
-                        "parameters": {
-                        },
-                        "groupNames": []
+                    "location": {
+                        "value": "[parameters('location')]"
                     }
-                ],
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Require a tag 'severity group monthly' exists and is not empty",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
+                "parameters": {
+                    "tagName": {
+                        "value": "Severity Group Monthly"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Require a tag 'update allowed' exists and is not empty",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
+                "parameters": {
+                    "tagName": {
+                        "value": "Update allowed"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of windows vm for Azure Update Manager",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Set-Update-Settings",
+                "parameters": {},
+                "groupNames": []
+            }
+        ],
         "policyDefinitionGroups": null
     }
 }

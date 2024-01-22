@@ -144,7 +144,8 @@
             "Enforce-ALZ-Sandbox",
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
-            "Enforce-Guardrails-KeyVault"
+            "Enforce-Guardrails-KeyVault",
+            "QBY-Deploy-Update-Mgmt"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

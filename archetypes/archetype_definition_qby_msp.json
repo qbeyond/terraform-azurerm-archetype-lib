@@ -3,7 +3,6 @@
         "policy_assignments": [
             "QBY-Deploy-VM-Backup",
             "QBY-Deploy-DomainJoin",
-            "QBY-Require-Tag",
             "QBY-Deploy-Update-Mgmt"
         ],
         "policy_definitions": [],

@@ -130,7 +130,10 @@
             "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
-            "QBY-Deploy-VM-Backup"
+            "QBY-Deploy-VM-Backup",
+            "QBY-Deploy-Updates",
+            "QBY-Require-Tag",
+            "QBY-Set-Update-Settings"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",

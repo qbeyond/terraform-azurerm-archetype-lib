@@ -5,7 +5,7 @@
     "properties": {
         "policyType": "Custom",
         "mode": "All",
-        "displayName": "QBY-Require-Tag",
+        "displayName": "Deny Resources that are missing a specified tag.",
         "description": "This policy ensures tag for update management severity group exists and is not empty",
         "parameters": {
             "tagName": {

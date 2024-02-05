@@ -65,7 +65,7 @@
                         {
                             "condition": "[equals(tolower(parameters('osType')), 'linux')]",
                             "operation": "addOrReplace",
-                            "field": "Microsoft.HybridCompute/machines/osProfile.linuxConfiguration.patchSettings.patchMode",
+                            "field": "Microsoft.Compute/virtualMachines/osProfile.linuxConfiguration.patchSettings.patchMode",
                             "value": "AutomaticByPlatform"
                         }
                     ]

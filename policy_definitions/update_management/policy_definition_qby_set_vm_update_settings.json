@@ -2,28 +2,26 @@
     "name": "QBY-Set-Update-Settings",
     "type": "Microsoft.Authorization/policyDefinitions",
     "properties": {
-        "displayName": "Configure patch mode of VMs for Azure Update Manager",
+        "displayName": "Configure patch mode of Azure VMs for Azure Update Manager",
         "policyType": "Custom",
         "mode": "Indexed",
-        "description": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of windows vm for Azure Update Manager.",
+        "description": "Configure patch mode setting to AutomaticByPlatform for azure vms.",
         "metadata": {
             "version": "1.0.0",
             "category": "Azure Update Manager"
         },
         "parameters": {
-            "operatingSystemTypes": {
-                "type": "Array",
+            "osType": {
+                "type": "String",
                 "metadata": {
-                    "displayName": "Operating System types",
-                    "description": "The list of Operating System types from which machines need to be targeted."
+                    "displayName": "OS type",
+                    "description": "OS type for the machines."
                 },
                 "allowedValues": [
                     "Windows",
                     "Linux"
                 ],
-                "defaultValue": [
-                    "Windows"
-                ]
+                "defaultValue": "Windows"
             }
         },
         "policyRule": {
@@ -31,10 +29,7 @@
                 "allOf": [
                     {
                         "field": "type",
-                        "in": [
-                            "Microsoft.HybridCompute/machines",
-                            "Microsoft.Compute/virtualMachines"
-                        ]
+                        "equals": "Microsoft.Compute/virtualMachines"                        
                     },
                     {
                         "field": "tags['Severity Group Monthly']",
@@ -44,11 +39,11 @@
                         "anyOf": [
                             {
                                 "field": "Microsoft.HybridCompute/machines/osName",
-                                "in": "[parameters('operatingSystemTypes')]"
+                                "equals": "[parameters('osType')]"
                             },
                             {
                                 "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
-                                "in": "[parameters('operatingSystemTypes')]"
+                                "equals": "[parameters('osType')]"
                             }
                         ]
                     }
@@ -68,9 +63,9 @@
                             "value": "AutomaticByPlatform"
                         },
                         {
-                            "condition": "[equals(tolower(parameters('operatingSystemTypes')), 'linux')]",
+                            "condition": "[equals(tolower(parameters('osType')), 'linux')]",
                             "operation": "addOrReplace",
-                            "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
+                            "field": "Microsoft.HybridCompute/machines/osProfile.linuxConfiguration.patchSettings.patchMode",
                             "value": "AutomaticByPlatform"
                         }
                     ]

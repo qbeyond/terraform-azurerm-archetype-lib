@@ -62,13 +62,13 @@
                     ],
                     "operations": [
                         {
-                            "condition": "[equals(tolower(parameters('osType')), 'windows')]",
+                            "condition": "[equals(tolower(parameters('operatingSystemTypes')), 'windows')]",
                             "operation": "addOrReplace",
                             "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
                             "value": "AutomaticByPlatform"
                         },
                         {
-                            "condition": "[equals(tolower(parameters('osType')), 'linux')]",
+                            "condition": "[equals(tolower(parameters('operatingSystemTypes')), 'linux')]",
                             "operation": "addOrReplace",
                             "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
                             "value": "AutomaticByPlatform"

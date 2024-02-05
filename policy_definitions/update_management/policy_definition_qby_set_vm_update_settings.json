@@ -48,7 +48,7 @@
                     ],
                     "operations": [
                         {
-                            "condition": "[equals(tolower(parameters('operatingSystemTypes')), 'windows')]",
+                            "condition": "[equals(tolower(parameters('osType')), 'windows')]",
                             "operation": "addOrReplace",
                             "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
                             "value": "AutomaticByPlatform"

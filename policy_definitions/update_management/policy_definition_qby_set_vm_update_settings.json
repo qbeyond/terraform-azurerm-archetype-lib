@@ -72,18 +72,6 @@
                             "operation": "addOrReplace",
                             "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
                             "value": "AutomaticByPlatform"
-                        },
-                        {
-                            "condition": "[equals(tolower(parameters('osType')), 'windows')]",
-                            "operation": "addOrReplace",
-                            "field": "Microsoft.Compute/virtualMachines/osProfile.linuxConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule",
-                            "value": "true"
-                        },
-                        {
-                            "condition": "[equals(tolower(parameters('osType')), 'linux')]",
-                            "operation": "addOrReplace",
-                            "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule",
-                            "value": "true"
                         }
                     ]
                 }

@@ -10,11 +10,11 @@
     "nonComplianceMessages": [
       {
         "message": "Due to an azure bug this policy always non-compliant at the moment. Please check in the azure update manager if the vm has an update schedule associated.",
-        "policyDefinitionReferenceId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates"
+        "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager"
       },
       {
         "message": "The tag 'severity group monthly' is either missing, empty or the syntax is incorrect.",
-        "policyDefinitionReferenceId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Severity-Group-Tag"
+        "policyDefinitionReferenceId": "Require a tag 'severity group monthly' exists and is not empty"
     }
     ],
     "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Deploy-Update-Mgmt",

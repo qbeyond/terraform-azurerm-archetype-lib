@@ -90,6 +90,7 @@
         "effect": "DeployIfNotExists",
         "details": {
           "type": "Microsoft.Maintenance/configurationAssignments",
+          "name": "[field(concat('tags[Severity Group Monthly]'))]",
           "ExistenceScope": "Subscription",
           "existenceCondition": {
             "allOf": [

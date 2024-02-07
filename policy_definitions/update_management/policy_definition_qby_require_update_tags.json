@@ -36,13 +36,13 @@
                 "allOf": [
                     {
                         "field": "type",
-                        "in": "[parameters(resourceTypes)]"
+                        "in": "[parameters('resourceTypes')]"
                     },
                     {
                         "anyOf": [
                             {
                                 "field": "Microsoft.HybridCompute/machines/osName",
-                                "in": "[parameters(osTypes)]"
+                                "in": "[parameters('osTypes')]"
                             },
                             {
                                 "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",

@@ -7,6 +7,10 @@
         "mode": "All",
         "displayName": "Deny Resources that are missing the severity group monthly tag.",
         "description": "This policy ensures the tag for severiy group monthly is set and the general syntag is correct.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Azure Update Manager"
+        },
         "parameters": {
             "osTypes": {
                 "type": "array",

@@ -133,7 +133,7 @@
             "Deploy-Windows-DomainJoin",
             "QBY-Deploy-VM-Backup",
             "QBY-Deploy-Updates",
-            "QBY-Require-Tag",
+            "QBY-Require-Severity-Group-Tag",
             "QBY-Set-Update-Settings"
         ],
         "policy_set_definitions": [

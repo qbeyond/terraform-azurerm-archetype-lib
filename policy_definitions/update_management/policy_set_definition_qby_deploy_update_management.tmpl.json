@@ -51,22 +51,8 @@
             },
             {
                 "policyDefinitionReferenceId": "Require a tag 'severity group monthly' exists and is not empty",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
-                "parameters": {
-                    "tagName": {
-                        "value": "Severity Group Monthly"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Require a tag 'update allowed' exists and is not empty",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
-                "parameters": {
-                    "tagName": {
-                        "value": "Update allowed"
-                    }
-                },
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Severity-Group-Tag",
+                "parameters": {},
                 "groupNames": []
             },
             {

@@ -54,8 +54,7 @@
       "resourceTypes": {
         "type": "array",
         "defaultValue": [
-          "microsoft.compute/virtualmachines",
-          "Microsoft.HybridCompute/machines"
+          "microsoft.compute/virtualmachines"
         ],
         "metadata": {
           "description": "ResourceTypes that get filtered for in the cinfiguration assignment."
@@ -67,11 +66,23 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.Compute/virtualMachines"
+            "in": "[parameters(resourceTypes)]"
           },
           {
             "field": "tags['Severity Group Monthly']",
             "exists": true
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.HybridCompute/machines/osName",
+                "in": "[parameters(osTypes)]"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                "in": "[parameters('osTypes')]"
+              }
+            ]
           }
         ]
       },

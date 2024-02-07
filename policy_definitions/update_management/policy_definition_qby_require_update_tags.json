@@ -1,18 +1,29 @@
 {
-    "name": "QBY-Require-Tag",
+    "name": "QBY-Require-Severity-Group-Tag",
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "properties": {
         "policyType": "Custom",
         "mode": "All",
-        "displayName": "Deny Resources that are missing a specified tag.",
-        "description": "This policy ensures tag for update management severity group exists and is not empty",
+        "displayName": "Deny Resources that are missing the severity group monthly tag.",
+        "description": "This policy ensures the tag for severiy group monthly is set and the general syntag is correct.",
         "parameters": {
-            "tagName": {
-                "type": "String",
+            "osTypes": {
+                "type": "array",
+                "defaultValue": [
+                    "Windows"
+                ],
                 "metadata": {
-                    "displayName": "Tag Name",
-                    "description": "Name of the tag, such as 'severity group monthly'"
+                    "description": "OS Types that get filtered for in the cinfiguration assignment."
+                }
+            },
+            "resourceTypes": {
+                "type": "array",
+                "defaultValue": [
+                    "microsoft.compute/virtualmachines"
+                ],
+                "metadata": {
+                    "description": "ResourceTypes that get filtered for in the cinfiguration assignment."
                 }
             }
         },
@@ -21,17 +32,31 @@
                 "allOf": [
                     {
                         "field": "type",
-                        "equals": "Microsoft.Compute/virtualMachines"
+                        "in": "[parameters(resourceTypes)]"
                     },
                     {
                         "anyOf": [
                             {
-                                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                                "field": "Microsoft.HybridCompute/machines/osName",
+                                "in": "[parameters(osTypes)]"
+                            },
+                            {
+                                "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                                "in": "[parameters('osTypes')]"
+                            }
+                        ]
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "field": "[concat('tags[Severity Group Monthly]')]",
                                 "exists": false
                             },
                             {
-                                "field": "[concat('tags[', parameters('tagName'), ']')]",
-                                "equals": ""
+                                "not": {
+                                    "value": "[length(split(field(concat('tags[Severity Group Monthly]')),'-'))]",
+                                    "equals": 6
+                                }
                             }
                         ]
                     }

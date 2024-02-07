@@ -41,19 +41,78 @@
                 ]
             },
             "then": {
-                "effect": "modify",
+                "effect": "DeployIfNotExists",
                 "details": {
                     "roleDefinitionIds": [
                         "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
                     ],
-                    "operations": [
-                        {
-                            "condition": "[equals(tolower(parameters('osType')), 'windows')]",
-                            "operation": "addOrReplace",
-                            "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
-                            "value": "AutomaticByPlatform"
+                    "type": "Microsoft.Compute/virtualMachines",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule",
+                                "equals": true
+                            },
+                            {
+                                "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
+                                "equals": "AutomaticByPlatform"
+                            }
+                        ]
+                    },
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "parameters": {
+                                "location": {
+                                    "value": "[field('location')]"
+                                },
+                                "machineName": {
+                                    "value": "[field('name')]"
+                                }
+                            },
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "location": {
+                                        "type": "string",
+                                        "metadata": {
+                                            "description": "Location of the maintenance resources."
+                                        }
+                                    },
+                                    "machineName": {
+                                        "type": "string",
+                                        "metadata": {
+                                            "description": "Name of the virtual machine"
+                                        }
+                                    }
+                                },
+                                "variables": {
+                                    "windowsOSProfile": {
+                                        "windowsConfiguration": {
+                                            "patchSettings": {
+                                                "patchMode": "AutomaticByPlatform",
+                                                "automaticByPlatformSettings": {
+                                                    "bypassPlatformSafetyChecksOnUserSchedule": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Compute/virtualMachines",
+                                        "apiVersion": "2023-03-01",
+                                        "name": "[parameters('machineName')]",
+                                        "location": "[parameters('location')]",
+                                        "properties": {
+                                            "osProfile": "[variables('windowsOSProfile')]"
+                                        }
+                                    }
+                                ]
+                            }
                         }
-                    ]
+                    }
                 }
             }
         }

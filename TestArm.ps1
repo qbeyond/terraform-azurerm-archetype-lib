@@ -1,3 +1,0 @@
-az deployment group create --resource-group "vm-cta-dev-01_group" --template-file "C:\Users\CTA\OneDrive - q.beyond AG\Dokumente\Git\terraform-azurerm-archetype-lib\Testtemppolicy.json" --parameters "C:\Users\CTA\OneDrive - q.beyond AG\Dokumente\Git\terraform-azurerm-archetype-lib\TestParameters.json"
-
-az deployment group validate --template-file "C:\Users\CTA\OneDrive - q.beyond AG\Dokumente\Git\terraform-azurerm-archetype-lib\Testtemppolicy.json"

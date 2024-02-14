@@ -11,9 +11,9 @@
             "Deploy-MDFC-OssDb",
             "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
-            "Deploy-VM-Monitoring",
             "Deploy-VMSS-Monitoring",
-            "Enforce-ACSB"
+            "Enforce-ACSB",
+            "QBY-Deploy-Tag-Structure"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",
@@ -135,6 +135,8 @@
             "QBY-Deploy-Updates",
             "QBY-Require-Severity-Group-Tag",
             "QBY-Set-Update-Settings"
+            "QBY-Deploy-Tags-To-RG",
+            "QBY-Deploy-LAW-Agent"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",
@@ -150,6 +152,7 @@
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
             "QBY-Deploy-Update-Mgmt"
+            "QBY-Deploy-Tag-Inheritance"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

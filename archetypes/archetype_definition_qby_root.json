@@ -148,7 +148,8 @@
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
-            "QBY-Deploy-Tag-Inheritance"
+            "QBY-Deploy-Tag-Inheritance",
+            "QBY-Deploy-VM-Monitoring"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

@@ -3,7 +3,7 @@
         "policy_assignments": [
             "QBY-Deploy-VM-Backup",
             "QBY-Deploy-DomainJoin",
-            "Deploy-VM-Monitoring",
+            "QBY-Deploy-VM-Monitoring",
             "QBY-Deploy-LAW-Agent"            
         ],
         "policy_definitions": [],

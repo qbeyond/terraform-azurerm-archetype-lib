@@ -39,6 +39,13 @@
                     "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
                 },
                 "defaultValue": []
+            },
+            "vmInsightsDcrId": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "VM Insigths DCR resource ID",
+                    "description": "Resource ID of the VM Insights DCR. This will be associated to every VM in scope."
+                }
             }
         },
         "policyDefinitions": [

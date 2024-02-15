@@ -195,6 +195,11 @@
                     }
                 }
             },
+            {
+                "policyDefinitionReferenceId": "Add system-assigned managed identity to enable Guest Configuration assignments on virtual machines with no identities",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3cf2ab00-13f1-4d0c-8971-2ac904541a7e",
+                "parameters": {}
+            },
             ${join(",", concat([for dcrId in linuxDCRs: jsonencode(
                 {
                     policyDefinitionReferenceId: "Configure Linux Machines to be associated with a Data Collection Rule ${regex("[^\\/]+$", dcrId)}",

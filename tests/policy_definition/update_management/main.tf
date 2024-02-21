@@ -12,9 +12,16 @@ locals {
   regex_pattern_id_to_name = "[\\w-]+$"
 }
 
+resource "random_pet" "deploy_maintenance_resources" {
+  keepers = {
+    policy_definition = jsonencode(local.policy_definition)
+  }
+  length = 1
+}
+
 resource "azurerm_policy_definition" "deploy_maintenance_resources" {
   # Mandatory resource attributes
-  name         = local.policy_definition.name
+  name         = "${local.policy_definition.name}-${random_pet.deploy_maintenance_resources.id}"
   policy_type  = "Custom"
   mode         = local.policy_definition.properties.mode
   display_name = local.policy_definition.properties.displayName

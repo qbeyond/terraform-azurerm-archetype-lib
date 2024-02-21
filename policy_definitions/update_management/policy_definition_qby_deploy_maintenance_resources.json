@@ -92,6 +92,7 @@
           "type": "Microsoft.Maintenance/configurationAssignments",
           "name": "[field(concat('tags[Severity Group Monthly]'))]",
           "ExistenceScope": "Subscription",
+          "evaluationDelay": "AfterProvisioning",
           "existenceCondition": {
             "allOf": [
               {

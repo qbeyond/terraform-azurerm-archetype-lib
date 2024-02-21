@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    azapi = {
+      source = "azure/azapi"
+    }
+  }
+}
+
 provider "azurerm" {
   features {}
 }
@@ -31,6 +39,9 @@ resource "azurerm_policy_definition" "deploy_maintenance_resources" {
   policy_rule = try(length(local.policy_definition.properties.policyRule) > 0, false) ? jsonencode(local.policy_definition.properties.policyRule) : null
   metadata    = try(length(local.policy_definition.properties.metadata) > 0, false) ? jsonencode(local.policy_definition.properties.metadata) : null
   parameters  = try(length(local.policy_definition.properties.parameters) > 0, false) ? jsonencode(local.policy_definition.properties.parameters) : null
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 
@@ -97,7 +108,7 @@ resource "azurerm_subnet" "this" {
 
 module "windows-vm" {
   source              = "qbeyond/windows-vm/azurerm"
-  version             = "2.0.0"
+  version             = "3.0.0"
   admin_password      = "Passwords1234!"
   resource_group_name = azurerm_resource_group.this.name
   virtual_machine_config = {
@@ -110,4 +121,12 @@ module "windows-vm" {
     os_disk_storage_type = "Standard_LRS"
   }
   subnet = azurerm_subnet.this
+}
+
+resource "azapi_resource_action" "evaluation" {
+  type        = "Microsoft.PolicyInsights/policyStates@2019-10-01"
+  action      = "triggerEvaluation"
+  method      = "POST"
+  resource_id = "${azurerm_resource_group.this.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
+  depends_on  = [azurerm_resource_group_policy_assignment.deploy_maintenance_resources]
 }

@@ -76,6 +76,10 @@ resource "azurerm_resource_group_policy_assignment" "deploy_maintenance_resource
   identity {
     type = "SystemAssigned"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Data source is needed, to generate role id for specific scope, to avoid changes outside of terraform

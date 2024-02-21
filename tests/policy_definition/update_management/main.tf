@@ -73,3 +73,34 @@ resource "azurerm_role_assignment" "this" {
   role_definition_id = each.value.id
   principal_id       = azurerm_resource_group_policy_assignment.deploy_maintenance_resources.identity[0].principal_id
 }
+
+resource "azurerm_virtual_network" "this" {
+  name                = "vnet-TestUpdateManagementPolicy-dev-01"
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
+  address_space       = ["10.0.0.0/24"]
+}
+
+resource "azurerm_subnet" "this" {
+  name                 = "subnet-TestUpdateManagementPolicy-dev-01"
+  resource_group_name  = azurerm_resource_group.this.name
+  virtual_network_name = azurerm_virtual_network.this.name
+  address_prefixes     = ["10.0.0.0/24"]
+}
+
+module "windows-vm" {
+  source              = "qbeyond/windows-vm/azurerm"
+  version             = "2.0.0"
+  admin_password      = "Passwords1234!"
+  resource_group_name = azurerm_resource_group.this.name
+  virtual_machine_config = {
+    hostname             = "CUSTAPP001"
+    location             = azurerm_resource_group.this.location
+    admin_username       = "local_admin"
+    size                 = "Standard_B1s"
+    os_sku               = "2022-Datacenter"
+    os_version           = "latest"
+    os_disk_storage_type = "Standard_LRS"
+  }
+  subnet = azurerm_subnet.this
+}

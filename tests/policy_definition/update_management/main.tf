@@ -134,6 +134,9 @@ resource "azapi_resource_action" "evaluation" {
   method      = "POST"
   resource_id = "${azurerm_resource_group.this.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
   depends_on  = [azurerm_resource_group_policy_assignment.deploy_maintenance_resources, module.windows-vm]
+  lifecycle {
+    replace_triggered_by = [azurerm_policy_definition.deploy_maintenance_resources]
+  }
 }
 
 output "evaluation_trigger_command" {

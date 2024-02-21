@@ -11,16 +11,13 @@
             "category": "Azure Update Manager"
         },
         "parameters": {
-            "osType": {
+            "osOffer": {
                 "type": "String",
                 "metadata": {
-                    "displayName": "OS type",
-                    "description": "OS type for the machines."
+                    "displayName": "osOffer",
+                    "description": "OS offer of azure virtual machines that get filtered for in the configuration assignment."
                 },
-                "allowedValues": [
-                    "Windows"
-                ],
-                "defaultValue": "Windows"
+                "defaultValue": "Windows*"
             }
         },
         "policyRule": {
@@ -35,8 +32,8 @@
                         "exists": true
                     },
                     {
-                        "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
-                        "equals": "[parameters('osType')]"
+                        "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.offer",
+                        "like": "[parameters('osOffer')]"
                     }
                 ]
             },

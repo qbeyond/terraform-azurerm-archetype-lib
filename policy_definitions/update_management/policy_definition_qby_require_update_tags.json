@@ -12,13 +12,21 @@
             "category": "Azure Update Manager"
         },
         "parameters": {
+            "osOffer": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "osOffer",
+                    "description": "OS offer of azure virtual machines that get filtered for in the configuration assignment."
+                },
+                "defaultValue": "Windows*"
+            },
             "osTypes": {
                 "type": "array",
                 "defaultValue": [
                     "Windows"
                 ],
                 "metadata": {
-                    "description": "OS Types that get filtered for in the cinfiguration assignment."
+                    "description": "OS Types of azure arc machines that get filtered for in the configuration assignment."
                 }
             },
             "resourceTypes": {
@@ -27,7 +35,7 @@
                     "microsoft.compute/virtualmachines"
                 ],
                 "metadata": {
-                    "description": "ResourceTypes that get filtered for in the cinfiguration assignment."
+                    "description": "ResourceTypes that get filtered for in the configuration assignment."
                 }
             }
         },
@@ -41,25 +49,41 @@
                     {
                         "anyOf": [
                             {
-                                "field": "Microsoft.HybridCompute/machines/osName",
-                                "in": "[parameters('osTypes')]"
+                                "allOf": [
+                                    {
+                                        "field": "type",
+                                        "equals": "Microsoft.HybridCompute/machines"
+                                    },
+                                    {
+                                        "field": "Microsoft.HybridCompute/machines/osName",
+                                        "in": "[parameters('osTypes')]"
+                                    }
+                                ]
                             },
                             {
-                                "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
-                                "in": "[parameters('osTypes')]"
+                                "allOf": [
+                                    {
+                                        "field": "type",
+                                        "equals": "Microsoft.Compute/virtualMachines"
+                                    },
+                                    {
+                                        "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.offer",
+                                        "like": "[parameters('osOffer')]"
+                                    }
+                                ]
                             }
                         ]
                     },
                     {
                         "anyOf": [
                             {
-                                "field": "[concat('tags[Severity Group Monthly]')]",
-                                "exists": false
+                                "exists": false,
+                                "field": "[concat('tags[Severity Group Monthly]')]"
                             },
                             {
                                 "not": {
-                                    "value": "[length(split(field(concat('tags[Severity Group Monthly]')),'-'))]",
-                                    "equals": 6
+                                    "equals": 6,
+                                    "value": "[length(split(field(concat('tags[Severity Group Monthly]')),'-'))]"
                                 }
                             }
                         ]

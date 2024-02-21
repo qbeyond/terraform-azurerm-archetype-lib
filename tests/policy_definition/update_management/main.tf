@@ -120,7 +120,8 @@ module "windows-vm" {
     os_version           = "latest"
     os_disk_storage_type = "Standard_LRS"
   }
-  subnet = azurerm_subnet.this
+  subnet         = azurerm_subnet.this
+  severity_group = "01-first-monday-2000-csu-reboot"
 }
 
 resource "azapi_resource_action" "evaluation" {

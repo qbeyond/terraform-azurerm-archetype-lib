@@ -131,3 +131,8 @@ resource "azapi_resource_action" "evaluation" {
   resource_id = "${azurerm_resource_group.this.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
   depends_on  = [azurerm_resource_group_policy_assignment.deploy_maintenance_resources]
 }
+
+output "evaluation_trigger_command" {
+  description = "Command to trigger a policy evaluation on the resource group manually. This is automatically done on changes of the policy assignment."
+  value       = "az policy state trigger-scan --resource-group ${azurerm_resource_group.this.name}"
+}

@@ -140,7 +140,22 @@ resource "azapi_resource_action" "evaluation" {
   }
 }
 
+//TODO: Add test to check if vm is compliant
+data "azapi_resource_action" "complaince_state" {
+  type                   = "Microsoft.PolicyInsights/policyStates@2019-10-01"
+  action                 = "queryResults"
+  method                 = "POST"
+  resource_id            = "${module.windows-vm.virtual_machine.id}/providers/Microsoft.PolicyInsights/policyStates/default"
+  response_export_values = ["*"]
+  depends_on             = [azapi_resource_action.evaluation]
+}
+
 output "evaluation_trigger_command" {
   description = "Command to trigger a policy evaluation on the resource group manually. This is automatically done on changes of the policy or VM."
   value       = "az policy state trigger-scan --resource-group ${azurerm_resource_group.this.name}"
+}
+
+output "debug" {
+  description = "values for debugging"
+  value       = data.azapi_resource_action.complaince_state
 }

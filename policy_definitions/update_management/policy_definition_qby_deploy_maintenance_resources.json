@@ -42,14 +42,6 @@
         "metadata": {},
         "defaultValue": "W. Europe Standard Time"
       },
-      "osOffer": {
-        "type": "String",
-        "metadata": {
-          "displayName": "osOffer",
-          "description": "OS offer of azure virtual machines that get filtered for in the configuration assignment."
-        },
-        "defaultValue": "Windows*"
-      },
       "osTypes": {
         "type": "array",
         "defaultValue": [
@@ -71,44 +63,8 @@
     },
     "policyRule": {
       "if": {
-        "allOf": [
-          {
-            "field": "type",
-            "in": "[parameters('resourceTypes')]"
-          },
-          {
-            "field": "tags['Severity Group Monthly']",
-            "exists": true
-          },
-          {
-            "anyOf": [
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.HybridCompute/machines"
-                  },
-                  {
-                    "field": "Microsoft.HybridCompute/machines/osName",
-                    "in": "[parameters('osTypes')]"
-                  }
-                ]
-              },
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.Compute/virtualMachines"
-                  },
-                  {
-                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.offer",
-                    "like": "[parameters('osOffer')]"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "field": "type",
+        "equals": "Microsoft.Compute/virtualMachines"
       },
       "then": {
         "effect": "DeployIfNotExists",

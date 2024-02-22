@@ -117,18 +117,17 @@ resource "azapi_resource_action" "evaluation" {
   }
 }
 
-//TODO: Add test to check if vm is compliant
-data "azapi_resource_action" "complaince_state" {
+data "azapi_resource_action" "compliance_state" {
   type                   = "Microsoft.PolicyInsights/policyStates@2019-10-01"
   action                 = "queryResults"
   method                 = "POST"
-  resource_id            = "${azurerm_windows_virtual_machine.before.id}/providers/Microsoft.PolicyInsights/policyStates/default"
+  resource_id            = "${azurerm_resource_group_policy_assignment.deploy_maintenance_resources.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
   response_export_values = ["*"]
   depends_on             = [azapi_resource_action.evaluation]
   lifecycle {
     postcondition {
-      condition     = true ? true : try(one([for result in jsondecode(self.output).value : result if result.policyAssignmentId == azurerm_resource_group_policy_assignment.deploy_maintenance_resources.id]).isCompliant, "NonExistent") == false
-      error_message = "The vm should be non compliant, because it already existed before the policy and therefore the resource weren't deployed."
+      condition     = one([for result in jsondecode(self.output).value : result if lower(result.resourceId) == lower(azurerm_windows_virtual_machine.before.id)]).isCompliant == false
+      error_message = "The vm deployed before should be noncompliant, because it already existed before the policy and therefore the resource weren't deployed."
     }
   }
 }

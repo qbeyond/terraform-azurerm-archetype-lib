@@ -1,10 +1,4 @@
-terraform {
-  required_providers {
-    azapi = {
-      source = "azure/azapi"
-    }
-  }
-}
+
 
 provider "azurerm" {
   features {}
@@ -81,6 +75,7 @@ resource "azurerm_resource_group_policy_assignment" "deploy_maintenance_resource
   lifecycle {
     create_before_destroy = true
   }
+  depends_on = [azurerm_windows_virtual_machine.before]
 }
 
 # Data source is needed, to generate role id for specific scope, to avoid changes outside of terraform
@@ -111,30 +106,12 @@ resource "azurerm_subnet" "this" {
   address_prefixes     = ["10.0.0.0/24"]
 }
 
-module "windows-vm" {
-  source              = "qbeyond/windows-vm/azurerm"
-  version             = "3.0.0"
-  admin_password      = "Passwords1234!"
-  resource_group_name = azurerm_resource_group.this.name
-  virtual_machine_config = {
-    hostname             = "CUSTAPP001"
-    location             = azurerm_resource_group.this.location
-    admin_username       = "local_admin"
-    size                 = "Standard_B1s"
-    os_sku               = "2022-Datacenter"
-    os_version           = "latest"
-    os_disk_storage_type = "Standard_LRS"
-  }
-  subnet         = azurerm_subnet.this
-  severity_group = "01-first-monday-2000-csu-reboot"
-}
-
 resource "azapi_resource_action" "evaluation" {
   type        = "Microsoft.PolicyInsights/policyStates@2019-10-01"
   action      = "triggerEvaluation"
   method      = "POST"
   resource_id = "${azurerm_resource_group.this.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
-  depends_on  = [azurerm_resource_group_policy_assignment.deploy_maintenance_resources, module.windows-vm]
+  depends_on  = [azurerm_resource_group_policy_assignment.deploy_maintenance_resources, azurerm_windows_virtual_machine.before]
   lifecycle {
     replace_triggered_by = [azurerm_policy_definition.deploy_maintenance_resources]
   }
@@ -145,7 +122,7 @@ data "azapi_resource_action" "complaince_state" {
   type                   = "Microsoft.PolicyInsights/policyStates@2019-10-01"
   action                 = "queryResults"
   method                 = "POST"
-  resource_id            = "${module.windows-vm.virtual_machine.id}/providers/Microsoft.PolicyInsights/policyStates/default"
+  resource_id            = "${azurerm_windows_virtual_machine.before.id}/providers/Microsoft.PolicyInsights/policyStates/default"
   response_export_values = ["*"]
   depends_on             = [azapi_resource_action.evaluation]
 }
@@ -153,9 +130,4 @@ data "azapi_resource_action" "complaince_state" {
 output "evaluation_trigger_command" {
   description = "Command to trigger a policy evaluation on the resource group manually. This is automatically done on changes of the policy or VM."
   value       = "az policy state trigger-scan --resource-group ${azurerm_resource_group.this.name}"
-}
-
-output "debug" {
-  description = "values for debugging"
-  value       = data.azapi_resource_action.complaince_state
 }

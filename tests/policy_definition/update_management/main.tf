@@ -82,12 +82,12 @@ resource "azurerm_resource_group_policy_assignment" "deploy_maintenance_resource
 data "azurerm_role_definition" "this" {
   for_each           = toset(local.role_definition_ids)
   role_definition_id = regex(local.regex_pattern_id_to_name, each.key)
-  scope              = azurerm_resource_group.this.id
+  scope              = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
 }
 
 resource "azurerm_role_assignment" "this" {
   for_each           = data.azurerm_role_definition.this
-  scope              = azurerm_resource_group.this.id
+  scope              = each.value.scope
   role_definition_id = each.value.id
   principal_id       = azurerm_resource_group_policy_assignment.deploy_maintenance_resources.identity[0].principal_id
 }

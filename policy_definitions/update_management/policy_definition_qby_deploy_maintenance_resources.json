@@ -69,18 +69,8 @@
       "then": {
         "effect": "DeployIfNotExists",
         "details": {
-          "type": "Microsoft.Maintenance/configurationAssignments",
-          "name": "[field(concat('tags[Severity Group Monthly]'))]",
-          "ExistenceScope": "Subscription",
           "evaluationDelay": "AfterProvisioning",
-          "existenceCondition": {
-            "allOf": [
-              {
-                "field": "name",
-                "equals": "[field(concat('tags[Severity Group Monthly]'))]"
-              }
-            ]
-          },
+          "type": "Microsoft.Compute/disks",
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
@@ -195,80 +185,7 @@
                   "rebootSetting": "[variables('rebootOptions')[variables('splitSeverityGroup')[5]]]",
                   "uniqueDeploymentName": "[concat('NestedDeploymentName-', uniqueString(deployment().name))]"
                 },
-                "resources": [
-                  {
-                    "type": "Microsoft.Resources/deployments",
-                    "apiVersion": "2019-10-01",
-                    "name": "[variables('uniqueDeploymentName')]",
-                    "subscriptionId": "[parameters('managementSubscriptionId')]",
-                    "resourceGroup": "[parameters('managementResourceGroup')]",
-                    "properties": {
-                      "mode": "Incremental",
-                      "template": {
-                        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                        "contentVersion": "1.0.0.0",
-                        "variables": {},
-                        "resources": [
-                          {
-                            "type": "Microsoft.Maintenance/maintenanceConfigurations",
-                            "apiVersion": "2023-04-01",
-                            "name": "[parameters('severityGroupName')]",
-                            "location": "[parameters('location')]",
-                            "properties": {
-                              "extensionProperties": {
-                                "InGuestPatchMode": "User"
-                              },
-                              "installPatches": {
-                                "rebootSetting": "[variables('rebootSetting')]",
-                                "windowsParameters": {
-                                  "classificationsToInclude": "[variables('updateClassification')]",
-                                  "excludeKbsRequiringReboot": "",
-                                  "kbNumbersToExclude": [],
-                                  "kbNumbersToInclude": []
-                                }
-                              },
-                              "maintenanceScope": "InGuestPatch",
-                              "maintenanceWindow": {
-                                "duration": "[parameters('duration')]",
-                                "recurEvery": "[variables('recurEvery')]",
-                                "startDateTime": "[variables('startDateTime')]",
-                                "timeZone": "[parameters('timeZone')]"
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "type": "Microsoft.Maintenance/configurationAssignments",
-                    "apiVersion": "2023-04-01",
-                    "name": "[parameters('severityGroupName')]",
-                    "dependsOn": [
-                      "[concat('Microsoft.Resources/deployments/',variables('uniqueDeploymentName'))]"
-                    ],
-                    "properties": {
-                      "filter": {
-                        "resourceTypes": "[parameters('resourceTypes')]",
-                        "locations": [],
-                        "osTypes": "[parameters('osTypes')]",
-                        "resourceGroups": [],
-                        "tagSettings": {
-                          "filterOperator": "All",
-                          "tags": {
-                            "Severity Group Monthly": [
-                              "[parameters('severityGroupName')]"
-                            ],
-                            "Update Allowed": [
-                              "yes"
-                            ]
-                          }
-                        }
-                      },
-                      "maintenanceConfigurationId": "[resourceId(subscription().subscriptionId, parameters('managementResourceGroup'), 'microsoft.maintenance/maintenanceconfigurations', parameters('severityGroupName'))]"
-                    }
-                  }
-                ]
+                "resources": []
               }
             }
           }

@@ -44,6 +44,7 @@ resource "azurerm_policy_definition" "deploy_maintenance_resources" {
   }
 }
 
+//TODO: Test in different Subscriptions instead of RGs
 
 resource "azurerm_resource_group" "this" {
   name     = "rg-TestUpdateManagementPolicy-dev-01"

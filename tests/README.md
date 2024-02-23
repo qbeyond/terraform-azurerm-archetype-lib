@@ -1,4 +1,6 @@
-# Test Update Management Policies
+# Tests
+
+Tests in this repository are automated using terraform test feature when possible. If not possible (or reasonable) tests are written as text.
 
 ## Policy Deploy Maintenance configuration & assignment
 
@@ -19,4 +21,4 @@ To test this policy, we should validate, that existing Vms are not compliant and
 13. validate that it is assigned to the correct maintenance configuration
 14. optionally: remediate first Vm & validate compliance and new resources
 
-The first 7 steps are automated by running `terraform apply`.
+The first 7 steps are automated by running `terraform test`.

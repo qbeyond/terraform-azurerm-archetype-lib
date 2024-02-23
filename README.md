@@ -1,4 +1,5 @@
 # Archetype Library
+
 [![GitHub tag](https://img.shields.io/github/tag/qbeyond/terraform-azurerm-archetype-lib.svg)](https://registry.terraform.io/modules/qbeyond/terraform-azurerm-archetype-lib/provider/latest)
 [![License](https://img.shields.io/github/license/qbeyond/terraform-azurerm-archetype-lib.svg)](https://github.com/qbeyond/terraform-azurerm-archetype-lib/blob/main/LICENSE)
 
@@ -9,6 +10,7 @@ Via this Module, named [archetype-lib](https://registry.terraform.io/modules/qbe
 That folder will contain the external and the q.beyond definitions and assignments. The planned usecase is to hand the output `merged_library` of this Module to the CAF-Module, as it can only handle one Folder as input containing definitions and assignments.
 
 ## Root Repository Structure
+
 - archetypes is a folder just containing archetype definitions: no subfolders, the name serves as description
 - The main categories used by archetypes: policy_definition, role_definitions
   - they each contain folders named by the corresponding topics of the policies and roles
@@ -24,6 +26,7 @@ That folder will contain the external and the q.beyond definitions and assignmen
 ## Examples
 
 ### Basic
+
 First, the given template is adding this Module as `archetype_lib`. The Path of the library that is supposed to be summarized with the q.beyond library is set as the value of `cutomer_lib`.
 The output ´file_names´ can be used to manualy check whether all files that are supposed to be included in the merged library are included, as it outputs the names of all files that were added.
 The output of `merged_library` is supposed to be the input for the [CAF-Module](https://registry.terraform.io/modules/Azure/caf-enterprise-scale/azurerm/latest) for the parameter named `archetype_lib`
@@ -44,7 +47,6 @@ output "merged_library" {
 
 ```
 
-
 ## Requirements
 
 | Name | Version |
@@ -56,6 +58,7 @@ output "merged_library" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_customer_lib"></a> [customer\_lib](#input\_customer\_lib) | Path to the customer libary folder containing definition files that are supposed to be used by the CAF-Module. This module picks all CAF compatible definitions from the given folder and its subdirectories. | `string` | n/a | yes |
+
 ## Outputs
 
 | Name | Description |
@@ -64,6 +67,7 @@ output "merged_library" {
 | <a name="output_merged_library"></a> [merged\_library](#output\_merged\_library) | Path to where the library containing both libraries can be found. This output can be given to the CAF-Module. |
 
 ## Resource types
+
 | Type | Used |
 |------|-------|
 | [local_file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | 1 |
@@ -74,7 +78,9 @@ output "merged_library" {
 No modules.
 
 ## Resources by Files
+
 ### main.tf
+
 | Name | Type |
 |------|------|
 | [local_file.copied_files](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
@@ -82,4 +88,4 @@ No modules.
 
 ## Contribution
 
-When you contribute to this repository, please make sure to run the tests in the `./tests` folder. If possible create a test.
+When you contribute to this repository, make sure that you check the [Tests](tests\README.md). Create or change tests as needed.

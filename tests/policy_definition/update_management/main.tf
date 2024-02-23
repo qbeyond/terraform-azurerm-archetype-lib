@@ -24,9 +24,6 @@ resource "azurerm_policy_definition" "deploy_maintenance_resources" {
   policy_rule = try(length(local.policy_definition.properties.policyRule) > 0, false) ? jsonencode(local.policy_definition.properties.policyRule) : null
   metadata    = try(length(local.policy_definition.properties.metadata) > 0, false) ? jsonencode(local.policy_definition.properties.metadata) : null
   parameters  = try(length(local.policy_definition.properties.parameters) > 0, false) ? jsonencode(local.policy_definition.properties.parameters) : null
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 //TODO: Test in different Subscriptions instead of RGs
@@ -61,10 +58,6 @@ resource "azurerm_subscription_policy_assignment" "deploy_maintenance_resources"
   })
   identity {
     type = "SystemAssigned"
-  }
-
-  lifecycle {
-    create_before_destroy = true
   }
   depends_on = [azurerm_windows_virtual_machine.before]
 }

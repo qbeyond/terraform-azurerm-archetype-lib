@@ -15,6 +15,8 @@ To test this policy, we should validate, that existing Vms are not compliant and
 9. Validate that the VM is compliant
 10. Validate that maintenance configuration `02-second-friday-2000-csu-reboot` exists in management resource group
 11. Validate that configuration assignment `02-second-friday-2000-csu-reboot` exists at subscription level
-12. optionally: remediate first Vm & validate compliance and new resources
+12. CHange tag of the VM to `02-second-friday-2000-csu-reboot`
+13. validate that it is assigned to the correct maintenance configuration
+14. optionally: remediate first Vm & validate compliance and new resources
 
 The first 7 steps are automated by running `terraform apply`.

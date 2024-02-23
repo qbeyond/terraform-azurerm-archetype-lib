@@ -34,7 +34,7 @@ resource "azurerm_windows_virtual_machine" "before" {
     version   = "latest"
   }
   tags = {
-    "Severity Group Monthly" = "01-first-monday-2000-csu-reboot"
+    "Severity Group Monthly" = "01-first-monday-1000-csu-reboot"
     "Update Allowed"         = "Yes"
   }
 }

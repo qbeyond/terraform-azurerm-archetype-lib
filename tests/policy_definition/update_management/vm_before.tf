@@ -53,7 +53,7 @@ data "azapi_resource_action" "compliance_state" {
 
 check "vm_before" {
   assert {
-    condition     = one([for result in jsondecode(data.azapi_resource_action.compliance_state.output).value : result if lower(result.resourceId) == lower(azurerm_windows_virtual_machine.before.id)]).isCompliant == false
+    condition     = local.vm_before_compliance == false
     error_message = "The vm deployed before the policy should be noncompliant, because no resource were deployed by the policy. This hints, that the resource are already there and your environment isnt clean."
   }
 }

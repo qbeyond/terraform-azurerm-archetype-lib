@@ -1,6 +1,6 @@
 output "compliance_vm_before" {
   description = "The compliance of the Vm deployed before the policy was assigned. Should be non compliant."
-  value       = one([for result in jsondecode(data.azapi_resource_action.compliance_state.output).value : result if lower(result.resourceId) == lower(azurerm_windows_virtual_machine.before.id)]).isCompliant
+  value       = local.vm_before_compliance
 }
 
 output "evaluation_trigger_command" {

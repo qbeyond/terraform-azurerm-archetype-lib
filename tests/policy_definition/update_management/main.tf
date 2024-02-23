@@ -5,13 +5,6 @@ provider "azurerm" {
 data "azurerm_client_config" "current" {
 }
 
-locals {
-  policy_definition_path   = "${path.module}/../../../policy_definitions/update_management/policy_definition_qby_deploy_maintenance_resources.json"
-  policy_definition        = jsondecode(file("${local.policy_definition_path}"))
-  role_definition_ids      = distinct(flatten([for definition in [local.policy_definition] : definition.properties.policyRule.then.details.roleDefinitionIds]))
-  regex_pattern_id_to_name = "[\\w-]+$"
-}
-
 resource "random_pet" "deploy_maintenance_resources" {
   keepers = {
     policy_definition = jsonencode(local.policy_definition)

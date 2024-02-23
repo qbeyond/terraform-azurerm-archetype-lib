@@ -34,7 +34,7 @@ resource "azurerm_resource_group" "this" {
 }
 
 resource "azurerm_resource_group" "management" {
-  name     = "rg-TestUpdateManagementPolicyManagement-dev-01"
+  name     = "rg-TestUpdateManagementPolicyManagement${random_pet.deploy_maintenance_resources.id}-dev-01"
   location = "westeurope"
 }
 
@@ -59,7 +59,7 @@ resource "azurerm_subscription_policy_assignment" "deploy_maintenance_resources"
   identity {
     type = "SystemAssigned"
   }
-  depends_on = [azurerm_windows_virtual_machine.before]
+  depends_on = [azurerm_windows_virtual_machine.before, azurerm_resource_group.management]
 }
 
 # Data source is needed, to generate role id for specific scope, to avoid changes outside of terraform

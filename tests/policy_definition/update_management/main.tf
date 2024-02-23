@@ -48,10 +48,10 @@ resource "azurerm_resource_group" "management" {
   location = "westeurope"
 }
 
-resource "azurerm_resource_group_policy_assignment" "deploy_maintenance_resources" {
+resource "azurerm_subscription_policy_assignment" "deploy_maintenance_resources" {
   name                 = azurerm_policy_definition.deploy_maintenance_resources.name
+  subscription_id      = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
   location             = azurerm_resource_group.this.location
-  resource_group_id    = azurerm_resource_group.this.id
   policy_definition_id = azurerm_policy_definition.deploy_maintenance_resources.id
   description          = azurerm_policy_definition.deploy_maintenance_resources.description
   display_name         = azurerm_policy_definition.deploy_maintenance_resources.display_name
@@ -87,7 +87,7 @@ resource "azurerm_role_assignment" "this" {
   for_each           = data.azurerm_role_definition.this
   scope              = each.value.scope
   role_definition_id = each.value.id
-  principal_id       = azurerm_resource_group_policy_assignment.deploy_maintenance_resources.identity[0].principal_id
+  principal_id       = azurerm_subscription_policy_assignment.deploy_maintenance_resources.identity[0].principal_id
 }
 
 resource "azurerm_virtual_network" "this" {
@@ -109,7 +109,7 @@ resource "azapi_resource_action" "evaluation" {
   action      = "triggerEvaluation"
   method      = "POST"
   resource_id = "${azurerm_resource_group.this.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
-  depends_on  = [azurerm_resource_group_policy_assignment.deploy_maintenance_resources, azurerm_windows_virtual_machine.before]
+  depends_on  = [azurerm_subscription_policy_assignment.deploy_maintenance_resources, azurerm_windows_virtual_machine.before]
   lifecycle {
     replace_triggered_by = [azurerm_policy_definition.deploy_maintenance_resources]
   }

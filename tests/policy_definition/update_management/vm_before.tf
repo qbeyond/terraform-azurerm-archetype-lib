@@ -46,7 +46,7 @@ data "azapi_resource_action" "compliance_state" {
   type                   = "Microsoft.PolicyInsights/policyStates@2019-10-01"
   action                 = "queryResults"
   method                 = "POST"
-  resource_id            = "${azurerm_resource_group_policy_assignment.deploy_maintenance_resources.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
+  resource_id            = "${azurerm_subscription_policy_assignment.deploy_maintenance_resources.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
   response_export_values = ["*"]
   depends_on             = [azapi_resource_action.evaluation]
 }

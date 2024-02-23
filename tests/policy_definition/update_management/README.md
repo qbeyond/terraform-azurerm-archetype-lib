@@ -7,9 +7,9 @@ To test this policy, we should validate, that existing Vms are not compliant and
 1. Define two Severity Groups (eg. `01-first-monday-1000-csu-reboot` & `02-second-friday-2000-csu-reboot`)
 2. Create resource group (`rg-TestUpdateManagementPolicyManagement-dev-01`) to contain the maintenance configurations
 3. Validate, that no maintenance configurations or configuration assignments for the chosen Severity groups exist
-4. Create resource group (`rg-TestUpdateManagementPolicy-dev-01`) to contain the test VMs and assign the policy to
+4. Create resource group (`rg-TestUpdateManagementPolicy-dev-01`) to contain the test VMs
 5. Create VM in new resource group with tag `Severity Group Monthly=01-first-monday-1000-csu-reboot`
-6. Assign the policy to resource group
+6. Assign the policy Subscription
 7. validate, that the VM is not compliant
 8. Create VM in new resource group with tag `Severity Group Monthly=02-second-friday-2000-csu-reboot`
 9. Validate that the VM is compliant

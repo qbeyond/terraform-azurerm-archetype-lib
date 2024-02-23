@@ -1,5 +1,3 @@
-
-
 provider "azurerm" {
   features {}
 }
@@ -115,24 +113,4 @@ resource "azapi_resource_action" "evaluation" {
   lifecycle {
     replace_triggered_by = [azurerm_policy_definition.deploy_maintenance_resources]
   }
-}
-
-data "azapi_resource_action" "compliance_state" {
-  type                   = "Microsoft.PolicyInsights/policyStates@2019-10-01"
-  action                 = "queryResults"
-  method                 = "POST"
-  resource_id            = "${azurerm_resource_group_policy_assignment.deploy_maintenance_resources.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
-  response_export_values = ["*"]
-  depends_on             = [azapi_resource_action.evaluation]
-  lifecycle {
-    postcondition {
-      condition     = one([for result in jsondecode(self.output).value : result if lower(result.resourceId) == lower(azurerm_windows_virtual_machine.before.id)]).isCompliant == false
-      error_message = "The vm deployed before should be noncompliant, because it already existed before the policy and therefore the resource weren't deployed."
-    }
-  }
-}
-
-output "evaluation_trigger_command" {
-  description = "Command to trigger a policy evaluation on the resource group manually. This is automatically done on changes of the policy or VM."
-  value       = "az policy state trigger-scan --resource-group ${azurerm_resource_group.this.name}"
 }

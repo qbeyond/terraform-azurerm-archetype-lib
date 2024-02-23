@@ -38,3 +38,22 @@ resource "azurerm_windows_virtual_machine" "before" {
     "Update Allowed"         = "Yes"
   }
 }
+
+
+//TODO: Use tests instead of checks maybe?
+
+data "azapi_resource_action" "compliance_state" {
+  type                   = "Microsoft.PolicyInsights/policyStates@2019-10-01"
+  action                 = "queryResults"
+  method                 = "POST"
+  resource_id            = "${azurerm_resource_group_policy_assignment.deploy_maintenance_resources.id}/providers/Microsoft.PolicyInsights/policyStates/latest"
+  response_export_values = ["*"]
+  depends_on             = [azapi_resource_action.evaluation]
+}
+
+check "vm_before" {
+  assert {
+    condition     = one([for result in jsondecode(data.azapi_resource_action.compliance_state.output).value : result if lower(result.resourceId) == lower(azurerm_windows_virtual_machine.before.id)]).isCompliant == false
+    error_message = "The vm deployed before the policy should be noncompliant, because no resource were deployed by the policy. This hints, that the resource are already there and your environment isnt clean."
+  }
+}

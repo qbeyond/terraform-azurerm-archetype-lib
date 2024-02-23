@@ -2,6 +2,15 @@ provider "azurerm" {
   features {}
 }
 
+provider "azurerm" {
+  alias = "management"
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+}
+
 data "azurerm_client_config" "current" {
 }
 
@@ -36,6 +45,7 @@ resource "azurerm_resource_group" "this" {
 resource "azurerm_resource_group" "management" {
   name     = "rg-TestUpdateManagementPolicyManagement${random_pet.deploy_maintenance_resources.id}-dev-01"
   location = "westeurope"
+  provider = azurerm.management
 }
 
 resource "azurerm_subscription_policy_assignment" "deploy_maintenance_resources" {

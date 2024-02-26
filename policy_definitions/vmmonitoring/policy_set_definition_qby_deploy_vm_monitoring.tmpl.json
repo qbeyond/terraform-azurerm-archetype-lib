@@ -126,43 +126,9 @@
                 "groupNames": []
             },
             {
-                "policyDefinitionReferenceId": "Deploy - Configure Dependency agent to be enabled on Windows virtual machine scale sets",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3be22e3b-d919-47aa-805e-8985dbeb0ad9",
-                "parameters": {
-                    "listOfImageIdToInclude": {
-                        "value": "[parameters('listOfWindowsImageIdToInclude')]"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Deploy - Configure Dependency agent to be enabled on Windows virtual machines",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1c210e94-a481-4beb-95fa-1571b434fb04",
-                "parameters": {
-                    "listOfImageIdToInclude": {
-                        "value": "[parameters('listOfWindowsImageIdToInclude')]"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Deploy Dependency agent for Linux virtual machine scale sets",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/765266ab-e40e-4c61-bcb2-5a5275d0b7c0",
-                "parameters": {
-                    "listOfImageIdToInclude": {
-                        "value": "[parameters('listOfLinuxImageIdToInclude')]"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Deploy Dependency agent for Linux virtual machines",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4da21710-ce6f-4e06-8cdb-5cc4c93ffbee",
-                "parameters": {
-                    "listOfImageIdToInclude": {
-                        "value": "[parameters('listOfLinuxImageIdToInclude')]"
-                    }
-                },
+                "policyDefinitionReferenceId": "Configure Dependency agent on Windows & Linux virtual machines and virtual machine scale sets",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-DependencyAgent",
+                "parameters": {},
                 "groupNames": []
             },
             {

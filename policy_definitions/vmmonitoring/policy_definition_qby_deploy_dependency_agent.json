@@ -14,14 +14,14 @@
          "osTypeArc": {
              "type": "String",
              "metadata": {
-                 "description": "A parameter to decide which Arc VMs should be included. Can be set to 'all', 'Linux', 'Windows' or 'none'."
+                 "description": "A parameter to decide which Arc VMs should be included. Can be set to 'All', 'Linux', 'Windows' or 'None'."
              },
-             "defaultValue": "all",
+             "defaultValue": "All",
              "allowedValues": [
-               "all",
+               "All",
                "Windows",
                "Linux",
-               "none"
+               "None"
            ]
          },
          "osOffers": {

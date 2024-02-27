@@ -10,7 +10,30 @@
          "version": "3.1.0",
          "category": "Monitoring"
       },
-      "parameters": {},
+      "parameters": {
+         "osTypeArc": {
+             "type": "String",
+             "metadata": {
+                 "description": "A parameter to decide which Arc VMs should be included. Can be set to 'all', 'Linux', 'Windows' or 'none'."
+             },
+             "defaultValue": "all",
+             "allowedValues": [
+               "all",
+               "Windows",
+               "Linux",
+               "none"
+           ]
+         },
+         "osOffers": {
+             "type": "Array",
+             "metadata": {
+                 "description": "A parameter to decide which OS offers should be included. Can contain wild cards. Use an empty array to exclude VMs and scale sets."
+             },
+             "defaultValue": [
+               "*"
+             ]
+         }
+     },
       "policyRule": {
          "if": {
             "anyOf": [
@@ -34,11 +57,11 @@
                "existenceCondition": {
                   "allOf": [
                      {
-                        "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
-                        "equals": "DependencyAgentWindows"
+                        "field": "[concat(field('type'), '/extensions/type')]",
+                        "like": "DependencyAgent*"
                      },
                      {
-                        "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/publisher",
+                        "field": "[concat(field('type'), '/extensions/publisher')]",
                         "equals": "Microsoft.Azure.Monitoring.DependencyAgent"
                      }
                   ]
@@ -101,7 +124,7 @@
                            "value": "[field('type')]"
                         },
                         "platform": {
-                           "value": "[if(equals(toLower(field('type')), 'microsoft.compute/virtualmachines'), 'storageProfile.osDisk.osType', 'properties.virtualMachineProfile.storageProfile.osDisk.osType')]"
+                           "value": "[if(equals(field('type'), 'microsoft.compute/virtualmachines'), 'storageProfile.osDisk.osType', 'properties.virtualMachineProfile.storageProfile.osDisk.osType')]"
                         }
                      }
                   }

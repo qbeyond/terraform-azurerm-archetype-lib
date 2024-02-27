@@ -1,0 +1,39 @@
+{
+    "name": "QBY-Define-Require-Tag",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "Define require tags to resources",
+      "description": "Require resources and resource groups to have conceptual required tags.",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Tags"
+      },
+      "parameters": {},
+      "policyDefinitions": ${jsonencode(flatten([for tag_name in tags: [
+        {
+            "policyDefinitionReferenceId": "Require a tag on resource groups",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/96670d01-0a4d-4649-9c89-2d3abc0a5025",
+            "parameters": {
+                "tagName": {
+                    "value": "${tag_name}"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "Enforces existence of a tag. Does not apply to resource groups.",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99",
+            "parameters": {
+                "tagName": {
+                    "value": "${tag_name}"
+                }
+            },
+            "groupNames": []
+        }
+      ]]))},
+      "policyDefinitionGroups": null
+    }
+}

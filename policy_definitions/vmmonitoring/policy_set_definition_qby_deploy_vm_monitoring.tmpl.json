@@ -114,19 +114,7 @@
                 "groupNames": []
             },
             {
-                "policyDefinitionReferenceId": "Configure Dependency agent on Azure Arc enabled Linux servers",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/deacecc0-9f84-44d2-bb82-46f32d766d43",
-                "parameters": {},
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Configure Dependency agent on Azure Arc enabled Windows servers",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/91cb9edd-cd92-4d2f-b2f2-bdd8d065a3d4",
-                "parameters": {},
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Configure Dependency agent on Windows & Linux virtual machines and virtual machine scale sets",
+                "policyDefinitionReferenceId": "Configure Dependency agent on Windows & Linux virtual machines, virtual machine scale sets and Arc machines",
                 "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-DependencyAgent",
                 "parameters": {},
                 "groupNames": []

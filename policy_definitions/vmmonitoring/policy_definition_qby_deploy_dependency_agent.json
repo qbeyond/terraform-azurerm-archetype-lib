@@ -7,65 +7,156 @@
       "mode": "Indexed",
       "description": "Deploy Dependency agent for Windows and Linux virtual machine scale sets and virtual machines if the agent is not installed.",
       "metadata": {
-         "version": "3.1.0",
+         "version": "1.0.0",
          "category": "Monitoring"
       },
       "parameters": {
          "osTypeArc": {
-             "type": "String",
-             "metadata": {
-                 "description": "A parameter to decide which Arc VMs should be included. Can be set to 'All', 'Linux', 'Windows' or 'None'."
-             },
-             "defaultValue": "All",
-             "allowedValues": [
+            "type": "String",
+            "metadata": {
+               "displayName": "OS type Arc machines included",
+               "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
+            },
+            "allowedValues": [
                "All",
                "Windows",
                "Linux",
                "None"
-           ]
+            ],
+            "defaultValue": "All"
          },
          "osOffers": {
-             "type": "Array",
-             "metadata": {
-                 "description": "A parameter to decide which OS offers should be included. Can contain wild cards. Use an empty array to exclude VMs and scale sets."
-             },
-             "defaultValue": [
+            "type": "Array",
+            "metadata": {
+               "displayName": "OS offers included",
+               "description": "Include only offers of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude VMs and scale sets."
+            },
+            "defaultValue": [
                "*"
-             ]
+            ]
+         },
+         "osSKUs": {
+            "type": "Array",
+            "metadata": {
+               "displayName": "OS SKUs included",
+               "description": "Include only OS SKUs of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude VMs and scale sets."
+            },
+            "defaultValue": [
+               "*"
+            ]
          }
-     },
+      },
       "policyRule": {
          "if": {
             "anyOf": [
                {
-                  "field": "type",
-                  "equals": "Microsoft.Compute/virtualMachineScaleSets"
+                  "allOf": [
+                     {
+                        "field": "type",
+                        "equals": "Microsoft.HybridCompute/machines"
+                     },
+                     {
+                        "anyOf": [
+                           {
+                              "field": "Microsoft.HybridCompute/imageOffer",
+                              "like": "[concat(parameters('osTypeArc'), '*')]"
+                           },
+                           {
+                              "value": "[parameters('osTypeArc')]",
+                              "equals": "All"
+                           }
+                        ]
+                     }
+                  ]
                },
                {
-                  "field": "type",
-                  "equals": "Microsoft.Compute/virtualMachines"
+                  "allOf": [
+                     {
+                        "anyOf": [
+                           {
+                              "field": "type",
+                              "equals": "Microsoft.Compute/virtualMachines"
+                           },
+                           {
+                              "field": "type",
+                              "equals": "Microsoft.Compute/virtualMachineScaleSets"
+                           }
+                        ]
+                     },
+                     {
+                        "count": {
+                           "name": "pattern",
+                           "value": "[parameters('osOffers')]",
+                           "where": {
+                              "field": "Microsoft.Compute/ImageOffer",
+                              "like": "[current('pattern')]"
+                           }
+                        },
+                        "greater": 0
+                     },
+                     {
+                        "count": {
+                           "name": "pattern",
+                           "value": "[parameters('osSKUs')]",
+                           "where": {
+                              "field": "Microsoft.Compute/ImageSKU",
+                              "like": "[current('pattern')]"
+                           }
+                        },
+                        "greater": 0
+                     }
+                  ]
                }
             ]
          },
          "then": {
             "effect": "DeployIfNotExists",
             "details": {
-               "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
-               "roleDefinitionIds": [
-                  "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
-               ],
+               "type": "[concat(field('type'), '/extensions')]",
+               "evaluationDelay": "AfterProvisioningSuccess",
                "existenceCondition": {
                   "allOf": [
                      {
-                        "field": "[concat(field('type'), '/extensions/type')]",
-                        "like": "DependencyAgent*"
+                        "anyOf": [
+                           {
+                              "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                              "like": "DependencyAgent*"
+                           },
+                           {
+                              "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                              "exists": false
+                           }
+                        ]
                      },
                      {
-                        "field": "[concat(field('type'), '/extensions/publisher')]",
-                        "equals": "Microsoft.Azure.Monitoring.DependencyAgent"
+                        "anyOf": [
+                           {
+                              "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+                              "like": "DependencyAgent*"
+                           },
+                           {
+                              "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+                              "exists": false
+                           }
+                        ]
+                     },
+                     {
+                        "anyOf": [
+                           {
+                              "field": "Microsoft.HybridCompute/machines/extensions/type",
+                              "like": "DependencyAgent*"
+                           },
+                           {
+                              "field": "Microsoft.HybridCompute/machines/extensions/type",
+                              "exists": false
+                           }
+                        ]
                      }
                   ]
                },
+               "roleDefinitionIds": [
+                  "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+               ],
                "deployment": {
                   "properties": {
                      "mode": "incremental",
@@ -94,7 +185,34 @@
                         },
                         "resources": [
                            {
-                              "type": "[concat(parameters('resourceType'), '/extensions']",
+                              "type": "Microsoft.Compute/virtualMachines/extensions",
+                              "condition": "[equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachines')]",
+                              "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                              "apiVersion": "2021-04-01",
+                              "location": "[parameters('location')]",
+                              "properties": {
+                                 "publisher": "[variables('vmExtensionPublisher')]",
+                                 "type": "[variables('vmExtensionType')]",
+                                 "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
+                                 "autoUpgradeMinorVersion": true
+                              }
+                           },
+                           {
+                              "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+                              "condition": "[equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachineScaleSets')]",
+                              "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                              "apiVersion": "2021-04-01",
+                              "location": "[parameters('location')]",
+                              "properties": {
+                                 "publisher": "[variables('vmExtensionPublisher')]",
+                                 "type": "[variables('vmExtensionType')]",
+                                 "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
+                                 "autoUpgradeMinorVersion": true
+                              }
+                           },
+                           {
+                              "type": "Microsoft.HybridCompute/machines/extensions",
+                              "condition": "[equals(parameters('resourceType'), 'Microsoft.HybridCompute/machines')]",
                               "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
                               "apiVersion": "2021-04-01",
                               "location": "[parameters('location')]",
@@ -124,7 +242,7 @@
                            "value": "[field('type')]"
                         },
                         "platform": {
-                           "value": "[if(equals(field('type'), 'microsoft.compute/virtualmachines'), 'storageProfile.osDisk.osType', 'properties.virtualMachineProfile.storageProfile.osDisk.osType')]"
+                           "value": "[if(or(contains(field('Microsoft.Compute/ImageOffer'), 'Windows'), equals(field('Microsoft.HybridCompute/machines/osName'), 'windows')), 'Windows', 'Linux')]"
                         }
                      }
                   }

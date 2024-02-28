@@ -10,7 +10,7 @@ When you contribute to this repository, make sure that you check the [Tests](tes
 
 ## Writing Policies
 
-When writing policies, include an `Effect` parameter.
+When writing policies, include an `Effect` parameter to allow the user to choose the effect as needed without the need for another policy definition.
 
 ```json
 //...

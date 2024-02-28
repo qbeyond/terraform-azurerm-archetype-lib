@@ -1,5 +1,5 @@
 {
-    "name": "QBY-Define-Require-Tag",
+    "name": "QBY-Define-Require-Tags",
     "type": "Microsoft.Authorization/policySetDefinitions",
     "apiVersion": "2021-06-01",
     "scope": null,

@@ -17,10 +17,10 @@ When writing policies, include an `Effect` parameter.
 "parameters": {
     "effect": {
         "type": "string",
-        "defaultValue": "Deny",
+        "defaultValue": "Deny", //or DeployIfNotExists
         "allowedValues": [
-            "Audit",
-            "Deny",
+            "Audit", // or AuditIfNotExists
+            "Deny", // or DeployIfNotExists
             "Disabled"
         ],
         "metadata": {

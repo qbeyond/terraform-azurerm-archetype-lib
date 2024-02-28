@@ -64,11 +64,21 @@ A policy applying to VMs, Scale Sets or Arc machines should target Linux & Windo
              "type": "Array",
              "metadata": {
                 "displayName": "OS offers included",
-                 "description": "Include only offers of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude VMs and scale sets."
+                 "description": "Include only offers of Azure VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
              },
              "defaultValue": [
                "*"
              ]
+         },
+        "osSKUs": {
+            "type": "Array",
+            "metadata": {
+               "displayName": "OS SKUs included",
+               "description": "Include only OS SKUs of Azure VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+            },
+            "defaultValue": [
+               "*"
+            ]
          }
      }
 ```

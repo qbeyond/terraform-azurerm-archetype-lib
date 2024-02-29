@@ -13,7 +13,8 @@
             "Deploy-Resource-Diag",
             "Deploy-VMSS-Monitoring",
             "Enforce-ACSB",
-            "QBY-Deploy-Tag-Structure"
+            "QBY-Deploy-Tag-Structure",
+            "QBY-Require-Tags"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",

@@ -5,7 +5,7 @@
             "QBY-Deploy-DomainJoin",
             "Deploy-VM-Monitoring",
             "QBY-Deploy-LAW-Agent",
-            "QBY-Deploy-Require-Tags"
+            "QBY-Require-Tags"
         ],
         "policy_definitions": [],
         "policy_set_definitions": [],

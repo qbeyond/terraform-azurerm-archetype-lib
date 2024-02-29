@@ -14,7 +14,7 @@
         },
         {
           "message": "The resource has not required tag",
-          "policyDefinitionReferenceId": "${tag_name}-Resources",
+          "policyDefinitionReferenceId": "${tag_name}-Resources"
         }
       ],
       "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Require-Tags",

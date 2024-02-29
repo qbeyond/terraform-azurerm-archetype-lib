@@ -3,7 +3,7 @@
   "type": "Microsoft.Authorization/policyAssignments",
   "apiVersion": "2019-09-01",
   "properties": {
-    "description": "Deploys AMA agent and dependency agent to linux and windows VMs. ASsociates VMs to default data collection rules.",
+    "description": "Deploys azure monitor agent and dependency agent to linux and windows VMs, VMSS and Arc machines. Associates machines to all default data collection rules.",
     "displayName": "QBY-Deploy-VM-Monitoring",
     "notScopes": [],
     "parameters": {

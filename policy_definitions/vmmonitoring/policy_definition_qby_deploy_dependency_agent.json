@@ -49,13 +49,13 @@
             "type": "String",
             "defaultValue": "DeployIfNotExists",
             "allowedValues": [
-               "Audit",
-               "Deny",
+               "DeployIfNotExists",
+               "AuditIfNotExists",
                "Disabled"
             ],
             "metadata": {
                "displayName": "Effect",
-               "description": "The effect determines what happens when the policy rule is evaluated to match"
+               "description": "The effect determines what happens when the policy rule is evaluated to match."
             }
          }
       },
@@ -128,42 +128,18 @@
                "type": "[concat(field('type'), '/extensions')]",
                "evaluationDelay": "AfterProvisioningSuccess",
                "existenceCondition": {
-                  "allOf": [
+                  "anyOf": [
                      {
-                        "anyOf": [
-                           {
-                              "field": "Microsoft.Compute/virtualMachines/extensions/type",
-                              "like": "DependencyAgent*"
-                           },
-                           {
-                              "field": "Microsoft.Compute/virtualMachines/extensions/type",
-                              "exists": false
-                           }
-                        ]
+                        "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                        "like": "DependencyAgent*"
                      },
                      {
-                        "anyOf": [
-                           {
-                              "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
-                              "like": "DependencyAgent*"
-                           },
-                           {
-                              "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
-                              "exists": false
-                           }
-                        ]
+                        "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+                        "like": "DependencyAgent*"
                      },
                      {
-                        "anyOf": [
-                           {
-                              "field": "Microsoft.HybridCompute/machines/extensions/type",
-                              "like": "DependencyAgent*"
-                           },
-                           {
-                              "field": "Microsoft.HybridCompute/machines/extensions/type",
-                              "exists": false
-                           }
-                        ]
+                        "field": "Microsoft.HybridCompute/machines/extensions/type",
+                        "like": "DependencyAgent*"
                      }
                   ]
                },

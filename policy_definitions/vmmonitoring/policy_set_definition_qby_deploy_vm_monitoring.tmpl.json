@@ -16,7 +16,7 @@
                 "type": "Boolean",
                 "metadata": {
                     "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
-                    "description": "If set to true, the policy will apply only to machines with supported operating systems. Otherwise, the policy will apply to all machines in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+                    "description": "If set to true, the policy will apply only to machines with supported operating systems. Otherwise, the policy will apply to all machines in the assignment scope. This parameter only applies only to AMA deployment policies (VMs, VMSS, Arc). For supported operating systems, see https://aka.ms/AMAOverview."
                 },
                 "allowedValues": [
                     true,
@@ -28,7 +28,7 @@
                 "type": "Array",
                 "metadata": {
                     "displayName": "Additional Linux Virtual Machine Images",
-                    "description": "List of virtual machine images that have supported Linux OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+                    "description": "List of virtual machine images that have supported Linux OS to add to scope. This parameter only applies to AMA deployment policies (VMs, VMSS) and DCR association policies. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
                 },
                 "defaultValue": []
             },
@@ -36,7 +36,7 @@
                 "type": "Array",
                 "metadata": {
                     "displayName": "Additional Windows Virtual Machine Images",
-                    "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+                    "description": "List of virtual machine images that have supported Windows OS to add to scope. This parameter only applies to AMA deployment policies (VMs, VMSS) and DCR association policies. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
                 },
                 "defaultValue": []
             },
@@ -44,14 +44,14 @@
                 "type": "String",
                 "metadata": {
                     "displayName": "VM Insigths DCR resource ID",
-                    "description": "Resource ID of the VM Insights DCR. This will be associated to every VM in scope."
+                    "description": "Resource ID of the VM Insights DCR. This will be associated to every VM in scope that matches the other filters."
                 }
             },
             "osTypeArc": {
                 "type": "String",
                 "metadata": {
                     "displayName": "OS type Arc machines included",
-                    "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine. Parameter is only used by the QBY-Deploy-DependencyAgent Policy."
+                    "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine. This parameter only applies to the QBY-Deploy-DependencyAgent policy."
                 },
                 "allowedValues": [
                     "All",
@@ -65,7 +65,7 @@
                 "type": "Array",
                 "metadata": {
                     "displayName": "OS offers included",
-                    "description": "Include only offers of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude VMs and scale sets. Parameter is only used by the QBY-Deploy-DependencyAgent Policy."
+                    "description": "Include only offers of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude VMs and scale sets. This parameter only applies to the QBY-Deploy-DependencyAgent policy."
                 },
                 "defaultValue": [
                     "*"
@@ -75,7 +75,7 @@
                 "type": "Array",
                 "metadata": {
                     "displayName": "OS SKUs included",
-                    "description": "Include only OS SKUs of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude VMs and scale sets. Parameter is only used by the QBY-Deploy-DependencyAgent Policy."
+                    "description": "Include only OS SKUs of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude VMs and scale sets. This parameter only applies to the QBY-Deploy-DependencyAgent policy."
                 },
                 "defaultValue": [
                     "*"
@@ -85,8 +85,8 @@
                 "type": "String",
                 "defaultValue": "DeployIfNotExists",
                 "allowedValues": [
-                    "Audit",
-                    "Deny",
+                    "AuditIfNotExist",
+                    "DeployIfNotExists",
                     "Disabled"
                 ],
                 "metadata": {
@@ -254,8 +254,8 @@
                         resourceType: {
                             value: "Microsoft.Insights/dataCollectionRules"
                         },
-                        "effect": {
-                            "value": "[parameters('effect')]"
+                        effect: {
+                            value: "[parameters('effect')]"
                         }
                     }
                 }    
@@ -274,8 +274,8 @@
                         resourceType: {
                             value: "Microsoft.Insights/dataCollectionRules"
                         },
-                        "effect": {
-                            "value": "[parameters('effect')]"
+                        effect: {
+                            value: "[parameters('effect')]"
                         }
                     }
                 }

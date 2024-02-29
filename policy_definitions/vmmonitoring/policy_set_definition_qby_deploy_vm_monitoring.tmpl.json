@@ -199,45 +199,40 @@
             "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3cf2ab00-13f1-4d0c-8971-2ac904541a7e",
             "parameters": {}
         },
-            ${join(",", concat([for dcrId in linuxDCRs: jsonencode(
-                {
-                    policyDefinitionReferenceId: "Configure Linux Machines to be associated with a Data Collection Rule ${regex("[^\\/
-                    ]+$", dcrId)}",
-                    policyDefinitionId: "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
-                    parameters: {
-                        listOfLinuxImageIdToInclude: {
-                            value: "[parameters('listOfLinuxImageIdToInclude')]"
-                        },
-                        dcrResourceId: {
-                            value: "${dcrId}"
-                        },
-                        resourceType: {
-                            value: "Microsoft.Insights/dataCollectionRules"
-                        }
-                    }
-                }    
-            )
-            ],
-            [for dcrId in windowsDCRs: jsonencode(
-                {
-                    policyDefinitionReferenceId: "Configure Windows Machines to be associated with a Data Collection Rule ${regex("[^\\/
-                    ]+$", dcrId)}",
-                    policyDefinitionId: "/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c",
-                    parameters: {
-                        listOfWindowsImageIdToInclude: {
-                            value: "[parameters('listOfWindowsImageIdToInclude')]"
-                        },
-                        dcrResourceId: {
-                            value: "${dcrId}"
-                        },
-                        resourceType: {
-                            value: "Microsoft.Insights/dataCollectionRules"
-                        }
+        ${join(",", concat([for dcrId in linuxDCRs: jsonencode(
+            {
+                policyDefinitionReferenceId: "Configure Linux Machines to be associated with a Data Collection Rule ${regex("[^\\/]+$", dcrId)}",
+                policyDefinitionId: "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
+                parameters: {
+                    listOfLinuxImageIdToInclude: {
+                        value: "[parameters('listOfLinuxImageIdToInclude')]"
+                    },
+                    dcrResourceId: {
+                        value: "${dcrId}"
+                    },
+                    resourceType: {
+                        value: "Microsoft.Insights/dataCollectionRules"
                     }
                 }
-            )
-            ]))
-        }
+            }    
+        )],
+        [for dcrId in windowsDCRs: jsonencode(
+            {
+                policyDefinitionReferenceId: "Configure Windows Machines to be associated with a Data Collection Rule ${regex("[^\\/]+$", dcrId)}",
+                policyDefinitionId: "/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c",
+                parameters: {
+                    listOfWindowsImageIdToInclude: {
+                        value: "[parameters('listOfWindowsImageIdToInclude')]"
+                    },
+                    dcrResourceId: {
+                        value: "${dcrId}"
+                    },
+                    resourceType: {
+                        value: "Microsoft.Insights/dataCollectionRules"
+                    }
+                }
+            }
+        )]))}
     ],
     "policyDefinitionGroups": null
 }

@@ -81,159 +81,158 @@
                     "*"
                 ]
             }
-        }
-    },
-    "policyDefinitions": [
-        {
-            "policyDefinitionReferenceId": "Configure Windows Arc-enabled machines to run Azure Monitor Agent",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/94f686d6-9a24-4e19-91f1-de937dc171a4",
-            "parameters": {},
-            "groupNames": []
         },
-        {
-            "policyDefinitionReferenceId": "Configure Windows virtual machine scale sets to run Azure Monitor Agent using system-assigned managed identity",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4efbd9d8-6bc6-45f6-9be2-7fe9dd5d89ff",
-            "parameters": {
-                "scopeToSupportedImages": {
-                    "value": "[parameters('scopeToSupportedImages')]"
-                },
-                "listOfWindowsImageIdToInclude": {
-                    "value": "[parameters('listOfWindowsImageIdToInclude')]"
-                }
-            },
-            "groupNames": []
-        },
-        {
-            "policyDefinitionReferenceId": "Configure Windows virtual machines to run Azure Monitor Agent using system-assigned managed identity",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e",
-            "parameters": {
-                "scopeToSupportedImages": {
-                    "value": "[parameters('scopeToSupportedImages')]"
-                },
-                "listOfWindowsImageIdToInclude": {
-                    "value": "[parameters('listOfWindowsImageIdToInclude')]"
-                }
-            },
-            "groupNames": []
-        },
-        {
-            "policyDefinitionReferenceId": "Configure Linux Arc-enabled machines to run Azure Monitor Agent",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/845857af-0333-4c5d-bbbc-6076697da122",
-            "parameters": {},
-            "groupNames": []
-        },
-        {
-            "policyDefinitionReferenceId": "Configure Linux virtual machine scale sets to run Azure Monitor Agent with system-assigned managed identity-based authentication",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/56a3e4f8-649b-4fac-887e-5564d11e8d3a",
-            "parameters": {
-                "scopeToSupportedImages": {
-                    "value": "[parameters('scopeToSupportedImages')]"
-                },
-                "listOfLinuxImageIdToInclude": {
-                    "value": "[parameters('listOfLinuxImageIdToInclude')]"
-                }
-            },
-            "groupNames": []
-        },
-        {
-            "policyDefinitionReferenceId": "Configure Linux virtual machines to run Azure Monitor Agent with system-assigned managed identity-based authentication",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4034bc6-ae50-406d-bf76-50f4ee5a7811",
-            "parameters": {
-                "scopeToSupportedImages": {
-                    "value": "[parameters('scopeToSupportedImages')]"
-                },
-                "listOfLinuxImageIdToInclude": {
-                    "value": "[parameters('listOfLinuxImageIdToInclude')]"
-                }
-            },
-            "groupNames": []
-        },
-        {
-            "policyDefinitionReferenceId": "Configure Dependency agent on Windows & Linux virtual machines, virtual machine scale sets and Arc machines",
-            "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-DependencyAgent",
-            "parameters": {
-                "osTypeArc": {
-                    "value": "[parameters('osTypeArc')]"
-                },
-                "osOffers": {
-                    "value": "[parameters('osOffers')]"
-                },
-                "osSKUs": {
-                    "value": "[parameters('osSKUs')]"
-                }
-            },
-            "groupNames": []
-        },
-        {
-            "policyDefinitionReferenceId": "Configure Linux Machines to be associated with the VMInsights Data Collection Rule",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
-            "parameters": {
-                "listOfLinuxImageIdToInclude": {
-                    "value": "[parameters('listOfLinuxImageIdToInclude')]"
-                },
-                "dcrResourceId": {
-                    "value": "[parameters('vmInsightsDcrId')]"
-                },
-                "resourceType": {
-                    "value": "Microsoft.Insights/dataCollectionRules"
-                }
-            }
-        },
-        {
-            "policyDefinitionReferenceId": "Configure Windows Machines to be associated with the VMInsights Data Collection Rule",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c",
-            "parameters": {
-                "listOfWindowsImageIdToInclude": {
-                    "value": "[parameters('listOfWindowsImageIdToInclude')]"
-                },
-                "dcrResourceId": {
-                    "value": "[parameters('vmInsightsDcrId')]"
-                },
-                "resourceType": {
-                    "value": "Microsoft.Insights/dataCollectionRules"
-                }
-            }
-        },
-        {
-            "policyDefinitionReferenceId": "Add system-assigned managed identity to enable Guest Configuration assignments on virtual machines with no identities",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3cf2ab00-13f1-4d0c-8971-2ac904541a7e",
-            "parameters": {}
-        },
-        ${join(",", concat([for dcrId in linuxDCRs: jsonencode(
+        "policyDefinitions": [
             {
-                policyDefinitionReferenceId: "Configure Linux Machines to be associated with a Data Collection Rule ${regex("[^\\/]+$", dcrId)}",
-                policyDefinitionId: "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
-                parameters: {
-                    listOfLinuxImageIdToInclude: {
-                        value: "[parameters('listOfLinuxImageIdToInclude')]"
+                "policyDefinitionReferenceId": "Configure Windows Arc-enabled machines to run Azure Monitor Agent",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/94f686d6-9a24-4e19-91f1-de937dc171a4",
+                "parameters": {},
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure Windows virtual machine scale sets to run Azure Monitor Agent using system-assigned managed identity",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4efbd9d8-6bc6-45f6-9be2-7fe9dd5d89ff",
+                "parameters": {
+                    "scopeToSupportedImages": {
+                        "value": "[parameters('scopeToSupportedImages')]"
                     },
-                    dcrResourceId: {
-                        value: "${dcrId}"
+                    "listOfWindowsImageIdToInclude": {
+                        "value": "[parameters('listOfWindowsImageIdToInclude')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure Windows virtual machines to run Azure Monitor Agent using system-assigned managed identity",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e",
+                "parameters": {
+                    "scopeToSupportedImages": {
+                        "value": "[parameters('scopeToSupportedImages')]"
                     },
-                    resourceType: {
-                        value: "Microsoft.Insights/dataCollectionRules"
+                    "listOfWindowsImageIdToInclude": {
+                        "value": "[parameters('listOfWindowsImageIdToInclude')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure Linux Arc-enabled machines to run Azure Monitor Agent",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/845857af-0333-4c5d-bbbc-6076697da122",
+                "parameters": {},
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure Linux virtual machine scale sets to run Azure Monitor Agent with system-assigned managed identity-based authentication",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/56a3e4f8-649b-4fac-887e-5564d11e8d3a",
+                "parameters": {
+                    "scopeToSupportedImages": {
+                        "value": "[parameters('scopeToSupportedImages')]"
+                    },
+                    "listOfLinuxImageIdToInclude": {
+                        "value": "[parameters('listOfLinuxImageIdToInclude')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure Linux virtual machines to run Azure Monitor Agent with system-assigned managed identity-based authentication",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4034bc6-ae50-406d-bf76-50f4ee5a7811",
+                "parameters": {
+                    "scopeToSupportedImages": {
+                        "value": "[parameters('scopeToSupportedImages')]"
+                    },
+                    "listOfLinuxImageIdToInclude": {
+                        "value": "[parameters('listOfLinuxImageIdToInclude')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure Dependency agent on Windows & Linux virtual machines, virtual machine scale sets and Arc machines",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-DependencyAgent",
+                "parameters": {
+                    "osTypeArc": {
+                        "value": "[parameters('osTypeArc')]"
+                    },
+                    "osOffers": {
+                        "value": "[parameters('osOffers')]"
+                    },
+                    "osSKUs": {
+                        "value": "[parameters('osSKUs')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure Linux Machines to be associated with the VMInsights Data Collection Rule",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
+                "parameters": {
+                    "listOfLinuxImageIdToInclude": {
+                        "value": "[parameters('listOfLinuxImageIdToInclude')]"
+                    },
+                    "dcrResourceId": {
+                        "value": "[parameters('vmInsightsDcrId')]"
+                    },
+                    "resourceType": {
+                        "value": "Microsoft.Insights/dataCollectionRules"
                     }
                 }
-            }    
-        )],
-        [for dcrId in windowsDCRs: jsonencode(
+            },
             {
-                policyDefinitionReferenceId: "Configure Windows Machines to be associated with a Data Collection Rule ${regex("[^\\/]+$", dcrId)}",
-                policyDefinitionId: "/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c",
-                parameters: {
-                    listOfWindowsImageIdToInclude: {
-                        value: "[parameters('listOfWindowsImageIdToInclude')]"
+                "policyDefinitionReferenceId": "Configure Windows Machines to be associated with the VMInsights Data Collection Rule",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c",
+                "parameters": {
+                    "listOfWindowsImageIdToInclude": {
+                        "value": "[parameters('listOfWindowsImageIdToInclude')]"
                     },
-                    dcrResourceId: {
-                        value: "${dcrId}"
+                    "dcrResourceId": {
+                        "value": "[parameters('vmInsightsDcrId')]"
                     },
-                    resourceType: {
-                        value: "Microsoft.Insights/dataCollectionRules"
+                    "resourceType": {
+                        "value": "Microsoft.Insights/dataCollectionRules"
                     }
                 }
-            }
-        )]))}
-    ],
-    "policyDefinitionGroups": null
-}
+            },
+            {
+                "policyDefinitionReferenceId": "Add system-assigned managed identity to enable Guest Configuration assignments on virtual machines with no identities",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3cf2ab00-13f1-4d0c-8971-2ac904541a7e",
+                "parameters": {}
+            },
+            ${join(",", concat([for dcrId in linuxDCRs: jsonencode(
+                {
+                    policyDefinitionReferenceId: "Configure Linux Machines to be associated with a Data Collection Rule ${regex("[^\\/]+$", dcrId)}",
+                    policyDefinitionId: "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
+                    parameters: {
+                        listOfLinuxImageIdToInclude: {
+                            value: "[parameters('listOfLinuxImageIdToInclude')]"
+                        },
+                        dcrResourceId: {
+                            value: "${dcrId}"
+                        },
+                        resourceType: {
+                            value: "Microsoft.Insights/dataCollectionRules"
+                        }
+                    }
+                }    
+            )],
+            [for dcrId in windowsDCRs: jsonencode(
+                {
+                    policyDefinitionReferenceId: "Configure Windows Machines to be associated with a Data Collection Rule ${regex("[^\\/]+$", dcrId)}",
+                    policyDefinitionId: "/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c",
+                    parameters: {
+                        listOfWindowsImageIdToInclude: {
+                            value: "[parameters('listOfWindowsImageIdToInclude')]"
+                        },
+                        dcrResourceId: {
+                            value: "${dcrId}"
+                        },
+                        resourceType: {
+                            value: "Microsoft.Insights/dataCollectionRules"
+                        }
+                    }
+                }
+            )]))}
+        ],
+        "policyDefinitionGroups": null
+    }
 }

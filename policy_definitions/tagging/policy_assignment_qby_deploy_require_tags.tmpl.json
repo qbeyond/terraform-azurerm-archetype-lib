@@ -7,7 +7,16 @@
       "description": "Automatically generated policy set to enforce existence of a tag on resource groups and all resources.",
       "displayName": "Require tags",
       "enforcementMode": null,
-      "nonComplianceMessages": [],
+      "nonComplianceMessages": [
+        {
+          "message": "The resource group has not required tag",
+          "policyDefinitionReferenceId": "${tag_name}-ResourceGroups"
+        },
+        {
+          "message": "The resource has not required tag",
+          "policyDefinitionReferenceId": "${tag_name}-Resources",
+        }
+      ],
       "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Require-Tags",
       "scope": "${current_scope_resource_id}",
       "notScopes": [],

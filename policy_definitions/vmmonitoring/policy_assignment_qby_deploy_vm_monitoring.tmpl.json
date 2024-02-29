@@ -27,8 +27,10 @@
       },
       "osSKUs": {
         "value": ["*"]
+      },
+      "effect": {
+        "value": "DeployIfNotExists"
       }
-
     },
     "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Deploy-VM-Monitoring",
     "nonComplianceMessages": [],

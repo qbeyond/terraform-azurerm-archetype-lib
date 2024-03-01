@@ -7,10 +7,14 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+# [3.0.0] - 2024-03-01
+
+- Added initiative for new AMA monitoring
+
 # [2.3.0] - 2024-01-12
 
 - Added Audit-AzureHybridBenefit to root policy defitions
-- 
+ 
 # [2.2.0] - 2024-01-10
 
 - Added deploy log analytics policy

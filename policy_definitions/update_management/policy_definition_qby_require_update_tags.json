@@ -1,98 +1,135 @@
 {
-    "name": "QBY-Require-Severity-Group-Tag",
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "apiVersion": "2021-06-01",
-    "properties": {
-        "policyType": "Custom",
-        "mode": "All",
-        "displayName": "Deny Resources that are missing the severity group monthly tag.",
-        "description": "This policy ensures the tag for severiy group monthly is set and the general syntag is correct.",
+  "name": "QBY-Require-Severity-Group-Tag",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "properties": {
+    "displayName": "maaer-require-update-tags",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Azure Update Manager",
+      "createdBy": "bf031ebb-115d-4c36-b9b5-6e0036b0e486",
+      "createdOn": "2024-02-29T14:53:43.0661937Z",
+      "updatedBy": null,
+      "updatedOn": null
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "osTypeArc": {
+        "type": "String",
         "metadata": {
-            "version": "1.0.0",
-            "category": "Azure Update Manager"
+          "displayName": "OS type Arc machines included",
+          "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
         },
-        "parameters": {
-            "osOffer": {
-                "type": "String",
-                "metadata": {
-                    "displayName": "osOffer",
-                    "description": "OS offer of azure virtual machines that get filtered for in the configuration assignment."
-                },
-                "defaultValue": "Windows*"
-            },
-            "osTypes": {
-                "type": "array",
-                "defaultValue": [
-                    "Windows"
-                ],
-                "metadata": {
-                    "description": "OS Types of azure arc machines that get filtered for in the configuration assignment."
-                }
-            },
-            "resourceTypes": {
-                "type": "array",
-                "defaultValue": [
-                    "microsoft.compute/virtualmachines"
-                ],
-                "metadata": {
-                    "description": "ResourceTypes that get filtered for in the configuration assignment."
-                }
-            }
+        "allowedValues": [
+          "All",
+          "Windows",
+          "Linux",
+          "None"
+        ],
+        "defaultValue": "None"
+      },
+      "osOffers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "OS offers included",
+          "description": "Include only offers of Azure VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
         },
-        "policyRule": {
-            "if": {
+        "defaultValue": [
+          "Windows*"
+        ]
+      },
+      "osSKUs": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "OS SKUs included",
+          "description": "Include only OS SKUs of Azure VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+        },
+        "defaultValue": [
+          "*"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "anyOf": [
+              {
                 "allOf": [
-                    {
-                        "field": "type",
-                        "in": "[parameters('resourceTypes')]"
-                    },
-                    {
-                        "anyOf": [
-                            {
-                                "allOf": [
-                                    {
-                                        "field": "type",
-                                        "equals": "Microsoft.HybridCompute/machines"
-                                    },
-                                    {
-                                        "field": "Microsoft.HybridCompute/machines/osName",
-                                        "in": "[parameters('osTypes')]"
-                                    }
-                                ]
-                            },
-                            {
-                                "allOf": [
-                                    {
-                                        "field": "type",
-                                        "equals": "Microsoft.Compute/virtualMachines"
-                                    },
-                                    {
-                                        "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.offer",
-                                        "like": "[parameters('osOffer')]"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "anyOf": [
-                            {
-                                "exists": false,
-                                "field": "[concat('tags[Severity Group Monthly]')]"
-                            },
-                            {
-                                "not": {
-                                    "equals": 6,
-                                    "value": "[length(split(field(concat('tags[Severity Group Monthly]')),'-'))]"
-                                }
-                            }
-                        ]
-                    }
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.HybridCompute/machines"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.HybridCompute/machines/osType",
+                        "like": "[parameters('osTypeArc')]"
+                      },
+                      {
+                        "value": "[parameters('osTypeArc')]",
+                        "equals": "All"
+                      }
+                    ]
+                  }
                 ]
-            },
-            "then": {
-                "effect": "deny"
-            }
-        }
-    }
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                  },
+                  {
+                    "count": {
+                      "name": "offerPattern",
+                      "value": "[parameters('osOffers')]",
+                      "where": {
+                        "field": "Microsoft.Compute/ImageOffer",
+                        "like": "[current('offerPattern')]"
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "name": "skuPattern",
+                      "value": "[parameters('osSKUs')]",
+                      "where": {
+                        "field": "Microsoft.Compute/ImageSKU",
+                        "like": "[current('skuPattern')]"
+                      }
+                    },
+                    "greater": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "exists": false,
+                "field": "[concat('tags[Severity Group Monthly]')]"
+              },
+              {
+                "not": {
+                  "equals": 6,
+                  "value": "[length(split(field(concat('tags[Severity Group Monthly]')),'-'))]"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  }
 }

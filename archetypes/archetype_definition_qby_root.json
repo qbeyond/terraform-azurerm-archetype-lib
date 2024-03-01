@@ -11,7 +11,6 @@
             "Deploy-MDFC-OssDb",
             "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
-            "Deploy-VMSS-Monitoring",
             "Enforce-ACSB",
             "QBY-Deploy-Tag-Structure"
         ],
@@ -132,7 +131,6 @@
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
             "QBY-Deploy-DependencyAgent",
-            "QBY-Deploy-LAW-Agent",
             "QBY-Deploy-Tags-To-RG",
             "QBY-Deploy-VM-Backup"
         ],

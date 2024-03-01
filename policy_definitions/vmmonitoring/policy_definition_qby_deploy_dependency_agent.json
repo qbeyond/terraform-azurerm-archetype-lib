@@ -112,7 +112,7 @@
          "then": {
             "effect": "DeployIfNotExists",
             "details": {
-               "type": "[concat(field('type'), '/extensions')]",
+               "type": "[if(contains(createArray('Microsoft.Compute/virtualMachines', 'Microsoft.Compute/virtualMachineScaleSets', 'Microsoft.HybridCompute/machines'), field('type')), field('type'), 'Microsoft.Resources/resourceGroups')]",
                "evaluationDelay": "AfterProvisioningSuccess",
                "existenceCondition": {
                   "anyOf": [

@@ -44,19 +44,6 @@
             "defaultValue": [
                "*"
             ]
-         },
-         "effect": {
-            "type": "String",
-            "defaultValue": "DeployIfNotExists",
-            "allowedValues": [
-               "DeployIfNotExists",
-               "AuditIfNotExists",
-               "Disabled"
-            ],
-            "metadata": {
-               "displayName": "Effect",
-               "description": "The effect determines what happens when the policy rule is evaluated to match."
-            }
          }
       },
       "policyRule": {
@@ -123,9 +110,9 @@
             ]
          },
          "then": {
-            "effect": "[parameters('effect')]",
+            "effect": "DeployIfNotExists",
             "details": {
-               "type": "Microsoft.Compute/virtualMachines/extensions",
+               "type": "[concat(field('type'), '/extensions')]",
                "evaluationDelay": "AfterProvisioningSuccess",
                "existenceCondition": {
                   "anyOf": [

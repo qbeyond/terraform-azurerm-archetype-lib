@@ -6,7 +6,7 @@
         "policyType": "Custom",
         "mode": "All",
         "displayName": "Require defined tags on resources.",
-        "description": "Require resources and resource groups to have conceptual required tags and not empty.",
+        "description": "Require resources to have conceptual required tags and not empty.",
         "parameters": {
             "tagName": {
                 "type": "String",

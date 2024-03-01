@@ -192,6 +192,9 @@
                     },
                     "osSKUs": {
                         "value": "[parameters('osSKUs')]"
+                    },
+                    "effect": {
+                        "value": "[parameters('effect')]"
                     }
                 },
                 "groupNames": []

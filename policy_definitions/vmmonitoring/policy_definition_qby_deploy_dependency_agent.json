@@ -44,6 +44,19 @@
             "defaultValue": [
                "*"
             ]
+         },
+         "effect": {
+             "type": "String",
+             "defaultValue": "DeployIfNotExists",
+             "allowedValues": [
+                 "AuditIfNotExist",
+                 "DeployIfNotExists",
+                 "Disabled"
+             ],
+             "metadata": {
+                 "displayName": "Effect",
+                 "description": "The effect determines what happens when the policy rule is evaluated to match."
+             }
          }
       },
       "policyRule": {
@@ -110,7 +123,7 @@
             ]
          },
          "then": {
-            "effect": "DeployIfNotExists",
+            "effect": "[parameters('effect')]",
             "details": {
                "type": "[if(contains(createArray('Microsoft.Compute/virtualMachines', 'Microsoft.Compute/virtualMachineScaleSets', 'Microsoft.HybridCompute/machines'), field('type')), field('type'), 'Microsoft.Resources/resourceGroups')]",
                "evaluationDelay": "AfterProvisioningSuccess",

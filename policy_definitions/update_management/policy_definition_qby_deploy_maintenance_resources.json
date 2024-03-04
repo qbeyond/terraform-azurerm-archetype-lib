@@ -208,10 +208,16 @@
                 },
                 "vmResourceId": {
                   "value": "[field('id')]"
+                },
+                "patchModeSetting": {
+                  "value": "[if(empty(field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings')), bool('false'), field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule'))]"
+                },
+                "patchMode": {
+                  "value": "[field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode')]"
                 }
               },
               "template": {
-                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
                   "severityGroupName": {
@@ -264,6 +270,18 @@
                     "metadata": {
                       "description": "ResourceId of the Virtual Machine."
                     }
+                  },
+                  "patchModeSetting": {
+                    "type": "bool",
+                    "metadata": {
+                      "description": "patchModeSetting of the Virtual Machine."
+                    }
+                  },
+                  "patchMode": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "patchMode of the Virtual Machine."
+                    }
                   }
                 },
                 "variables": {
@@ -290,11 +308,9 @@
                   "rebootSetting": "[variables('rebootOptions')[variables('splitSeverityGroup')[5]]]",
                   "uniqueDeploymentName": "[concat('NestedDeploymentName-', uniqueString(deployment().name))]",
                   "scope": "[concat('Microsoft.Compute/virtualMachines', '/', parameters('vmName'))]",
-                  "patchModeSetting": "[field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule']",
-                  "patchMode": "[field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode')]",
-                  "patchModeSettingsIncorrect": "[not(equals(variables('patchModeSetting'),bool('true')))]",
-                  "patchModeIncorrect": "[not(equals(variables('patchMode'), 'AutomaticByPlatform'))]",
-                  "patchModeShouldBeChanged": "[or(variables('patchModeSettingsIncorrect'), variables('patchModeShouldBeChanged'))]",
+                  "patchModeSettingsIncorrect": "[not(equals(parameters('patchModeSetting'),bool('true')))]",
+                  "patchModeIncorrect": "[not(equals(parameters('patchMode'), 'AutomaticByPlatform'))]",
+                  "patchModeShouldBeChanged": "[or(variables('patchModeSettingsIncorrect'), variables('patchModeIncorrect'))]",
                   "windowsOSProfile": {
                     "windowsConfiguration": {
                       "patchSettings": {
@@ -367,7 +383,7 @@
                     "name": "[concat('cas-', parameters('vmName'))]",
                     "dependsOn": [
                       "[concat('Microsoft.Resources/deployments/',variables('uniqueDeploymentName'))]",
-                      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+                      "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
                     ],
                     "location": "[parameters('location')]",
                     "scope": "[variables('scope')]",

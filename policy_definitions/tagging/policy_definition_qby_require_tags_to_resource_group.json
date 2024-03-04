@@ -1,0 +1,45 @@
+{
+    "name": "QBY-Require-Tag-to-resourceGroups",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2021-06-01",
+    "properties": {
+        "policyType": "Custom",
+        "mode": "All",
+        "displayName": "Require defined tags on resources gropus.",
+        "description": "Require resource groups to have specified non empty tag",
+        "parameters": {
+            "tagName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Tag Name",
+                    "description": "Name of the tag required."
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                                "exists": false
+                            },
+                            {
+                                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                                "equals": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+    }
+}

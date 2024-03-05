@@ -1,6 +1,6 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "QBY-Inherit-Tag-To-RG",
+  "name": "QBY-Inherit-Tag-from-Subscription",
   "properties": {
     "displayName": "Inherit tag from subscription to resource group",
     "description": "Inherit a given tag from the subscription to resource groups if missing.",

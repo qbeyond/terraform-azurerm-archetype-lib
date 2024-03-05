@@ -1,11 +1,11 @@
 {
-    "name": "QBY-Require-Tag",
+    "name": "QBY-Tagging",
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "properties": {
         "policyType": "Custom",
         "mode": "Indexed",
-        "displayName": "Require defined tags on resources.",
+        "displayName": "Require tag on resources",
         "description": "Require resources to have specified non empty tag",
         "parameters": {
             "tagName": {
@@ -25,8 +25,8 @@
                     },
                     {
                         "field": "[concat('tags[', parameters('tagName'), ']')]",
-                       "equals": ""
-                        }
+                        "equals": ""
+                    }
                 ]
             },
             "then": {

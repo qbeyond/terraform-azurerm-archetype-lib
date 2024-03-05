@@ -5,8 +5,8 @@
     "properties": {
         "policyType": "Custom",
         "mode": "All",
-        "displayName": "Require defined tags on resources gropus.",
-        "description": "Require resource groups to have specified non empty tag",
+        "displayName": "Require tag on resources group",
+        "description": "Require resource groups to have specified non empty tag.",
         "parameters": {
             "tagName": {
                 "type": "String",

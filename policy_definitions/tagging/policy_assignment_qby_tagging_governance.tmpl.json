@@ -1,0 +1,24 @@
+{
+  "name": "QBY-Tagging-Governance",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2022-06-01",
+  "dependsOn": [],
+  "properties": {
+    "description": "Enforce existence of conceptual defined tags and enable inheritance.",
+    "displayName": "Tagging Governance",
+    "enforcementMode": null,
+    "nonComplianceMessages": [
+      {
+        "message": "The resource doesn't have the required tag."
+      }
+    ],
+    "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Tagging-Governance",
+    "scope": "${current_scope_resource_id}",
+    "notScopes": [],
+    "parameters": {}
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "SystemAssigned"
+  }
+}

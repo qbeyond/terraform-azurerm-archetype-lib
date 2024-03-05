@@ -1,0 +1,60 @@
+{
+    "name": "QBY-Deny-VM-SKUs",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "properties": {
+        "displayName": "Deny VM SKUs",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "description": "Deny the creation of VMs with size SKUs that are not part of the allowed list.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Monitoring"
+        },
+        "parameters": {
+            "listOfAllowedSKUs": {
+                "type": "Array",
+                "metadata": {
+                    "description": "The list of size SKUs that can be used for virtual machines. Items may contain wildcards.",
+                    "displayName": "Allowed Size SKUs"
+                }
+            },
+            "effect": {
+                "type": "String",
+                "defaultValue": "DeployIfNotExists",
+                "allowedValues": [
+                    "AuditIfNotExist",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match."
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Compute/virtualMachines"
+                    },
+                    {
+                        "count": {
+                            "value": "[parameters('listOfAllowedSKUs')]",
+                            "name": "pattern",
+                            "where": {
+                                "field": "Microsoft.Compute/virtualMachines/sku.name",
+                                "like": "[concat(current('pattern'),'*')]"
+                            }
+                        },
+                        "equals": 0
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}

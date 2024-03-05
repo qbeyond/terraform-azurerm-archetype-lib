@@ -1,5 +1,5 @@
 {
-    "name": "QBY-Tagging",
+    "name": "QBY-Require-Tag",
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "properties": {

@@ -1,5 +1,5 @@
 {
-    "name": "QBY-Require-Tag-to-resourceGroups",
+    "name": "QBY-Require-Tag-on-resourceGroup",
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "properties": {

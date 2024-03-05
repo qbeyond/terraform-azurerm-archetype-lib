@@ -8,7 +8,11 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
-- Added initiative for new AMA monitoring
+### Added
+- Initiative deploying new Azure Monitoring Agent and associating data collection rules
+
+### Removed
+- Policies deploying the old Microsoft Monitoring Agent
 
 # [2.3.0] - 2024-01-12
 

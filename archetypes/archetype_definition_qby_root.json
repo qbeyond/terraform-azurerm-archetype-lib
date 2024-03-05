@@ -11,7 +11,6 @@
             "Deploy-MDFC-OssDb",
             "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
-            "Deploy-VMSS-Monitoring",
             "Enforce-ACSB",
             "QBY-Deploy-Tag-Structure"
         ],
@@ -131,9 +130,9 @@
             "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
-            "QBY-Deploy-VM-Backup",
+            "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-Tags-To-RG",
-            "QBY-Deploy-LAW-Agent"
+            "QBY-Deploy-VM-Backup"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",
@@ -148,7 +147,8 @@
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
-            "QBY-Deploy-Tag-Inheritance"
+            "QBY-Deploy-Tag-Inheritance",
+            "QBY-Deploy-VM-Monitoring"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

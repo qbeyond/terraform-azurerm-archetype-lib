@@ -14,7 +14,7 @@
         "parameters": {},
         "policyDefinitions": ${jsonencode(flatten(merge([for name, required in inherited_required_tags: [
                     {
-                        "policyDefinitionReferenceId": "Inherit_${tag_name}'_from_rg",
+                        "policyDefinitionReferenceId": "Inherit_${name}'_from_rg",
                         "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
                         "parameters": {
                             "tagName": {
@@ -24,7 +24,7 @@
                         "groupNames": []
                     },
                     {
-                        "policyDefinitionReferenceId": "Inherit_${tag_name}'_from_subscription",
+                        "policyDefinitionReferenceId": "Inherit_${name}'_from_subscription",
                         "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Tags-To-RG",
                         "parameters": {
                             "tagName": {
@@ -37,7 +37,7 @@
             ],
             [for name,required in inherited_required_tags: [
                     {
-                        "policyDefinitionReferenceId": "Require_${tag_name}'_on_rg",
+                        "policyDefinitionReferenceId": "Require_${name}'_on_rg",
                         "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag-on-resourceGroup",
                         "parameters": {
                             "tagName": {
@@ -47,7 +47,7 @@
                         "groupNames": []
                     },
                     {
-                        "policyDefinitionReferenceId": "Require_${tag_name}'_on_resource",
+                        "policyDefinitionReferenceId": "Require_${name}'_on_resource",
                         "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
                         "parameters": {
                             "tagName": {

@@ -81,7 +81,7 @@
       "osSKUs": {
         "type": "Array",
         "metadata": {
-          "displayName": "OS SKUs inclukded",
+          "displayName": "OS SKUs included",
           "description": "Include only OS SKUs of Azure VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
         },
         "defaultValue": [

@@ -132,7 +132,6 @@
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
             "QBY-Deploy-VM-Backup",
-            "QBY-Deploy-Tags-To-RG",
             "QBY-Deploy-LAW-Agent",
             "QBY-Inherit-Tag-from-Subscription",
             "QBY-Require-Tag-on-ResourceGroup",

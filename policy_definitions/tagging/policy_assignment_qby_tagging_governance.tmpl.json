@@ -10,11 +10,11 @@
     "nonComplianceMessages": ${jsonencode([for name,required in inherited_required_tags: [
           {
             "message": "The tag ${name} is required on resource group.",
-            "policyDefinitionReferenceId": "Require_${tag_name}'_on_rg"
+            "policyDefinitionReferenceId": "Require_${name}'_on_rg"
           },
           {
             "message": "The tag ${name} is required on resources.",
-            "policyDefinitionReferenceId": "Require_${tag_name}'_on_resource"
+            "policyDefinitionReferenceId": "Require_${name}'_on_resource"
           }
         ] if required == true
       ])

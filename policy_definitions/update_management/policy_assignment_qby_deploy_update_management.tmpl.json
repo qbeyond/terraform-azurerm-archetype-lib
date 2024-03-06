@@ -4,8 +4,8 @@
   "apiVersion": "2022-06-01",
   "dependsOn": [],
   "properties": {
-    "description": "Automatically generated policy set that deploys update management resources and require update management tags.",
-    "displayName": "QBY-Deploy-Update-Mgmt",
+    "description": "Automatically generated policy set that deploys update management resources based on required tags.",
+    "displayName": "Deploy Update Management for Windows VMs",
     "enforcementMode": null,
     "nonComplianceMessages": [
       {
@@ -15,7 +15,7 @@
       {
         "message": "The tag 'Severity Group Monthly' is either missing, empty or the syntax is incorrect.",
         "policyDefinitionReferenceId": "Require a tag 'Severity Group Monthly' exists and is not empty"
-    }
+      }
     ],
     "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Deploy-Update-Mgmt",
     "scope": "${current_scope_resource_id}",

@@ -38,7 +38,7 @@
             [for name,required in inherited_required_tags: [
                     {
                         "policyDefinitionReferenceId": "Require_${name}'_on_rg",
-                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag-on-resourceGroup",
+                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag-on-ResourceGroup",
                         "parameters": {
                             "tagName": {
                                 "value": "${name}"

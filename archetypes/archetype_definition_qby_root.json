@@ -134,8 +134,10 @@
             "QBY-Deploy-VM-Backup",
             "QBY-Deploy-Tags-To-RG",
             "QBY-Deploy-LAW-Agent",
-            "QBY-Require-Tag",
-            "QBY-Require-Tag-to-resourceGroups"
+            "QBY-Inherit-Tag-from-Subscription",
+            "QBY-Require-Tag-on-ResourceGroup",
+            "QBY-Require-Tag"
+            
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",
@@ -150,8 +152,7 @@
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
-            "QBY-Deploy-Tag-Inheritance",
-            "QBY-Deploy-Require-Tag-Inheritance"
+            "QBY-Tagging-Governance"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

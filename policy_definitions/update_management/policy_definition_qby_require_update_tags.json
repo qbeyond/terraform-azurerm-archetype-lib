@@ -3,7 +3,7 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
   "properties": {
-    "displayName": "maaer-require-update-tags",
+    "displayName": "Require the tag 'Severity Group Monthly'",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {

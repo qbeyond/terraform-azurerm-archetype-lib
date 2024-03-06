@@ -1,8 +1,8 @@
 {
-  "name": "QBY-Set-Update-Settings",
+  "name": "QBY-Audit-Update-Settings",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "maaer-set-vm-update-settings",
+    "displayName": "Audit patch mode and patch mode settings",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {

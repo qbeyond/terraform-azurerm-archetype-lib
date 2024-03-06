@@ -50,7 +50,7 @@
         "type": "String",
         "metadata": {
           "displayName": "timeZone",
-          "description": null
+          "description": "Time zone to use for the maintenance windows configuration."
         },
         "defaultValue": "W. Europe Standard Time"
       },

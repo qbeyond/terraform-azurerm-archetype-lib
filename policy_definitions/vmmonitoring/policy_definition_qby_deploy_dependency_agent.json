@@ -1,0 +1,243 @@
+{
+   "name": "QBY-Deploy-DependencyAgent",
+   "type": "Microsoft.Authorization/policyDefinitions",
+   "properties": {
+      "displayName": "Deploy Dependency Agent",
+      "policyType": "Custom",
+      "mode": "Indexed",
+      "description": "Deploy Dependency agent for Windows and Linux virtual machine scale sets and virtual machines if the agent is not installed.",
+      "metadata": {
+         "version": "1.0.0",
+         "category": "Monitoring"
+      },
+      "parameters": {
+         "osTypeArc": {
+            "type": "String",
+            "metadata": {
+               "displayName": "OS type Arc machines included",
+               "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
+            },
+            "allowedValues": [
+               "All",
+               "Windows",
+               "Linux",
+               "None"
+            ],
+            "defaultValue": "All"
+         },
+         "osOffers": {
+            "type": "Array",
+            "metadata": {
+               "displayName": "OS offers included",
+               "description": "Include only offers of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude VMs and scale sets."
+            },
+            "defaultValue": [
+               "*"
+            ]
+         },
+         "osSKUs": {
+            "type": "Array",
+            "metadata": {
+               "displayName": "OS SKUs included",
+               "description": "Include only OS SKUs of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude VMs and scale sets."
+            },
+            "defaultValue": [
+               "*"
+            ]
+         },
+         "effect": {
+             "type": "String",
+             "defaultValue": "DeployIfNotExists",
+             "allowedValues": [
+                 "AuditIfNotExist",
+                 "DeployIfNotExists",
+                 "Disabled"
+             ],
+             "metadata": {
+                 "displayName": "Effect",
+                 "description": "The effect determines what happens when the policy rule is evaluated to match."
+             }
+         }
+      },
+      "policyRule": {
+         "if": {
+            "anyOf": [
+               {
+                  "allOf": [
+                     {
+                        "field": "type",
+                        "equals": "Microsoft.HybridCompute/machines"
+                     },
+                     {
+                        "anyOf": [
+                           {
+                              "field": "Microsoft.HybridCompute/imageOffer",
+                              "like": "[concat(parameters('osTypeArc'), '*')]"
+                           },
+                           {
+                              "value": "[parameters('osTypeArc')]",
+                              "equals": "All"
+                           }
+                        ]
+                     }
+                  ]
+               },
+               {
+                  "allOf": [
+                     {
+                        "anyOf": [
+                           {
+                              "field": "type",
+                              "equals": "Microsoft.Compute/virtualMachines"
+                           },
+                           {
+                              "field": "type",
+                              "equals": "Microsoft.Compute/virtualMachineScaleSets"
+                           }
+                        ]
+                     },
+                     {
+                        "count": {
+                           "name": "pattern",
+                           "value": "[parameters('osOffers')]",
+                           "where": {
+                              "field": "Microsoft.Compute/ImageOffer",
+                              "like": "[current('pattern')]"
+                           }
+                        },
+                        "greater": 0
+                     },
+                     {
+                        "count": {
+                           "name": "pattern",
+                           "value": "[parameters('osSKUs')]",
+                           "where": {
+                              "field": "Microsoft.Compute/ImageSKU",
+                              "like": "[current('pattern')]"
+                           }
+                        },
+                        "greater": 0
+                     }
+                  ]
+               }
+            ]
+         },
+         "then": {
+            "effect": "[parameters('effect')]",
+            "details": {
+               "type": "[if(contains(createArray('Microsoft.Compute/virtualMachines', 'Microsoft.Compute/virtualMachineScaleSets', 'Microsoft.HybridCompute/machines'), field('type')), field('type'), 'Microsoft.Resources/resourceGroups')]",
+               "evaluationDelay": "AfterProvisioningSuccess",
+               "existenceCondition": {
+                  "anyOf": [
+                     {
+                        "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                        "like": "DependencyAgent*"
+                     },
+                     {
+                        "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+                        "like": "DependencyAgent*"
+                     },
+                     {
+                        "field": "Microsoft.HybridCompute/machines/extensions/type",
+                        "like": "DependencyAgent*"
+                     }
+                  ]
+               },
+               "roleDefinitionIds": [
+                  "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+               ],
+               "deployment": {
+                  "properties": {
+                     "mode": "incremental",
+                     "template": {
+                        "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                           "vmName": {
+                              "type": "string"
+                           },
+                           "location": {
+                              "type": "string"
+                           },
+                           "resourceType": {
+                              "type": "string"
+                           },
+                           "platform": {
+                              "type": "string"
+                           }
+                        },
+                        "variables": {
+                           "vmExtensionName": "[concat('DependencyAgent', parameters('platform'))]",
+                           "vmExtensionPublisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+                           "vmExtensionType": "[concat('DependencyAgent', parameters('platform'))]",
+                           "vmExtensionTypeHandlerVersion": "9.10"
+                        },
+                        "resources": [
+                           {
+                              "type": "Microsoft.Compute/virtualMachines/extensions",
+                              "condition": "[equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachines')]",
+                              "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                              "apiVersion": "2021-04-01",
+                              "location": "[parameters('location')]",
+                              "properties": {
+                                 "publisher": "[variables('vmExtensionPublisher')]",
+                                 "type": "[variables('vmExtensionType')]",
+                                 "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
+                                 "autoUpgradeMinorVersion": true
+                              }
+                           },
+                           {
+                              "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+                              "condition": "[equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachineScaleSets')]",
+                              "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                              "apiVersion": "2021-04-01",
+                              "location": "[parameters('location')]",
+                              "properties": {
+                                 "publisher": "[variables('vmExtensionPublisher')]",
+                                 "type": "[variables('vmExtensionType')]",
+                                 "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
+                                 "autoUpgradeMinorVersion": true
+                              }
+                           },
+                           {
+                              "type": "Microsoft.HybridCompute/machines/extensions",
+                              "condition": "[equals(parameters('resourceType'), 'Microsoft.HybridCompute/machines')]",
+                              "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                              "apiVersion": "2021-04-01",
+                              "location": "[parameters('location')]",
+                              "properties": {
+                                 "publisher": "[variables('vmExtensionPublisher')]",
+                                 "type": "[variables('vmExtensionType')]",
+                                 "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
+                                 "autoUpgradeMinorVersion": true
+                              }
+                           }
+                        ],
+                        "outputs": {
+                           "policy": {
+                              "type": "string",
+                              "value": "[concat('Enabled extension for: ', parameters('vmName'))]"
+                           }
+                        }
+                     },
+                     "parameters": {
+                        "vmName": {
+                           "value": "[field('name')]"
+                        },
+                        "location": {
+                           "value": "[field('location')]"
+                        },
+                        "resourceType": {
+                           "value": "[field('type')]"
+                        },
+                        "platform": {
+                           "value": "[if(or(contains(field('Microsoft.Compute/ImageOffer'), 'Windows'), equals(field('Microsoft.HybridCompute/machines/osName'), 'windows')), 'Windows', 'Linux')]"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}

@@ -134,12 +134,8 @@
               {
                 "allOf": [
                   {
-                    "anyOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/virtualMachines"
-                      }
-                    ]
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
                   },
                   {
                     "count": {

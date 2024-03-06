@@ -2,7 +2,8 @@
   "name": "QBY-Deploy-Updates",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "maaer-deploy-maintenance-resources",
+    "displayName": "Configure Updates for VMs, Scale sets and Arc machines based on Tag Severity Group Monthly",
+    "description": "Configure Updates for VMs, Scale sets and Arc machines based on Tag Severity Group Monthly via Update Manager",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {

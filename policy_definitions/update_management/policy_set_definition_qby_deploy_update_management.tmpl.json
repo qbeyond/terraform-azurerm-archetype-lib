@@ -50,7 +50,7 @@
                 "groupNames": []
             },
             {
-                "policyDefinitionReferenceId": "Require a tag 'severity group monthly' exists and is not empty",
+                "policyDefinitionReferenceId": "Require a tag 'Severity Group Monthly' exists and is not empty",
                 "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Severity-Group-Tag",
                 "parameters": {},
                 "groupNames": []

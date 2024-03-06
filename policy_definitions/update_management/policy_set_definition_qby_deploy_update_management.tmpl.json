@@ -5,7 +5,7 @@
     "scope": null,
     "properties": {
         "policyType": "Custom",
-        "displayName": "Deploy Update Management Resources",
+        "displayName": "Deploy Update Management for Windows VMs",
         "description": "This policy set deploys maintenance configuration and configuration assignments based on the tag 'Severity Group Monthly'. It also changes the VM patch mode to AutomaticByPlatform, if necessary.",
         "metadata": {
             "version": "1.0.0",
@@ -74,7 +74,7 @@
                 "groupNames": []
             },
             {
-                "policyDefinitionReferenceId": "Configure periodic checking for missing system updates on azure Arc-enabled servers",
+                "policyDefinitionReferenceId": "Require tag Update Allowed",
                 "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
                 "parameters": {
                     "tagName": {
@@ -87,4 +87,3 @@
         "policyDefinitionGroups": null
     }
 }
-

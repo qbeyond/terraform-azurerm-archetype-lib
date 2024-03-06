@@ -11,27 +11,28 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 - added policy set for Azure Update Manager
 
-# [2.3.0] - 2024-01-12
+## [2.3.0] - 2024-01-12
 
 - Added Audit-AzureHybridBenefit to root policy defitions
-- 
-# [2.2.0] - 2024-01-10
+-
+
+## [2.2.0] - 2024-01-10
 
 - Added deploy log analytics policy
 
-# [2.1.1] - 2023-12-28
+## [2.1.1] - 2023-12-28
 
 - Renamed tagging policy assignment
 
-# [2.1.0] - 2023-12-18
+## [2.1.0] - 2023-12-18
 
 - Added tag inheritance policy setup
 
-# [2.0.0] - 2023-12-13
+## [2.0.0] - 2023-12-13
 
 Automatic domain join of windows assigned
 
-# [1.2.0] - 2023-11-28
+## [1.2.0] - 2023-11-28
 
 Automatic domain join of windows vms can be enabled
 
@@ -39,7 +40,7 @@ Automatic domain join of windows vms can be enabled
 
 - Added policy for automatic domain join of windows vms.
 
-# [1.1.2] - 2023-07-18
+## [1.1.2] - 2023-07-18
 
 Add QBY Backup Policy
 

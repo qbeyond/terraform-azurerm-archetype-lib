@@ -1,11 +1,10 @@
 {
     "qby_msp": {
         "policy_assignments": [
-            "QBY-Deploy-VM-Backup",
             "QBY-Deploy-DomainJoin",
-            "QBY-Deploy-Update-Mgmt"
-            "Deploy-VM-Monitoring",
-            "QBY-Deploy-LAW-Agent"            
+            "QBY-Deploy-Update-Mgmt"            
+            "QBY-Deploy-VM-Backup",
+            "QBY-Deploy-VM-Monitoring"        
         ],
         "policy_definitions": [],
         "policy_set_definitions": [],

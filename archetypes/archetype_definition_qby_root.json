@@ -11,7 +11,6 @@
             "Deploy-MDFC-OssDb",
             "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
-            "Deploy-VMSS-Monitoring",
             "Enforce-ACSB",
             "QBY-Deploy-Tag-Structure"
         ],
@@ -135,8 +134,9 @@
             "QBY-Deploy-Updates",
             "QBY-Require-Severity-Group-Tag",
             "QBY-Set-Update-Settings"
+            "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-Tags-To-RG",
-            "QBY-Deploy-LAW-Agent"
+            "QBY-Deploy-VM-Backup"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",
@@ -153,6 +153,7 @@
             "Enforce-Guardrails-KeyVault",
             "QBY-Deploy-Update-Mgmt"
             "QBY-Deploy-Tag-Inheritance"
+            "QBY-Deploy-VM-Monitoring"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

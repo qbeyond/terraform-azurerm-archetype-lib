@@ -9,10 +9,6 @@
     "enforcementMode": null,
     "nonComplianceMessages": [
       {
-        "message": "Due to an azure bug this policy always non-compliant at the moment. Please check in the azure update manager if the vm has an update schedule associated.",
-        "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager"
-      },
-      {
         "message": "The tag 'Severity Group Monthly' is either missing, empty or the syntax is incorrect.",
         "policyDefinitionReferenceId": "Require a tag 'Severity Group Monthly' exists and is not empty"
       }

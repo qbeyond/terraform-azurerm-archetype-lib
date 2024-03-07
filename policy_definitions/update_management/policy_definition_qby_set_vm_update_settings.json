@@ -1,8 +1,9 @@
 {
-  "name": "QBY-Audit-Update-Settings",
+  "name": "QBY-Configure-Windows-Patch-Settings",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Audit patch mode and patch mode settings",
+    "displayName": "Configure Patch settings of Windows VMs for Update Manager",
+    "description": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule of Windows VM to work with Update Manager.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {

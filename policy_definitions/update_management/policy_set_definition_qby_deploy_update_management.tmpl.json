@@ -57,7 +57,7 @@
             },
             {
                 "policyDefinitionReferenceId": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of windows vm for Azure Update Manager",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Set-Update-Settings",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Configure-Windows-Patch-Settings",
                 "parameters": {},
                 "groupNames": []
             },

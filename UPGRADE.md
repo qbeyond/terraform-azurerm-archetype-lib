@@ -11,4 +11,4 @@ This version moves away from the Microsoft Monitoring Agent to the Azure Monitor
 - Names of used tables
 - Collected Metrics & Logs using new DCRs
 
-To upgrade the Module itself you need to add `linuxDCRs` to `template_file_variables` of the CAF module call. It should include the DCRs to assign to Linux VMs. If you don't need that, just set it to `[]`.
+To upgrade the Module itself you need to add `linuxDCRs` & `windowsDCRs` to `template_file_variables` of the CAF module call. It should include the DCRs to assign to VMs. If you don't need that, just set it to `[]`.

@@ -2,9 +2,9 @@
     "qby_msp": {
         "policy_assignments": [
             "QBY-Deploy-DomainJoin",
-            "QBY-Deploy-Update-Mgmt"            
+            "QBY-Deploy-Update-Mgmt",
             "QBY-Deploy-VM-Backup",
-            "QBY-Deploy-VM-Monitoring"        
+            "QBY-Deploy-VM-Monitoring"
         ],
         "policy_definitions": [],
         "policy_set_definitions": [],

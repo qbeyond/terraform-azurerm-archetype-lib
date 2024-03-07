@@ -25,8 +25,9 @@
                 "defaultValue": "Deny",
 
                 "allowedValues": [
-                    "AuditIfNotExist",
-                    "DeployIfNotExists",
+                    "Audit",
+                    "Deny",
+
                     "Disabled"
                 ],
                 "metadata": {

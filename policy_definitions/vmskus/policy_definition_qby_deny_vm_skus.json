@@ -22,7 +22,8 @@
             },
             "effect": {
                 "type": "String",
-                "defaultValue": "DeployIfNotExists",
+                "defaultValue": "Deny",
+
                 "allowedValues": [
                     "AuditIfNotExist",
                     "DeployIfNotExists",

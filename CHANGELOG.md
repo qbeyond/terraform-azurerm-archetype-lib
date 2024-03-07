@@ -7,8 +7,6 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-# [3.0.0] - 2024-03-07
-
 ### Added
 - Initiative deploying new Azure Monitoring Agent and associating data collection rules
 - Policy definition to allow vm/vmss SKUs

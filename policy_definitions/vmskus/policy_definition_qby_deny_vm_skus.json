@@ -27,7 +27,6 @@
                 "allowedValues": [
                     "Audit",
                     "Deny",
-
                     "Disabled"
                 ],
                 "metadata": {

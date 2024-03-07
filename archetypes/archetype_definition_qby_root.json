@@ -130,7 +130,7 @@
             "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
-            "QBY-Deny-VM-SKUs",
+            "QBY-Allowed-VM-SKUs",
             "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-Tags-To-RG",
             "QBY-Deploy-VM-Backup"

@@ -38,7 +38,7 @@
       },
       "effect": {
         "type": "string",
-        "defaultValue": "AuditIfNotExists",
+        "defaultValue": "DeployIfNotExists",
         "allowedValues": [
           "AuditIfNotExists",
           "DeployIfNotExists",

@@ -133,7 +133,7 @@
             "QBY-Deploy-VM-Backup",
             "QBY-Deploy-Updates",
             "QBY-Require-Severity-Group-Tag",
-            "QBY-Set-Update-Settings"
+            "QBY-Configure-Windows-Patch-Settings",
             "QBY-Allowed-VM-SKUs",
             "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-Tags-To-RG",
@@ -152,8 +152,8 @@
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
-            "QBY-Deploy-Update-Mgmt"
-            "QBY-Deploy-Tag-Inheritance"
+            "QBY-Deploy-Update-Mgmt",
+            "QBY-Deploy-Tag-Inheritance",
             "QBY-Deploy-VM-Monitoring"
         ],
         "role_definitions": [

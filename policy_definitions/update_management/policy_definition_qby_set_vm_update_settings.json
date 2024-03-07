@@ -16,17 +16,6 @@
     },
     "version": "1.0.0",
     "parameters": {
-      "osTypeArc": {
-        "type": "String",
-        "metadata": {
-          "displayName": "OS type Arc machines included",
-          "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
-        },
-        "allowedValues": [
-          "None"
-        ],
-        "defaultValue": "None"
-      },
       "osOffers": {
         "type": "Array",
         "metadata": {
@@ -65,58 +54,30 @@
       "if": {
         "allOf": [
           {
-            "anyOf": [
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.HybridCompute/machines"
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "field": "Microsoft.HybridCompute/machines/osType",
-                        "like": "[parameters('osTypeArc')]"
-                      },
-                      {
-                        "value": "[parameters('osTypeArc')]",
-                        "equals": "All"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.Compute/virtualMachines"
-                  },
-                  {
-                    "count": {
-                      "name": "offerPattern",
-                      "value": "[parameters('osOffers')]",
-                      "where": {
-                        "field": "Microsoft.Compute/ImageOffer",
-                        "like": "[current('offerPattern')]"
-                      }
-                    },
-                    "greater": 0
-                  },
-                  {
-                    "count": {
-                      "name": "skuPattern",
-                      "value": "[parameters('osSKUs')]",
-                      "where": {
-                        "field": "Microsoft.Compute/ImageSKU",
-                        "like": "[current('skuPattern')]"
-                      }
-                    },
-                    "greater": 0
-                  }
-                ]
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "count": {
+              "name": "offerPattern",
+              "value": "[parameters('osOffers')]",
+              "where": {
+                "field": "Microsoft.Compute/ImageOffer",
+                "like": "[current('offerPattern')]"
               }
-            ]
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "name": "skuPattern",
+              "value": "[parameters('osSKUs')]",
+              "where": {
+                "field": "Microsoft.Compute/ImageSKU",
+                "like": "[current('skuPattern')]"
+              }
+            },
+            "greater": 0
           },
           {
             "field": "tags['Severity Group Monthly']",

@@ -5,12 +5,16 @@ All notable changes to this module will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2024-02-08
+
+## [Unreleased]
+
 
 ### Added
 
 - Initiative deploying new Azure Monitoring Agent and associating data collection rules
 - added policy set for Azure Update Manager
+- Policy definition to allow vm/vmss SKUs
+
 
 ### Removed
 

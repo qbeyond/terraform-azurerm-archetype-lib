@@ -150,6 +150,7 @@
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
+            "QBY-Deploy-VM-Monitoring",
             "QBY-Tagging-Governance"
         ],
         "role_definitions": [

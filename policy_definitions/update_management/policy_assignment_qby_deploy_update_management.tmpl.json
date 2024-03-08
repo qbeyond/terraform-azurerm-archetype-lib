@@ -11,10 +11,6 @@
       {
         "message": "The tag 'Severity Group Monthly' is either missing, empty or the syntax is incorrect.",
         "policyDefinitionReferenceId": "Require a tag 'Severity Group Monthly' exists and is not empty"
-      },
-      {
-        "message": "The tag 'Update Allowed' is either missing or empty.",
-        "policyDefinitionReferenceId": "Require tag Update Allowed"
       }
     ],
     "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Deploy-Update-Mgmt",

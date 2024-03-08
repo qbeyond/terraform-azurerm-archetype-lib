@@ -132,7 +132,7 @@
             "Deploy-Windows-DomainJoin",
             "QBY-Inherit-Tag-from-Subscription",
             "QBY-Require-Tag-on-ResourceGroup",
-            "QBY-Require-Tag"
+            "QBY-Require-Tag",
             "QBY-Allowed-VM-SKUs",
             "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-VM-Backup"

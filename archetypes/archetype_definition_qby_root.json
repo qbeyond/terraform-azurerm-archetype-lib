@@ -130,12 +130,12 @@
             "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
-            "QBY-Deploy-VM-Backup",
-            "QBY-Deploy-LAW-Agent",
             "QBY-Inherit-Tag-from-Subscription",
             "QBY-Require-Tag-on-ResourceGroup",
             "QBY-Require-Tag"
-            
+            "QBY-Allowed-VM-SKUs",
+            "QBY-Deploy-DependencyAgent",
+            "QBY-Deploy-VM-Backup"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",

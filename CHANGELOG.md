@@ -9,6 +9,7 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ### Added
 - Initiative deploying new Azure Monitoring Agent and associating data collection rules
+- Policy definition to allow vm/vmss SKUs
 
 ### Removed
 - Policies deploying the old Microsoft Monitoring Agent

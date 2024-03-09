@@ -11,53 +11,74 @@
             "version": "2.0.0",
             "category": "Tags"
         },
-        "parameters": {},
-        "policyDefinitions": ${jsonencode(flatten([[for name, required in inherited_required_tags: [
-                    {
-                        "policyDefinitionReferenceId": "Inherit_${name}_from_rg",
-                        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
-                        "parameters": {
-                            "tagName": {
-                                "value": "${name}"
-                            }
+        "parameters": {
+            "effectRequired": {
+                "type": "String",
+                "defaultValue": "Deny",
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect Require Tags",
+                    "description": "The effect determines what happens when a required tag is missing."
+                }
+            }
+        },
+        "policyDefinitions": ${jsonencode(flatten([
+                [for name, required in inherited_required_tags: [
+                        {
+                            "policyDefinitionReferenceId": "Inherit_${name}_from_rg",
+                            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+                            "parameters": {
+                                "tagName": {
+                                    "value": "${name}"
+                                }
+                            },
+                            "groupNames": []
                         },
-                        "groupNames": []
-                    },
-                    {
-                        "policyDefinitionReferenceId": "Inherit_${name}_from_subscription",
-                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Inherit-Tag-from-Subscription",
-                        "parameters": {
-                            "tagName": {
-                                "value": "${name}"
-                            }
+                        {
+                            "policyDefinitionReferenceId": "Inherit_${name}_from_subscription",
+                            "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Inherit-Tag-from-Subscription",
+                            "parameters": {
+                                "tagName": {
+                                    "value": "${name}"
+                                }
+                            },
+                            "groupNames": []
+                        }
+                    ]
+                ],
+                [for name,required in inherited_required_tags: [
+                        {
+                            "policyDefinitionReferenceId": "Require_${name}_on_rg",
+                            "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag-on-ResourceGroup",
+                            "parameters": {
+                                "tagName": {
+                                    "value": "${name}"
+                                },
+                                "effect": {
+                                    "value": "[parameters('effectRequired')]"
+                                }
+                            },
+                            "groupNames": []
                         },
-                        "groupNames": []
-                    }
+                        {
+                            "policyDefinitionReferenceId": "Require_${name}_on_resource",
+                            "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
+                            "parameters": {
+                                "tagName": {
+                                    "value": "${name}"
+                                },
+                                "effect": {
+                                    "value": "[parameters('effectRequired')]"
+                                }
+                            },
+                            "groupNames": []
+                        }
+                    ] if required == true
                 ]
-            ],
-            [for name,required in inherited_required_tags: [
-                    {
-                        "policyDefinitionReferenceId": "Require_${name}_on_rg",
-                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag-on-ResourceGroup",
-                        "parameters": {
-                            "tagName": {
-                                "value": "${name}"
-                            }
-                        },
-                        "groupNames": []
-                    },
-                    {
-                        "policyDefinitionReferenceId": "Require_${name}_on_resource",
-                        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Tag",
-                        "parameters": {
-                            "tagName": {
-                                "value": "${name}"
-                            }
-                        },
-                        "groupNames": []
-                    }
-                ] if required == true
-            ]
             ]))
         },
         "policyDefinitionGroups": null

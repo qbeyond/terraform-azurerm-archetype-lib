@@ -249,7 +249,7 @@
                     "metadata": {
                       "description": "Location of the Virtual Machine."
                     }
-                  }
+                  },
                   "duration": {
                     "defaultValue": "03:55",
                     "type": "String",

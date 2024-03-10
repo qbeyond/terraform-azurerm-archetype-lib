@@ -194,6 +194,9 @@
                 "location": {
                   "value": "[parameters('location')]"
                 },
+                "locationVm": {
+                  "value": "[field('location')]"
+                },
                 "duration": {
                   "value": "[parameters('duration')]"
                 },
@@ -241,6 +244,12 @@
                       "description": "Location of the maintenance resources."
                     }
                   },
+                  "locationVm": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Location of the Virtual Machine."
+                    }
+                  }
                   "duration": {
                     "defaultValue": "03:55",
                     "type": "String",
@@ -369,7 +378,7 @@
                     "type": "Microsoft.Compute/virtualMachines",
                     "apiVersion": "2023-03-01",
                     "name": "[parameters('vmName')]",
-                    "location": "[parameters('location')]",
+                    "location": "[parameters('locationVm')]",
                     "properties": {
                       "osProfile": "[variables('windowsOSProfile')]"
                     }

@@ -17,6 +17,11 @@ The policies for Update Management supporting the following feature currently:
   - ~~Patch settings updated if needed~~
   - ~~Maintenance configuration created if needed~~
   - ~~Configuration Assignment created or updated if needed~~
+- Updating VM (Not the tags eg. SKU)
+  - Compliance correctly evaluated
+  - Patch settings updated if needed
+  - Maintenance configuration created if needed
+  - Configuration Assignment created or updated if needed
 
 ## Decisions
 

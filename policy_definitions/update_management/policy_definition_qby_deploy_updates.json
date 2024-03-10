@@ -391,7 +391,7 @@
                       "[concat('Microsoft.Resources/deployments/',variables('uniqueDeploymentName'))]",
                       "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
                     ],
-                    "location": "[parameters('location')]",
+                    "location": "[parameters('locationVm')]",
                     "scope": "[variables('scope')]",
                     "properties": {
                       "maintenanceConfigurationId": "[concat('/subscriptions/', parameters('managementSubscriptionId'), '/resourcegroups/', parameters('managementResourceGroup'), '/providers/microsoft.maintenance/maintenanceconfigurations/', parameters('severityGroupName'))]",

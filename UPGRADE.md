@@ -15,6 +15,8 @@ To upgrade the Module itself you need to add `linuxDCRs` & `windowsDCRs` to `tem
 
 ### Update Management
 
+The archetype `qby_msp` includes everything needed to update WIndows VMs thanks to the policy initiative `QBY-Deploy-Update-Mgmt`. Therefore any other Update configuration should be deleted, when using this new version (eg. module `qbeyond/update-management/azurerm`).
+
 The Update Management Initiative requires to set at least the `managementSubscriptionId` of the assignment. For any management group using the archetype `qby_msp` add it like this:
 
 ```terraform

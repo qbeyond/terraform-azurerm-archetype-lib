@@ -155,7 +155,6 @@
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
             "QBY-Deploy-Update-Mgmt",
-            "QBY-Deploy-Tag-Inheritance",
             "QBY-Deploy-VM-Monitoring",
             "QBY-Tagging-Governance"
         ],

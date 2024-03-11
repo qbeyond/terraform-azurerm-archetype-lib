@@ -1,0 +1,137 @@
+{
+  "name": "QBY-Require-Update-Allowed-Tag",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "properties": {
+    "displayName": "Require the tag 'Update Allowed' to be 'yes' on VMs and Arc machines",
+    "description": "Require the tag 'Update Allowed' to be 'yes' on VMs and Arc machines as disabling updates is not supported as the moment.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Azure Update Manager"
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "osTypeArc": {
+        "type": "String",
+        "metadata": {
+          "displayName": "OS type Arc machines included",
+          "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
+        },
+        "allowedValues": [
+          "All",
+          "Windows",
+          "Linux",
+          "None"
+        ],
+        "defaultValue": "None"
+      },
+      "osOffers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "OS offers included",
+          "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
+        },
+        "defaultValue": [
+          "Windows*"
+        ]
+      },
+      "osSKUs": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "OS SKUs included",
+          "description": "Include only OS SKUs of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
+      "effect": {
+        "type": "string",
+        "defaultValue": "Deny",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The effect determines what happens when the policy rule is evaluated to match"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.HybridCompute/machines"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.HybridCompute/machines/osType",
+                        "like": "[parameters('osTypeArc')]"
+                      },
+                      {
+                        "value": "[parameters('osTypeArc')]",
+                        "equals": "All"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                  },
+                  {
+                    "count": {
+                      "name": "offerPattern",
+                      "value": "[parameters('osOffers')]",
+                      "where": {
+                        "field": "Microsoft.Compute/ImageOffer",
+                        "like": "[current('offerPattern')]"
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "name": "skuPattern",
+                      "value": "[parameters('osSKUs')]",
+                      "where": {
+                        "field": "Microsoft.Compute/ImageSKU",
+                        "like": "[current('skuPattern')]"
+                      }
+                    },
+                    "greater": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "field": "[concat('tags[Update allowed]')]",
+              "equals": "yes"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  }
+}

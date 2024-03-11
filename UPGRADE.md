@@ -32,3 +32,5 @@ The Update Management Initiative requires to set at least the `managementSubscri
       }
     }
 ```
+
+The Initiative denys Vms & Arc machines without `Update Allowed=yes` tag on default. To reduce the impact of the policy, the effect of this policy can be set to `Audit`.

@@ -7,6 +7,7 @@ The policies for Update Management supporting the following feature currently:
   - Maintenance configuration created if needed
   - Configuration Assignment created
   - Compliance correctly evaluated
+  - Require `Updates Allowed=true`, as deactivating updates is currently not supported
 - Remediating existing VMs
   - Patch settings updated if needed
   - Maintenance configuration created if needed
@@ -22,6 +23,7 @@ The policies for Update Management supporting the following feature currently:
   - Patch settings updated if needed
   - Maintenance configuration created if needed
   - Configuration Assignment created or updated if needed
+  - Require `Updates Allowed=true`, as deactivating updates is currently not supported
 
 ## Decisions
 

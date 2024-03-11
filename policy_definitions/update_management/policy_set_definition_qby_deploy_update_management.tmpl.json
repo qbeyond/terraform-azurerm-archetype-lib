@@ -30,6 +30,19 @@
                     "description": "Location of the maintenance resources.",
                     "strongType": "location"
                 }
+            },
+            "effectRequireUpdateAllowedTag": {
+                "type": "String",
+                "defaultValue": "Deny",
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "description": "Effect if the tag 'Update Allowed' is not 'yes'.",
+                    "displayName": "Effect Require Update Allowed"
+                }
             }
         },
         "policyDefinitions": [
@@ -75,6 +88,16 @@
                 "policyDefinitionReferenceId": "Configure periodic checking for missing system updates on azure Arc-enabled servers",
                 "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bfea026e-043f-4ff4-9d1b-bf301ca7ff46",
                 "parameters": {},
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Require tag 'Update Allowed' to be 'yes'",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Update-Allowed-Tag",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectRequireUpdateAllowedTag')]"
+                    }
+                },
                 "groupNames": []
             }
         ],

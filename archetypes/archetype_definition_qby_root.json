@@ -134,6 +134,7 @@
             "QBY-Deploy-Updates",
             "QBY-Require-Severity-Group-Tag",
             "QBY-Configure-Windows-Patch-Settings",
+            "QBY-Require-Update-Allowed-Tag",
             "QBY-Allowed-VM-SKUs",
             "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-Tags-To-RG",

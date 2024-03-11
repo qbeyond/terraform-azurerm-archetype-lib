@@ -13,6 +13,7 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 - Initiative deploying new Azure Monitoring Agent and associating data collection rules
 - added policy set for Azure Update Manager
+- Added require tags policy set defitions and assignment
 - Policy definition to allow vm/vmss SKUs
 
 
@@ -22,9 +23,13 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [2.3.0] - 2024-01-12
 
+### Added
+
 - Added Audit-AzureHybridBenefit to root policy defitions
 
 ## [2.2.0] - 2024-01-10
+
+### Added
 
 - Added deploy log analytics policy
 
@@ -33,6 +38,8 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - Renamed tagging policy assignment
 
 ## [2.1.0] - 2023-12-18
+
+### Added
 
 - Added tag inheritance policy setup
 

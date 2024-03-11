@@ -1,0 +1,50 @@
+{
+    "name": "QBY-Require-Tag",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2021-06-01",
+    "properties": {
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "displayName": "Require tag on resources",
+        "description": "Require resources to have specified non empty tag",
+        "parameters": {
+            "tagName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Tag Name",
+                    "description": "Name of the tag required."
+                }
+            },
+            "effect": {
+                "type": "String",
+                "defaultValue": "Deny",
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "anyOf": [
+                    {
+                        "field": "[concat('tags[', parameters('tagName'), ']')]",
+                        "exists": false
+                    },
+                    {
+                        "field": "[concat('tags[', parameters('tagName'), ']')]",
+                        "equals": ""
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}

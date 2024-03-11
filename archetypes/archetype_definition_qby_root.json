@@ -12,7 +12,7 @@
             "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
             "Enforce-ACSB",
-            "QBY-Deploy-Tag-Structure"
+            "QBY-Tagging-Governance"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",
@@ -130,9 +130,11 @@
             "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
+            "QBY-Inherit-Tag-from-Subscription",
+            "QBY-Require-Tag-on-ResourceGroup",
+            "QBY-Require-Tag",
             "QBY-Allowed-VM-SKUs",
             "QBY-Deploy-DependencyAgent",
-            "QBY-Deploy-Tags-To-RG",
             "QBY-Deploy-VM-Backup"
         ],
         "policy_set_definitions": [
@@ -148,8 +150,8 @@
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
-            "QBY-Deploy-Tag-Inheritance",
-            "QBY-Deploy-VM-Monitoring"
+            "QBY-Deploy-VM-Monitoring",
+            "QBY-Tagging-Governance"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

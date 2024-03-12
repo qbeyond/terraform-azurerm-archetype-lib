@@ -16,3 +16,26 @@ To upgrade the Module itself you need to add `linuxDCRs` & `windowsDCRs` to `tem
 ### Tagging Governance
 
 To upgrade to the new Tagging governance policy initiative, remote the `tags` property of `template_file_variables` and add a map of bools as `inherited_required_tags`, where the key is the tag name and the value is wether this tag is required (`true`) or only inherited (`false`).
+
+
+### Update Management
+
+The archetype `qby_msp` includes everything needed to update WIndows VMs thanks to the policy initiative `QBY-Deploy-Update-Mgmt`. Therefore any other Update configuration should be deleted, when using this new version (eg. module `qbeyond/update-management/azurerm`).
+
+The Update Management Initiative requires to set at least the `managementSubscriptionId` of the assignment. For any management group using the archetype `qby_msp` add it like this:
+
+```terraform
+    "msp" = {
+        // ...
+      archetype_config = {
+        archetype_id   = "qby_msp"
+        parameters     = {
+          QBY-Deploy-Update-Mgmt = {
+            managementSubscriptionId = "1234-12321432-12312432-123234"
+          }
+        }
+      }
+    }
+```
+
+The Initiative denys Vms & Arc machines without `Update Allowed=yes` tag on default. To reduce the impact of the policy, the effect of this policy can be set to `Audit`.

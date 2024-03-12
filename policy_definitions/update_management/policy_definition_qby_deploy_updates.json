@@ -1,0 +1,412 @@
+{
+  "name": "QBY-Deploy-Updates",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure Updates for VMs and Arc machines based on Tag Severity Group Monthly",
+    "description": "Configure Updates for VMs and Arc machines based on Tag Severity Group Monthly via Update Manager",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Azure Update Manager",
+      "createdBy": "bf031ebb-115d-4c36-b9b5-6e0036b0e486",
+      "createdOn": "2024-02-29T14:52:37.3606506Z",
+      "updatedBy": "bf031ebb-115d-4c36-b9b5-6e0036b0e486",
+      "updatedOn": "2024-03-01T07:38:22.742125Z"
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "managementSubscriptionId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "managementSubscriptionId",
+          "description": "Subscription ID of the management subscription."
+        }
+      },
+      "managementResourceGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "managementResourceGroup",
+          "description": "Name of the management resource group. The maintenance configuration will be deloyed there."
+        }
+      },
+      "location": {
+        "type": "String",
+        "metadata": {
+          "displayName": "location",
+          "description": "Location of the maintenance resources.",
+          "strongType": "location"
+        }
+      },
+      "duration": {
+        "type": "String",
+        "metadata": {
+          "displayName": "duration",
+          "description": "Duration of the maintance window in format hh:mm. Maximum value is 03:55."
+        },
+        "defaultValue": "03:55"
+      },
+      "timeZone": {
+        "type": "String",
+        "metadata": {
+          "displayName": "timeZone",
+          "description": "Time zone to use for the maintenance windows configuration."
+        },
+        "defaultValue": "W. Europe Standard Time"
+      },
+      "osTypeArc": {
+        "type": "String",
+        "metadata": {
+          "displayName": "OS type Arc machines included",
+          "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
+        },
+        "allowedValues": [
+          "All",
+          "Windows",
+          "Linux",
+          "None"
+        ],
+        "defaultValue": "None"
+      },
+      "osOffers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "OS offers included",
+          "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
+        },
+        "defaultValue": [
+          "Windows*"
+        ]
+      },
+      "osSKUs": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "OS SKUs included",
+          "description": "Include only OS SKUs of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
+      "effect": {
+        "type": "string",
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "[parameters'effect']",
+          "description": "The effect determines what happens when the policy rule is evaluated to match"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "tags['Severity Group Monthly']",
+            "exists": true
+          },
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.HybridCompute/machines"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.HybridCompute/machines/osType",
+                        "like": "[parameters('osTypeArc')]"
+                      },
+                      {
+                        "value": "[parameters('osTypeArc')]",
+                        "equals": "All"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                  },
+                  {
+                    "count": {
+                      "name": "offerPattern",
+                      "value": "[parameters('osOffers')]",
+                      "where": {
+                        "field": "Microsoft.Compute/ImageOffer",
+                        "like": "[current('offerPattern')]"
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "name": "skuPattern",
+                      "value": "[parameters('osSKUs')]",
+                      "where": {
+                        "field": "Microsoft.Compute/ImageSKU",
+                        "like": "[current('skuPattern')]"
+                      }
+                    },
+                    "greater": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Maintenance/configurationAssignments",
+          "evaluationDelay": "AfterProvisioningSuccess",
+          "name": "[concat('cas-', field('name'))]",
+          "existenceCondition": {
+            "field": "Microsoft.Maintenance/configurationAssignments/maintenanceConfigurationId",
+            "equals": "[concat('/subscriptions/', parameters('managementSubscriptionId'), '/resourcegroups/', parameters('managementResourceGroup'), '/providers/microsoft.maintenance/maintenanceconfigurations/', field(concat('tags[Severity Group Monthly]')))]"
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "Incremental",
+              "parameters": {
+                "severityGroupName": {
+                  "value": "[field(concat('tags[Severity Group Monthly]'))]"
+                },
+                "managementSubscriptionId": {
+                  "value": "[parameters('managementSubscriptionId')]"
+                },
+                "managementResourceGroup": {
+                  "value": "[parameters('managementResourceGroup')]"
+                },
+                "location": {
+                  "value": "[parameters('location')]"
+                },
+                "locationVm": {
+                  "value": "[field('location')]"
+                },
+                "duration": {
+                  "value": "[parameters('duration')]"
+                },
+                "timeZone": {
+                  "value": "[parameters('timeZone')]"
+                },
+                "vmName": {
+                  "value": "[field('name')]"
+                },
+                "vmResourceId": {
+                  "value": "[field('id')]"
+                },
+                "patchModeSetting": {
+                  "value": "[if(empty(field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings')), bool('false'), field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule'))]"
+                },
+                "patchMode": {
+                  "value": "[field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "severityGroupName": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Name of the severity group/ maintenance configuration."
+                    }
+                  },
+                  "managementSubscriptionId": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Subscription ID of the management subscription."
+                    }
+                  },
+                  "managementResourceGroup": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Name of the management resource group. The maintenance configuration will be deloyed there."
+                    }
+                  },
+                  "location": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Location of the maintenance resources."
+                    }
+                  },
+                  "locationVm": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Location of the Virtual Machine."
+                    }
+                  },
+                  "duration": {
+                    "defaultValue": "03:55",
+                    "type": "String",
+                    "metadata": {
+                      "description": "Duration of the maintance window in format hh:mm. Maximum value is 03:55."
+                    }
+                  },
+                  "timeZone": {
+                    "defaultValue": "W. Europe Standard Time",
+                    "type": "String"
+                  },
+                  "startDate": {
+                    "defaultValue": "[utcNow('yyyy-MM-dd')]",
+                    "type": "string"
+                  },
+                  "vmName": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Name of the Virtual Machine."
+                    }
+                  },
+                  "vmResourceId": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "ResourceId of the Virtual Machine."
+                    }
+                  },
+                  "patchModeSetting": {
+                    "type": "bool",
+                    "metadata": {
+                      "description": "patchModeSetting of the Virtual Machine."
+                    }
+                  },
+                  "patchMode": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "patchMode of the Virtual Machine."
+                    }
+                  }
+                },
+                "variables": {
+                  "updateOptions": {
+                    "C": "Critical",
+                    "S": "Security",
+                    "U": "UpdateRollup",
+                    "F": "FeaturePack",
+                    "E": "ServicePack",
+                    "D": "Definition",
+                    "T": "Tools",
+                    "G": "Updates"
+                  },
+                  "rebootOptions": {
+                    "reboot": "IfRequired",
+                    "alwaysreboot": "Always",
+                    "neverreboot": "Never"
+                  },
+                  "splitSeverityGroup": "[split(parameters('severityGroupName'),'-')]",
+                  "recurEvery": "[concat(variables('splitSeverityGroup')[0], 'Month', ' ', variables('splitSeverityGroup')[1],' ', variables('splitSeverityGroup')[2])]",
+                  "startTime": "[concat(substring(variables('splitSeverityGroup')[3], 0, 2), ':', substring(variables('splitSeverityGroup')[3], 2, 2)  )]",
+                  "startDateTime": "[concat(parameters('startDate'), ' ', variables('startTime'))]",
+                  "updateClassification": "[map(range(0, sub(length(replace(variables('splitSeverityGroup')[4],'X', '')), 1 )), lambda('i', variables('updateOptions')[substring(replace(variables('splitSeverityGroup')[4],'X',''), lambdaVariables('i'),1 )] )) ]",
+                  "rebootSetting": "[variables('rebootOptions')[variables('splitSeverityGroup')[5]]]",
+                  "uniqueDeploymentName": "[concat('NestedDeploymentName-', uniqueString(deployment().name))]",
+                  "scope": "[concat('Microsoft.Compute/virtualMachines', '/', parameters('vmName'))]",
+                  "patchModeSettingsIncorrect": "[not(equals(parameters('patchModeSetting'),bool('true')))]",
+                  "patchModeIncorrect": "[not(equals(parameters('patchMode'), 'AutomaticByPlatform'))]",
+                  "patchModeShouldBeChanged": "[or(variables('patchModeSettingsIncorrect'), variables('patchModeIncorrect'))]",
+                  "windowsOSProfile": {
+                    "windowsConfiguration": {
+                      "patchSettings": {
+                        "patchMode": "AutomaticByPlatform",
+                        "automaticByPlatformSettings": {
+                          "bypassPlatformSafetyChecksOnUserSchedule": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2019-10-01",
+                    "name": "[variables('uniqueDeploymentName')]",
+                    "subscriptionId": "[parameters('managementSubscriptionId')]",
+                    "resourceGroup": "[parameters('managementResourceGroup')]",
+                    "properties": {
+                      "mode": "Incremental",
+                      "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "variables": {},
+                        "resources": [
+                          {
+                            "type": "Microsoft.Maintenance/maintenanceConfigurations",
+                            "apiVersion": "2023-04-01",
+                            "name": "[parameters('severityGroupName')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                              "extensionProperties": {
+                                "InGuestPatchMode": "User"
+                              },
+                              "installPatches": {
+                                "rebootSetting": "[variables('rebootSetting')]",
+                                "windowsParameters": {
+                                  "classificationsToInclude": "[variables('updateClassification')]",
+                                  "excludeKbsRequiringReboot": "",
+                                  "kbNumbersToExclude": [],
+                                  "kbNumbersToInclude": []
+                                }
+                              },
+                              "maintenanceScope": "InGuestPatch",
+                              "maintenanceWindow": {
+                                "duration": "[parameters('duration')]",
+                                "recurEvery": "[variables('recurEvery')]",
+                                "startDateTime": "[variables('startDateTime')]",
+                                "timeZone": "[parameters('timeZone')]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "condition": "[variables('patchModeShouldBeChanged')]",
+                    "type": "Microsoft.Compute/virtualMachines",
+                    "apiVersion": "2023-03-01",
+                    "name": "[parameters('vmName')]",
+                    "location": "[parameters('locationVm')]",
+                    "properties": {
+                      "osProfile": "[variables('windowsOSProfile')]"
+                    }
+                  },
+                  {
+                    "type": "Microsoft.Maintenance/configurationAssignments",
+                    "apiVersion": "2023-04-01",
+                    "name": "[concat('cas-', parameters('vmName'))]",
+                    "dependsOn": [
+                      "[concat('Microsoft.Resources/deployments/',variables('uniqueDeploymentName'))]",
+                      "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+                    ],
+                    "location": "[parameters('locationVm')]",
+                    "scope": "[variables('scope')]",
+                    "properties": {
+                      "maintenanceConfigurationId": "[concat('/subscriptions/', parameters('managementSubscriptionId'), '/resourcegroups/', parameters('managementResourceGroup'), '/providers/microsoft.maintenance/maintenanceconfigurations/', parameters('severityGroupName'))]",
+                      "resourceId": "[parameters('vmResourceId')]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  }
+}

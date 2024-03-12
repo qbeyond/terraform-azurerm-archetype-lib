@@ -130,6 +130,10 @@
             "Deploy-Vm-autoShutdown",
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
+            "QBY-Deploy-Updates",
+            "QBY-Require-Severity-Group-Tag",
+            "QBY-Configure-Windows-Patch-Settings",
+            "QBY-Require-Update-Allowed-Tag",
             "QBY-Inherit-Tag-from-Subscription",
             "QBY-Require-Tag-on-ResourceGroup",
             "QBY-Require-Tag",
@@ -150,6 +154,7 @@
             "Enforce-Encryption-CMK",
             "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
+            "QBY-Deploy-Update-Mgmt",
             "QBY-Deploy-VM-Monitoring",
             "QBY-Tagging-Governance"
         ],

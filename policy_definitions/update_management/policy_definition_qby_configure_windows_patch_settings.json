@@ -1,0 +1,169 @@
+{
+  "name": "QBY-Configure-Windows-Patch-Settings",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure Patch settings of Windows VMs for Update Manager",
+    "description": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule of Windows VM to work with Update Manager.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Azure Update Manager",
+      "createdBy": "bf031ebb-115d-4c36-b9b5-6e0036b0e486",
+      "createdOn": "2024-02-29T14:54:27.1716462Z",
+      "updatedBy": "bf031ebb-115d-4c36-b9b5-6e0036b0e486",
+      "updatedOn": "2024-03-01T07:08:36.8106183Z"
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "osOffers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "OS offers included",
+          "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
+        },
+        "defaultValue": [
+          "Windows*"
+        ]
+      },
+      "osSKUs": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "OS SKUs included",
+          "description": "Include only OS SKUs of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
+      "effect": {
+        "type": "string",
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "[parameters'effect']",
+          "description": "The effect determines what happens when the policy rule is evaluated to match"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "count": {
+              "name": "offerPattern",
+              "value": "[parameters('osOffers')]",
+              "where": {
+                "field": "Microsoft.Compute/ImageOffer",
+                "like": "[current('offerPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "name": "skuPattern",
+              "value": "[parameters('osSKUs')]",
+              "where": {
+                "field": "Microsoft.Compute/ImageSKU",
+                "like": "[current('skuPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "field": "tags['Severity Group Monthly']",
+            "exists": true
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+          ],
+          "type": "Microsoft.Compute/virtualMachines",
+          "name": "[field('name')]",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
+                "equals": "AutomaticByPlatform"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "machineName": {
+                  "value": "[field('name')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "location": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Location of the maintenance resources."
+                    }
+                  },
+                  "machineName": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Name of the virtual machine"
+                    }
+                  }
+                },
+                "variables": {
+                  "windowsOSProfile": {
+                    "windowsConfiguration": {
+                      "patchSettings": {
+                        "patchMode": "AutomaticByPlatform",
+                        "automaticByPlatformSettings": {
+                          "bypassPlatformSafetyChecksOnUserSchedule": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Compute/virtualMachines",
+                    "apiVersion": "2023-03-01",
+                    "name": "[parameters('machineName')]",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "osProfile": "[variables('windowsOSProfile')]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  }
+}

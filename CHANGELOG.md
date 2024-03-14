@@ -8,6 +8,13 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+### Removed
+
+### Changed
+
+## [3.0.0]
 
 ### Added
 
@@ -15,7 +22,6 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - added policy set for Azure Update Manager
 - Added require tags policy set defitions and assignment
 - Policy definition to allow vm/vmss SKUs
-
 
 ### Removed
 

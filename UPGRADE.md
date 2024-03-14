@@ -4,6 +4,8 @@ This document includes guidelines what to do to upgrade to a new major version. 
 
 ## [Unreleased]
 
+## [3.0.0]
+
 ### MMA to AMA
 
 This version moves away from the Microsoft Monitoring Agent to the Azure Monitoring Agent. Therefore you need to check everything related to Monitoring eg.:

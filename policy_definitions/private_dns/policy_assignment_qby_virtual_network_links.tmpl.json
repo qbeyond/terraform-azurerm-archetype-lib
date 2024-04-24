@@ -7,7 +7,7 @@
         "displayName": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
         "notScopes": [],
         "parameters": {},
-        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-VM-Backup",
+        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Vnet-Links",
         "nonComplianceMessages": [],
         "scope": "${current_scope_resource_id}",
         "enforcementMode": null

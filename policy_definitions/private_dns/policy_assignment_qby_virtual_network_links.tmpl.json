@@ -1,0 +1,19 @@
+{
+    "name": "QBY-Deploy-Vnet-Links",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+        "description": "Create Private DNS Zone Virtual Network Link to provided Virtual Networks if not available",
+        "displayName": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
+        "notScopes": [],
+        "parameters": {},
+        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Vnet-Links",
+        "nonComplianceMessages": [],
+        "scope": "${current_scope_resource_id}",
+        "enforcementMode": null
+    },
+    "location": "${default_location}",
+    "identity": {
+        "type": "SystemAssigned"
+    }
+}

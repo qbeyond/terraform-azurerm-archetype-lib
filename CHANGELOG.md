@@ -14,6 +14,12 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ### Changed
 
+## [3.1.0]
+
+### Added
+
+- Policy that automatically creates Private DNS Zone Virtual Network Links to a list of given Virtual Networks
+
 ## [3.0.0]
 
 ### Added

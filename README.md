@@ -30,7 +30,7 @@ As this repository uses Semantic versioning upgrading minor or patch releases sh
 ## Examples
 
 ### Basic
-First, the given template is adding this Module as `archetype_lib`. The Path of the library that is supposed to be summarized with the q.beyond library is set as the value of `cutomer_lib`.
+First, the given template is adding this Module as `archetype_lib`. The Path of the library that is supposed to be summarized with the q.beyond library is set as the value of `cutomer_lib`. 
 The output ´file_names´ can be used to manualy check whether all files that are supposed to be included in the merged library are included, as it outputs the names of all files that were added.
 The output of `merged_library` is supposed to be the input for the [CAF-Module](https://registry.terraform.io/modules/Azure/caf-enterprise-scale/azurerm/latest) for the parameter named `archetype_lib`
 
@@ -69,20 +69,21 @@ output "merged_library" {
 | <a name="output_file_names"></a> [file\_names](#output\_file\_names) | Outputs the files which were added to the library. |
 | <a name="output_merged_library"></a> [merged\_library](#output\_merged\_library) | Path to where the library containing both libraries can be found. This output can be given to the CAF-Module. |
 
-## Resource types
-| Type | Used |
-|------|-------|
-| [local_file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | 1 |
-**`Used` only includes resource blocks.** `for_each` and `count` meta arguments, as well as resource blocks of modules are not considered.
-
+      ## Resource types
+      | Type | Used |
+      |------|-------|
+        | [local_file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | 1 |
+      **`Used` only includes resource blocks.** `for_each` and `count` meta arguments, as well as resource blocks of modules are not considered.
+    
 ## Modules
 
 No modules.
 
-## Resources by Files
-### main.tf
-| Name | Type |
-|------|------|
-| [local_file.copied_files](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
+        ## Resources by Files
+            ### main.tf
+            | Name | Type |
+            |------|------|
+                  | [local_file.copied_files](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
+    
 <!-- END_TF_DOCS -->
 

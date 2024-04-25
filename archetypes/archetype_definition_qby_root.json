@@ -139,7 +139,8 @@
             "QBY-Require-Tag",
             "QBY-Allowed-VM-SKUs",
             "QBY-Deploy-DependencyAgent",
-            "QBY-Deploy-VM-Backup"
+            "QBY-Deploy-VM-Backup",
+            "QBY-Deploy-Vnet-Links"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",

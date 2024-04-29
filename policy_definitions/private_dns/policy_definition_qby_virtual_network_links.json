@@ -12,12 +12,12 @@
         "mode": "All",
         "parameters": {
             "virtualNetworkResourceId": {
-                "defaultValue": [],
+                "defaultValue": "",
                 "metadata": {
-                    "description": "Resource Ids of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
-                    "displayName": "Vnet Resource IDs"
+                    "description": "Resource Id of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
+                    "displayName": "Vnet Resource ID"
                 },
-                "type": "array"
+                "type": "string"
             },
             "registrationEnabled": {
                 "defaultValue": false,
@@ -59,7 +59,7 @@
                                 "field": "type"
                             },
                             {
-                                "in": "[parameters('virtualNetworkResourceId')]",
+                                "equals": "[parameters('virtualNetworkResourceId')]",
                                 "field": "Microsoft.Network/privateDnsZones/virtualNetworkLinks/virtualNetwork.id"
                             }
                         ]
@@ -95,17 +95,13 @@
                                 "resources": [
                                     {
                                         "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
-                                        "apiVersion": "2018-09-01",
-                                        "name": "[concat(parameters('privateDnsZoneName'),'/',concat(parameters('privateDnsZoneName'),'-', last(split(parameters('virtualNetworkResourceId')[copyIndex()],'/'))))]",
+                                        "apiVersion": "2020-06-01",
+                                        "name": "[concat(parameters('privateDnsZoneName'),'/',concat(parameters('privateDnsZoneName'),'-', last(split(parameters('virtualNetworkResourceId')],'/'))))]",
                                         "location": "global",
-                                        "copy": {
-                                            "name": "vnetlink-counter",
-                                            "count": "[length(parameters('virtualNetworkResourceId'))]"
-                                        },
                                         "properties": {
                                             "registrationEnabled": "[parameters('registrationEnabled')]",
                                             "virtualNetwork": {
-                                                "id": "[parameters('virtualNetworkResourceId')[copyIndex()]]"
+                                                "id": "[parameters('virtualNetworkResourceId')]"
                                             }
                                         }
                                     }

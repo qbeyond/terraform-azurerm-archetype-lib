@@ -14,6 +14,12 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ### Changed
 
+## [4.0.0]
+
+### Changed
+
+- Changed parameter type from to string since
+
 ## [3.1.0]
 
 ### Added

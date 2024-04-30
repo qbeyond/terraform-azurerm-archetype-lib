@@ -86,7 +86,7 @@
                                         "type": "String"
                                     },
                                     "virtualNetworkResourceId": {
-                                        "type": "array"
+                                        "type": "String"
                                     },
                                     "registrationEnabled": {
                                         "type": "bool"

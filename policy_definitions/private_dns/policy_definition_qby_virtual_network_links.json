@@ -3,8 +3,8 @@
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "properties": {
-        "displayName": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
-        "description": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
+        "displayName": "Create Private DNS Zone Virtual Network Link to specified Virtual Network",
+        "description": "Create Private DNS Zone Virtual Network Link to specified Virtual Network for all private DNS zones.",
         "metadata": {
             "category": "Network",
             "version": "1.0.0"
@@ -12,12 +12,11 @@
         "mode": "All",
         "parameters": {
             "virtualNetworkResourceId": {
-                "defaultValue": [],
                 "metadata": {
-                    "description": "Resource Ids of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
-                    "displayName": "Vnet Resource IDs"
+                    "description": "Resource Id of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
+                    "displayName": "Vnet Resource ID"
                 },
-                "type": "array"
+                "type": "string"
             },
             "registrationEnabled": {
                 "defaultValue": false,
@@ -59,7 +58,7 @@
                                 "field": "type"
                             },
                             {
-                                "in": "[parameters('virtualNetworkResourceId')]",
+                                "equals": "[parameters('virtualNetworkResourceId')]",
                                 "field": "Microsoft.Network/privateDnsZones/virtualNetworkLinks/virtualNetwork.id"
                             }
                         ]
@@ -86,7 +85,7 @@
                                         "type": "String"
                                     },
                                     "virtualNetworkResourceId": {
-                                        "type": "array"
+                                        "type": "String"
                                     },
                                     "registrationEnabled": {
                                         "type": "bool"
@@ -95,17 +94,13 @@
                                 "resources": [
                                     {
                                         "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
-                                        "apiVersion": "2018-09-01",
-                                        "name": "[concat(parameters('privateDnsZoneName'),'/',concat(parameters('privateDnsZoneName'),'-', last(split(parameters('virtualNetworkResourceId')[copyIndex()],'/'))))]",
+                                        "apiVersion": "2020-06-01",
+                                        "name": "[concat(parameters('privateDnsZoneName'),'/',concat(parameters('privateDnsZoneName'),'-', last(split(parameters('virtualNetworkResourceId')],'/'))))]",
                                         "location": "global",
-                                        "copy": {
-                                            "name": "vnetlink-counter",
-                                            "count": "[length(parameters('virtualNetworkResourceId'))]"
-                                        },
                                         "properties": {
                                             "registrationEnabled": "[parameters('registrationEnabled')]",
                                             "virtualNetwork": {
-                                                "id": "[parameters('virtualNetworkResourceId')[copyIndex()]]"
+                                                "id": "[parameters('virtualNetworkResourceId')]"
                                             }
                                         }
                                     }

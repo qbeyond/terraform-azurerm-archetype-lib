@@ -14,6 +14,12 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ### Changed
 
+## [4.0.0]
+
+### Changed
+
+- changed type of parameter `virtualNetworkResourceId` from array to string, because multiple Ids weren't working and used anyway. Use multiple policy assignments instead.
+
 ## [3.1.0]
 
 ### Added

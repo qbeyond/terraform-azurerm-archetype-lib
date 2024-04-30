@@ -95,8 +95,8 @@
                                     {
                                         "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
                                         "apiVersion": "2020-06-01",
-                                        "name": "[concat(parameters('privateDnsZoneName'),'/',concat(parameters('privateDnsZoneName'),'-', last(split(parameters('virtualNetworkResourceId')],'/'))))]",
                                         "location": "global",
+                                        "name": "[concat(parameters('privateDnsZoneName'),'/',concat(parameters('privateDnsZoneName'),'-', last(split(parameters('virtualNetworkResourceId'),'/'))))]",
                                         "properties": {
                                             "registrationEnabled": "[parameters('registrationEnabled')]",
                                             "virtualNetwork": {

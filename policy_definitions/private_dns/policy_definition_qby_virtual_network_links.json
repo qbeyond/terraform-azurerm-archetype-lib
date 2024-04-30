@@ -12,7 +12,6 @@
         "mode": "All",
         "parameters": {
             "virtualNetworkResourceId": {
-                "defaultValue": "",
                 "metadata": {
                     "description": "Resource Id of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
                     "displayName": "Vnet Resource ID"

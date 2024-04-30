@@ -3,8 +3,8 @@
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "properties": {
-        "displayName": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
-        "description": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
+        "displayName": "Create Private DNS Zone Virtual Network Link to specified Virtual Network",
+        "description": "Create Private DNS Zone Virtual Network Link to specified Virtual Network",
         "metadata": {
             "category": "Network",
             "version": "1.0.0"

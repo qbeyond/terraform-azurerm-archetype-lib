@@ -18,7 +18,8 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- Changed parameter type from to string since
+- changed parameter type from to string since
+- changed deschription
 
 ## [3.1.0]
 

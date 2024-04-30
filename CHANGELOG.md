@@ -14,6 +14,13 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ### Changed
 
+## [4.0.1]
+
+### Fixed
+
+- fixed virtualNetworkLink name generation by removing wrongly inserted square bracket
+
+
 ## [4.0.0]
 
 ### Changed

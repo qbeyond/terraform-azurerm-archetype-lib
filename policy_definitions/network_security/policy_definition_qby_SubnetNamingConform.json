@@ -126,27 +126,27 @@
                     "equals": "*"
                   },
                   {
-                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroups.securityRules[*].sourcePortRange",
+                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.securityRules[*].sourcePortRange",
                     "equals": "*"
                   },
                   {
-                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroups.securityRules[*].destinationPortRange",
+                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.securityRules[*].destinationPortRange",
                     "equals": "*"
                   },
                   {
-                    "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/virtualNetworks/subnets/networkSecurityGroups.securityRules[*].sourceAddressPrefix'),'.','-'),'/','-'))]",
+                    "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.securityRules[*].sourceAddressPrefix'),'.','-'),'/','-'))]",
                     "equals": "true"
                   },
                   {
-                    "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/virtualNetworks/subnets/networkSecurityGroups.securityRules[*].destinationAddressPrefix'),'.','-'),'/','-'))]",
+                    "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.securityRules[*].destinationAddressPrefix'),'.','-'),'/','-'))]",
                     "like": "true"
                   },
                   {
-                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroups.securityRules[*].access",
+                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.securityRules[*].access",
                     "equals": "Deny"
                   },
                   {
-                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroups.securityRules[*].direction",
+                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.securityRules[*].direction",
                     "equals": "Inbound"
                   }
                 ]

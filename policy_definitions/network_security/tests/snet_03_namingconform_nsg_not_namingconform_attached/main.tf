@@ -40,7 +40,7 @@ resource "azurerm_subnet" "snet_10_0_1_0_24" {
     address_prefixes     = ["10.0.1.0/24"]
 }
 
-resource "azurerm_subnet_network_security_group_association" "example" {
+resource "azurerm_subnet_network_security_group_association" "this" {
     subnet_id                 = azurerm_subnet.snet_10_0_1_0_24.id
     network_security_group_id = azurerm_network_security_group.this.id
 }

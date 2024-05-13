@@ -30,7 +30,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.Network/networkSecurityGroups"
+            "equals": "Microsoft.Network/virtualNetworks/subnets"
           },
           {
             "field": "name",

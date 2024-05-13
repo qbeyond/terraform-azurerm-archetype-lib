@@ -7,25 +7,21 @@ resource "azurerm_resource_group" "this" {
 }
 
 resource "azurerm_network_security_group" "this" {
-    name                = "nsg-10-0-1-0-16-subscriptionname-TestingPolicies"
+    name                = "nsg-vnet-10-0-0-0-16-subscriptionname-TestingPolicies"
     location            = azurerm_resource_group.this.location
     resource_group_name = azurerm_resource_group.this.name
+        security_rule {   
+        name                        = "DenyAllTraffic"
+        priority                    = 4096
+        direction                   = "Inbound"
+        access                      = "Deny"
+        protocol                    = "*"
+        source_port_range           = "*"
+        destination_port_range      = "*"
+        source_address_prefix       = "10.0.0.0/16"
+        destination_address_prefix  = "10.0.0.0/16"
+    }
 }
-
-resource "azurerm_network_security_rule" "this" {
-    name                        = "DenyAllTraffic"
-    priority                    = 4096
-    direction                   = "Inbound"
-    access                      = "Deny"
-    protocol                    = "*"
-    source_port_range           = "*"
-    destination_port_range      = "*"
-    source_address_prefix       = "10.0.0.0/16"
-    destination_address_prefix  = "10.0.0.0/16"
-    resource_group_name         = azurerm_network_security_group.this.resource_group_name
-    network_security_group_name = azurerm_network_security_group.this.name
-}
-
 resource "azurerm_virtual_network" "this" {
     name                = "vnet-10-0-0-0-16-westeurope"
     address_space       = ["10.0.0.0/16"]
@@ -40,7 +36,7 @@ resource "azurerm_subnet" "snet_10_0_1_0_24" {
     address_prefixes     = ["10.0.1.0/24"]
 }
 
-resource "azurerm_subnet_network_security_group_association" "example" {
+resource "azurerm_subnet_network_security_group_association" "this" {
     subnet_id                 = azurerm_subnet.snet_10_0_1_0_24.id
     network_security_group_id = azurerm_network_security_group.this.id
 }

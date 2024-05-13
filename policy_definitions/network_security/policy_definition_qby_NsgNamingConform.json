@@ -1,0 +1,165 @@
+{
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "QBY-TestNsgForNamingConvention",
+  "properties": {
+    "displayName": "Nsg Convention",
+    "description": "Test Nsg For Naming Convention, and if it has a rule that denys all inbound traffic",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "NetworkSecurity"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Deny",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The effect determines what happens when the policy rule is evaluated to match"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups"
+          },
+          {
+            "field": "name",
+            "like": "nsg-vnet-*"
+          },
+          {
+            "value": "[length(split(field('name'), '-'))]",
+            "greaterOrEquals": 8
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
+                "match": "#"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
+                "match": "##"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
+                "match": "###"
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
+                "match": "#"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
+                "match": "##"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
+                "match": "###"
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
+                "match": "#"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
+                "match": "##"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
+                "match": "###"
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
+                "match": "#"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
+                "match": "##"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
+                "match": "###"
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[6], 'length of name incorrect')]",
+                "match": "#"
+              },
+              {
+                "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[6], 'length of name incorrect')]",
+                "match": "##"
+              }
+            ]
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].protocol",
+                    "equals": "*"
+                  },
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange",
+                    "equals": "*"
+                  },
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
+                    "equals": "*"
+                  },
+                  {
+                    "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'),'.','-'),'/','-'))]",
+                    "equals": "true"
+                  },
+                  {
+                    "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix'),'.','-'),'/','-'))]",
+                    "like": "true"
+                  },
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
+                    "equals": "Deny"
+                  },
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
+                    "equals": "Inbound"
+                  }
+                ]
+              }
+            },
+            "equals": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {}
+      }
+    }
+  }
+}

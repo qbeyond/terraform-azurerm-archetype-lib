@@ -1,0 +1,22 @@
+{
+    "name": "QBY-NetworkSecurity",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "description": "Enforce namingconform NSG to have a rule that denys all inbound traffic in Vnet. Ensures all namingconform subnets to have an namingconform NSG with their Vnet in name associated",
+        "displayName": "NetworkSecurity",
+        "metadata": {
+            "version": "0.1.0",
+            "category": "NetworkSecurity"
+        },
+        "parameters": {
+        },
+        "policyDefinitions":  [ 
+            {"policyDefinitionId": "${current_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-TestSnetConvention"},
+            {"policyDefinitionId": "${current_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-TestNsgForNamingConvention"}
+        ],             
+        "policyDefinitionGroups": null
+    }
+}

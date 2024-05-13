@@ -1,0 +1,19 @@
+{
+    "qby_testNetworkPolicies": {
+        "policy_assignments": [
+            "QBY-NetworkSecurity"
+        ],
+        "policy_definitions": [
+            "QBY-TestNsgForNamingConvention",
+            "QBY-TestSnetConvention"
+        ],
+        "policy_set_definitions": [
+            "QBY-NetworkSecurity"
+        ],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {},
+            "access_control": {}
+        }
+    }
+}

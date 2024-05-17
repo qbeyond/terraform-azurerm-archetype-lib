@@ -15,7 +15,8 @@
         },
         "policyDefinitions":  [ 
             {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-TestSnetConvention"},
-            {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-TestNsgForNamingConvention"}
+            {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-TestNsgForNamingConvention"},
+            {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-TestVnetConvention"}
         ],             
         "policyDefinitionGroups": null
     }

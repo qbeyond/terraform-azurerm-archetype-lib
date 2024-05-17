@@ -5,7 +5,8 @@
         ],
         "policy_definitions": [
             "QBY-TestNsgForNamingConvention",
-            "QBY-TestSnetConvention"
+            "QBY-TestSnetConvention",
+            "QBY-TestVnetConvention"
         ],
         "policy_set_definitions": [
             "QBY-NetworkSecurity"

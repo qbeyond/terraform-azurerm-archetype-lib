@@ -36,10 +36,7 @@
             "field": "name",
             "like": "snet-*"
           },
-          {
-            "value": "[length(split(field('name'), '-'))]",
-            "greaterOrEquals": 6
-          },
+
           {
             "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id",
             "exists": "true"

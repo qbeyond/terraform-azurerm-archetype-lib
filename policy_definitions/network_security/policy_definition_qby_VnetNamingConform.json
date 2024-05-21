@@ -47,12 +47,12 @@
                       "greaterOrEquals": 6
                     },
                     {
-                      "field": "Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id",
-                      "exists": "true"
+                      "value": "[endsWith(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')[0], field('name'))]",
+                      "equals": "true"
                     },
                     {
-                      "value": "[endswith(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')[0], field('Microsoft.Network/virtualNetworks/subnets[*].name')[0])]",
-                      "equals": "true"
+                      "field": "Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id",
+                      "exists": "true"
                     },
                     {
                       "anyOf": [

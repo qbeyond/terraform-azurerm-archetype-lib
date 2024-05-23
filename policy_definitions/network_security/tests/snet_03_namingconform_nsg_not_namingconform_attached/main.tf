@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "this" {
     location = "West Europe"
 }
 resource "azurerm_network_security_group" "this" {
-    name                = "nsg-vnet-10-0-0-0-wrongNamingConvention-blubb-16-westeurope"
+    name                = "nsg-vnet-10-0-0-0-16-wrongNamingConvention-vnet-10-0-0-0-16-westeurope"
     location            = azurerm_resource_group.this.location
     resource_group_name = azurerm_resource_group.this.name
         security_rule {   

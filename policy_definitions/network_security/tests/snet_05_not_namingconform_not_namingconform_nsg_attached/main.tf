@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "this" {
 }
 
 resource "azurerm_network_security_group" "this" {
-    name                = "nsgyay-virtualnet-10-0-0-0-16-wild-west"
+    name                = "nsgyay-virtualnet-have-a-nice-day-10-0-0-0-16-west-wild"
     location            = azurerm_resource_group.this.location
     resource_group_name = azurerm_resource_group.this.name
         security_rule {   

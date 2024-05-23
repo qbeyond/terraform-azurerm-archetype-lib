@@ -27,136 +27,140 @@
     },
     "policyRule": {
       "if": {
-        "not": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Network/networkSecurityGroups"
-            },
-            {
-              "field": "name",
-              "like": "nsg-vnet-*"
-            },
-            {
-              "value": "[length(split(field('name'), '-'))]",
-              "greaterOrEquals": 8
-            },
-            {
-              "anyOf": [
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups"
+          },
+          {
+            "not": {
+              "allOf": [
                 {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
-                  "match": "#"
+                  "field": "name",
+                  "like": "nsg-vnet-*"
                 },
                 {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
-                  "match": "##"
+                  "value": "[length(split(field('name'), '-'))]",
+                  "greaterOrEquals": 8
                 },
                 {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
-                  "match": "###"
-                }
-              ]
-            },
-            {
-              "anyOf": [
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
-                  "match": "#"
-                },
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
-                  "match": "##"
-                },
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
-                  "match": "###"
-                }
-              ]
-            },
-            {
-              "anyOf": [
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
-                  "match": "#"
-                },
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
-                  "match": "##"
-                },
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
-                  "match": "###"
-                }
-              ]
-            },
-            {
-              "anyOf": [
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
-                  "match": "#"
-                },
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
-                  "match": "##"
-                },
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
-                  "match": "###"
-                }
-              ]
-            },
-            {
-              "anyOf": [
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[6], 'length of name incorrect')]",
-                  "match": "#"
-                },
-                {
-                  "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[6], 'length of name incorrect')]",
-                  "match": "##"
-                }
-              ]
-            },
-            {
-              "count": {
-                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
-                "where": {
-                  "allOf": [
+                  "anyOf": [
                     {
-                      "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].protocol",
-                      "equals": "*"
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
+                      "match": "#"
                     },
                     {
-                      "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange",
-                      "equals": "*"
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
+                      "match": "##"
                     },
                     {
-                      "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
-                      "equals": "*"
-                    },
-                    {
-                      "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'),'.','-'),'/','-'))]",
-                      "equals": "true"
-                    },
-                    {
-                      "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix'),'.','-'),'/','-'))]",
-                      "like": "true"
-                    },
-                    {
-                      "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
-                      "equals": "Deny"
-                    },
-                    {
-                      "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
-                      "equals": "Inbound"
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[2], 'length of name incorrect')]",
+                      "match": "###"
                     }
                   ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
+                      "match": "##"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[3], 'length of name incorrect')]",
+                      "match": "###"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
+                      "match": "##"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[4], 'length of name incorrect')]",
+                      "match": "###"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
+                      "match": "##"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[5], 'length of name incorrect')]",
+                      "match": "###"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[6], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 7), split(field('name'), '-')[6], 'length of name incorrect')]",
+                      "match": "##"
+                    }
+                  ]
+                },
+                {
+                  "count": {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                    "where": {
+                      "allOf": [
+                        {
+                          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].protocol",
+                          "equals": "*"
+                        },
+                        {
+                          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange",
+                          "equals": "*"
+                        },
+                        {
+                          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
+                          "equals": "*"
+                        },
+                        {
+                          "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'),'.','-'),'/','-'))]",
+                          "equals": "true"
+                        },
+                        {
+                          "value": "[contains(field('name'),replace(replace(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix'),'.','-'),'/','-'))]",
+                          "like": "true"
+                        },
+                        {
+                          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
+                          "equals": "Deny"
+                        },
+                        {
+                          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
+                          "equals": "Inbound"
+                        }
+                      ]
+                    }
+                  },
+                  "greater": 0
                 }
-              },
-              "greater": 0
+              ]
             }
-          ]
-        }
+          }
+        ]
       },
       "then": {
         "effect": "[parameters('effect')]",

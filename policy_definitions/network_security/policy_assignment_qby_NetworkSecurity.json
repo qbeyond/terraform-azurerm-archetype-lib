@@ -9,7 +9,7 @@
     "enforcementMode": null,
     "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-NetworkSecurity",
     "scope": "${current_scope_resource_id}",
-    "notScopes": [],
+    "notScopes": ${jsonencode(notScopesForQbyNetworkSecurity)},
     "parameters": {}
   },
   "location": "${default_location}",

@@ -32,11 +32,16 @@ module "caf" {
             subscription_ids = [data.azurerm_client_config.current.subscription_id]
             archetype_config = {
                 archetype_id = "qby_testNetworkPolicies"
-                parameters = {}
+                parameters = {
+                }
                 access_control = {}
             }
         }
     }
     library_path = "${path.module}/../.."
     root_id = "PolicyTesting"
+    template_file_variables = {
+        notScopesForQbyNetworkSecurity = []
+        
+    }
 }

@@ -14,15 +14,18 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ### Changed
 
+## [4.0.3]
+
+### Fixed
+
+- fixed mapping of update classifications
+- 
+
 ## [4.0.2]
 
 ### Fixed
 
-<<<<<<< fix/update-category-naming
-- fixed mapping of update classifications
-=======
 - Non compliance of VMs even if the Dependency Agent is correctly installed
->>>>>>> main
 
 
 ## [4.0.1]

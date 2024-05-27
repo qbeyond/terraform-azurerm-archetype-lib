@@ -1,9 +1,9 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "QBY-TestNsgForNamingConvention",
+  "name": "QBY-Deny-NSG-DenyAllInboundTraffic",
   "properties": {
     "displayName": "Nsg Convention",
-    "description": "Test Nsg For Naming Convention, and if it has a rule that denys all inbound traffic",
+    "description": "Check NSG For Naming Convention, and if it has a rule that denys all inbound traffic",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {

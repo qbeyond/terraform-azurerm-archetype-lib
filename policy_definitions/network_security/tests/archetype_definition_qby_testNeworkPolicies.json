@@ -4,9 +4,8 @@
             "QBY-NetworkSecurity"
         ],
         "policy_definitions": [
-            "QBY-TestNsgForNamingConvention",
-            "QBY-TestSnetConvention",
-            "QBY-VnetSubnetNsgRuleAndNamingconvention"
+            "QBY-Deny-NSG-DenyAllInboundTraffic",
+            "QBY-Deny-Vnet-Subnet-NSG"
         ],
         "policy_set_definitions": [
             "QBY-NetworkSecurity"

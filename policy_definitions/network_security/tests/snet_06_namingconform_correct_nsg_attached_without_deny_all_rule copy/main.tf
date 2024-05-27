@@ -1,5 +1,5 @@
 #Expect Policy Definition to acknowlede, that subnet is named correctly and nsg is attached, but the nsg has no deny all rule.
-#Expect to block the NSG creation
+#Expect to block the NSG creation and with that the vnet and subnets because it needs to be created first in order to attach it to the subnet by terraform
 #Expect Deployment to not work
 
 resource "azurerm_resource_group" "this" {

@@ -12,7 +12,7 @@ resource "azurerm_network_security_group" "this" {
     location            = azurerm_resource_group.this.location
     resource_group_name = azurerm_resource_group.this.name
         security_rule {   
-        name                        = "DenyAllTraffic"
+        name                        = "AllowAllTraffic"
         priority                    = 4096
         direction                   = "Inbound"
         access                      = "Allow"

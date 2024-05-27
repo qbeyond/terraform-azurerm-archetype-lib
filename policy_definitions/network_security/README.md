@@ -1,7 +1,7 @@
-# Based on
-The Way this Policy-Set Works is based on Namingconventions and the rules of the NSG that is attached to the subnet.
-
 # Restrictions that come with this Set
+## Naminconventions that get enforced
+//TODO: aus Confluence importieren und als md darstellen
+
 ## Inline creation subnet and vnet
 Terraform is not able to merge the Subnet with the vnet before checking wether the recources are conform. Therefore the subnet has to be created inline with the vnet, eg. like this:
 

@@ -1,40 +1,49 @@
-# vorläufieges Konzept für die Logick was mit den Policies umgesetzt werden soll
-trigger: nsg erstellung 
-if: orderntlich benamst  {
-    dann: schau ob, (aus dem namen entnehmen) * deny da ist {
-        wenn ja: cool! 
-        wenn nein: schau ob letzte regel frei{
-            wenn ja: modify ein deny ran 
-            wenn nein: nette fehlermeldung ausdenken }
-        } 
-    }
+# Based on
+The Way this Policy-Set Works is based on Namingconventions and the rules of the NSG that is attached to the subnet.
 
-# Tests
-## Tests: NSG Erstellung 
+# Restrictions that come with this Set
+## Inline creation subnet and vnet
+Terraform is not able to merge the Subnet with the vnet before checking wether the recources are conform. Therefore the subnet has to be created inline with the vnet, eg. like this:
 
-NSG entspricht nicht Namenskonvention 
--> keine Policy schlägt an, Gruppe darf erstellt werden, regeln sind egal 
+resource "azurerm_virtual_network" "this" {
+    name                = "vnet-10-0-0-0-16-westeurope"
+    address_space       = ["10.0.0.0/16"]
+    location            = azurerm_resource_group.this.location
+    resource_group_name = azurerm_resource_group.this.name
 
-NSG entspricht Namenskonvention, NSG hat eine Regel mit <subnet_aus_namen, *, deny> 
--> Policy schlägt nicht an, erstellung wird erlaubt (weil alles richtig ist) 
+  subnet {
+    name           = "snet-10-0-1-0-24-TestingPolicies1"
+    address_prefix = "10.0.1.0/24"
+    security_group = azurerm_network_security_group.this.id
+  }
+    subnet {
+    name           = "snet-10-0-2-0-24-TestingPolicies2"
+    address_prefix = "10.0.2.0/24"
+    security_group = azurerm_network_security_group.this.id
+  }
+}
 
-NSG entspricht Namenskonvention, NSG hat keine Regel mit <subnet_aus_namen, *, deny>, die letzte Regel der NSG ist frei 
--> Policy schlägt an und (modify) erstellt auf niedrigster Prio die Regeln <subnet_aus_namen, *, deny> 
--> Logging: Regel <subnet_aus_namen, *, deny> wurde an niedrigster prioritär erstellt, überprüfe bei Bedarf welche speziefischen allows gesetzt werden müssen 
+## Deny Rule
+The Rule that denys all inbound Traffic is checked based on its Properties.
+It checks for:
+- direction                   = "Inbound"
+- access                      = "Deny"
+- protocol                    = "*"
+- source_port_range           = "*"
+- destination_port_range      = "*"
+- source_address_prefix       = "10.0.0.0/16"
+- destination_address_prefix  = "10.0.0.0/16"
 
-NSG entspricht Namenskonvention, NSG hat keine Regel mit <subnet_aus_namen, *, deny>, die letzte Regel der NSG ist belegt 
--> Policy schlägt an und verhindert Aufbau der NSG.  
--> Error: NSG kann nicht angelegt werden, weil keine <subnet_aus_namen, *, deny> Regel besteht. Erneut erstellen und niedrigste Prio freilassen oder die Regel <subnet_aus_namen, *, deny> hinzufügen 
+A fitting Rule could look like this:
 
-## Tests: Subnet Erstellung 
-
-Subnet hat die richtige NSG vermerkt 
--> Policy schlägt nicht an weil alles stimmt 
-
-Subnet wird ohne vermerkte NSG erstellt 
--> Policy schlägt an, verhintert Subnet erstellung 
--> Error: Subnet kann nicht ohne NSG erstellt werden 
-
-Subnet wird mit vermerkter NSG erstellt, die nicht der Namenskonvention entspricht 
--> Policy schlägt an, verhindert Subnet erstellung 
--> Error: Subnet kann nur mit NSG erstellt werden, welche der Namenskonvention entspricht und dadurch eine <subnet_aus_namen, *, deny> Regel hat. 
+    security_rule {   
+    name                        = "DenyAllInboundTraffic"
+    priority                    = 4096
+    direction                   = "Inbound"
+    access                      = "Deny"
+    protocol                    = "*"
+    source_port_range           = "*"
+    destination_port_range      = "*"
+    source_address_prefix       = "10.0.0.0/16"
+    destination_address_prefix  = "10.0.0.0/16"
+}

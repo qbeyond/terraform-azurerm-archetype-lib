@@ -15,7 +15,7 @@
         },
         "policyDefinitions":  [ 
             {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-TestNsgForNamingConvention"},
-            {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-TestVnetConvention"}
+            {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-VnetSubnetNsgRuleAndNamingconvention"}
         ],             
         "policyDefinitionGroups": null
     }

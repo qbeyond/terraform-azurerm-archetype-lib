@@ -102,7 +102,7 @@ security_rule {
 
 ### Description of the options
 |  | Description | Restrictions | Choice | Length | Data type |
-|:---:|:---:|:---:|:---:|:---:|:---:|
+|---|---|---|---|---|---|
 | Identifier | Its a vnet | lower case | vnet | 4 | &lt;string&gt; |
 | Delimiter |  |  | - | 1 | &lt;hyphen&gt; |
 | CIDR | This value represent the entire containing network.<br>Please replace "." (dot) and "/" (Slash) by "-" (hyphen) <br><br>CIDR Address<br>Azure vNet Value<br>10.178.0.0/15<br>10-178-0-0-15 | no spaces<br>only numbers and hyphen | &lt;IP-Subnet&gt;-&lt;Mask&gt; | 9-19 | &lt;int32&gt; |

@@ -15,6 +15,8 @@ This version moves away from the Microsoft Monitoring Agent to the Azure Monitor
 
 To upgrade the Module itself you need to add `linuxDCRs` & `windowsDCRs` to `template_file_variables` of the CAF module call. It should include the DCRs to assign to VMs. If you don't need that, just set it to `[]`.
 
+Furthermore you can remove the configuration of the assignments for `Deploy-VMSS-Monitoring` and `Deploy-VM-Monitoring` from the CAF module call, because these are not longer used.
+
 ### Tagging Governance
 
 To upgrade to the new Tagging governance policy initiative, remote the `tags` property of `template_file_variables` and add a map of bools as `inherited_required_tags`, where the key is the tag name and the value is wether this tag is required (`true`) or only inherited (`false`).

@@ -125,7 +125,7 @@
          "then": {
             "effect": "[parameters('effect')]",
             "details": {
-               "type": "[if(contains(createArray('Microsoft.Compute/virtualMachines', 'Microsoft.Compute/virtualMachineScaleSets', 'Microsoft.HybridCompute/machines'), field('type')), field('type'), 'Microsoft.Resources/resourceGroups')]",
+               "type": "[if(contains(createArray('Microsoft.Compute/virtualMachines', 'Microsoft.Compute/virtualMachineScaleSets', 'Microsoft.HybridCompute/machines'), field('type')), concat(field('type'), '/extensions'), 'Microsoft.Resources/resourceGroups')]",
                "evaluationDelay": "AfterProvisioningSuccess",
                "existenceCondition": {
                   "anyOf": [

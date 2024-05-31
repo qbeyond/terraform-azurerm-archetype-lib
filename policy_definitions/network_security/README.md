@@ -1,6 +1,22 @@
-# Restrictions that come with this Set
-## Inline creation subnet and vnet
-Terraform is not able to merge the Subnet with the vnet before checking wether the recources are conform. Therefore the subnet has to be created inline with the vnet, eg. like this:
+# Network Security Policy Set
+
+This Network Security Policy Set forces NSG's to have a rule that denys all inbound traffic in Vnet. It also ensures all subnets to have an matching NSG with their Vnet in name associated.
+Exemptions are made for subnets that are named "AzureFirewallSubnet", "RouteServerSubnet", "GatewaySubnet" and "AzureBastionSubnet"
+
+The Rule that denys all inbound Traffic is checked based on following Properties:
+- direction                   = "Inbound"
+- access                      = "Deny"
+- protocol                    = "*"
+- source_port_range           = "*"
+- destination_port_range      = "*"
+- source_address_prefix       = "<Address space of vNet>"
+- destination_address_prefix  = "<Address space of vNet>"
+
+## Restrictions that come with this Set
+### Inline creation subnet and vnet
+Terraform is not able to merge the Subnet with the vnet before checking wether the recources are conform. 
+The NSG association is a dedicated resource that is applied by Terraform after creating the subnet. See also this [Terraform Issue](https://github.com/hashicorp/terraform-provider-azurerm/issues/9022)
+Therefore the subnet has to be created inline with the vnet, eg. like this:
 
 ```terraform
 resource "azurerm_virtual_network" "this" {
@@ -22,18 +38,9 @@ resource "azurerm_virtual_network" "this" {
 }
 ```
 
-## Deny Rule
-The Rule that denys all inbound Traffic is checked based on its Properties.
-It checks for:
-- direction                   = "Inbound"
-- access                      = "Deny"
-- protocol                    = "*"
-- source_port_range           = "*"
-- destination_port_range      = "*"
-- source_address_prefix       = "10.0.0.0/16"
-- destination_address_prefix  = "10.0.0.0/16"
+### Deny Rule
 
-A fitting Rule could look like this:
+A fitting Rule for a subnet of a vNet with the address space `10.0.0.0/16` could look like this:
 
 ```terraform
 security_rule {   
@@ -49,11 +56,11 @@ security_rule {
 }
 ```
 
-# Naminconventions that get enforced
+## Naminconventions that get enforced
 
-## Virtual Subnets
+### Virtual Subnets
 
-### Limitations
+#### Limitations
 | Description              | Value            |
 |--------------------------|-----------------|
 | Maximum number of characters  | 2-80            |
@@ -61,14 +68,14 @@ security_rule {
 | Special considerations           | The following names are predefined by Microsoft and differ from the q.beyond standard: "GatewaySubnet" "AzureBastionSubnet" "AzureFirewallSubnet" "RouteServerSubnet" |
 
 
-### Structure
+#### Structure
 |Resource type|Delimiter (hyphen)|Network range (Network + Mask)|Delimiter (hyphen)|Purpose|
 |-------------|---------------------|------------------------|---------------------|---------------|
 |snet         |-                    |10-178-0-64-28          |-                    |Storage        |
 |snet         |-                    |192-168-10-96-28        |-                    |Hana           |
 |snet         |-                    |10-10-10-128-28         |-                    |AzureNetAppFiles|
 
-### Description of the options
+#### Description of the options
 |   | Description | Regulation | Options | Length | Data type |
 |---|--------------|----------|----------|-------|----------|
 | Resource type | The specified string "snet" indicates that it is a virtual subnet. | lower case | snet | 4 |  &lt;string&gt; |
@@ -78,29 +85,29 @@ security_rule {
 | Purpose | This value describes the type of resources contained in this subnet. | Capitalize first letter<br>No spaces |  &lt;Purpose&gt; | 48 |  &lt;string&gt; |
 
 
-#### Network range (Network + Mask)
+##### Network range (Network + Mask)
 | Original network range identifier | Azure vNet identifier |
 |-------------------------------|----------------------|
 | 10.178.0.64/28                | 10-178-0-64-28       |
 
 
-## virtual Networks
+### virtual Networks
 
-### Limits
+#### Limits
 | allowed characters | alphanumeric hyphen |
 |--------------------|---------------------|
 | Length             | 2-64                |
 | Restrictions       |                     |
 | Unique in scope    | Resource group      |
 
-### Structure
+#### Structure
 | Identifier | Delimiter |       CIDR      | Delimiter (Optional) | VLAN ID (Optional) | Delimiter |   region   |
 |----------|---------|---------------|--------------------|------------------|---------|----------|
 | vnet       | -         | 10-178-0-0-15   | -                    | VL1887             | -         | westeurope |
 | vnet       | -         | 192-168-10-0-16 | -                    | VL4711             | -         | uksouth    |
 | vnet       | -         | 10-10-10-0-16   | -                    | VL1125             | -         | eastus     |
 
-### Description of the options
+#### Description of the options
 |  | Description | Restrictions | Choice | Length | Data type |
 |---|---|---|---|---|---|
 | Identifier | Its a vnet | lower case | vnet | 4 | &lt;string&gt; |
@@ -113,23 +120,23 @@ security_rule {
 | Delimiter |  |  |  | 1 | &lt;hyphen&gt; |
 | region | The region in of the virtual network. | lower case<br>see Azure Region codes | eastasia<br>southeastasia<br>centralus<br>eastus<br>eastus2<br>westus<br>northcentralus<br>southcentralus<br>westeurope<br>japaneast<br>australiaeast<br>southindia<br>westindia<br>canadaeast<br>uksouth<br>ukwest<br>westcentralus<br>westus2<br>koreacentral<br>koreasouth<br>francecentral<br>francesouth<br>australiacentral<br>australiacentral2<br>uaecentral<br>uaenorth<br>southafricanorth<br>southafricawest<br>switzerlandnorth<br>switzerlandwest<br>germanynorth<br>germanywestcentral<br>norwaywest<br>norwayeast | 6-18 | &lt;hyphen&gt; |
 
-## Network Security Groups
+### Network Security Groups
 
-### Limits
+#### Limits
 | Length | 1-80 |
 |---|---|
 | allowed characters | alphanumeric<br>underscores<br>periods<br>hyphen |
 | Restrictions | Start with alphanumeric<br>End with alphanumeric or underscore |
 | Unique in scope | Resource Group |
 
-### Structure
+#### Structure
 | Identifier | Delimiter | name of applied resource |
 |---|---|---|
 | nsg | - | vnet-10-178-0-0-15-westeurope |
 | nsg | - | vnet-192-168-10-0-16-uksouth |
 | nsg | - | vnet-10-10-10-0-16-eastus |
 
-### Description of the Options
+#### Description of the Options
 |  | Description | Restrictions | Choice | Length | Data type |
 |---|---|---|---|---|---|
 | Identifier | This identifies the Resource | lower case | nsg | 3 | &lt;string&gt; |

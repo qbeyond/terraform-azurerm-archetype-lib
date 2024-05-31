@@ -58,7 +58,7 @@ security_rule {
 |--------------------------|-----------------|
 | Maximum number of characters  | 2-80            |
 | Allowed characters      | - (hyphen)      |
-| Special considerations           | The following names are predefined by Microsoft and differ from the q.beyond standard: GatewaySubnet AzureBastionSubnet |
+| Special considerations           | The following names are predefined by Microsoft and differ from the q.beyond standard: "GatewaySubnet" "AzureBastionSubnet" "AzureFirewallSubnet" "RouteServerSubnet" |
 
 
 ### Structure

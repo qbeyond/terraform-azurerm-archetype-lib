@@ -1,0 +1,181 @@
+{
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "QBY-Deny-Vnet-Subnet-NSG",
+  "properties": {
+    "displayName": "Vnet Subnet NSG Convention",
+    "description": "Test Vnet and Subnet For Naming Convention, and if the subnet has a rule that denys all inbound traffic. Checks if the subnet has the correct NSG attached to it.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "NetworkSecurity"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Deny",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The effect determines what happens when the policy rule is evaluated to match"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "not": {
+              "allOf": [
+                {
+                  "field": "name",
+                  "like": "vnet-*"
+                },
+                {
+                  "value": "[length(split(field('name'), '-'))]",
+                  "greaterOrEquals": 7
+                },
+                {
+                  "count": {
+                    "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                    "where": {
+                      "not": {
+                        "anyOf": [
+                          {
+                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                            "equals": "GatewaySubnet"
+                          },
+                          {
+                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                            "equals": "AzureFirewallSubnet"
+                          },
+                          {
+                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                            "equals": "RouteServerSubnet"
+                          },
+                          {
+                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                            "equals": "AzureBastionSubnet"
+                          }
+                        ],
+                        "or": {
+                          "allOf": [
+                            {
+                              "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                              "like": "snet-*"
+                            },
+                            {
+                              "value": "[length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-'))]",
+                              "greaterOrEquals": 7
+                            },
+                            {
+                              "value": "[equals(split(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')[0],'/')[8], concat('nsg-', field('name')))]",
+                              "equals": "true"
+                            },
+                            {
+                              "field": "Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id",
+                              "exists": "true"
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[1], 'length of name incorrect')]",
+                                  "match": "#"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[1], 'length of name incorrect')]",
+                                  "match": "##"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[1], 'length of name incorrect')]",
+                                  "match": "###"
+                                }
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[2], 'length of name incorrect')]",
+                                  "match": "#"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[2], 'length of name incorrect')]",
+                                  "match": "##"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[2], 'length of name incorrect')]",
+                                  "match": "###"
+                                }
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[3], 'length of name incorrect')]",
+                                  "match": "#"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[3], 'length of name incorrect')]",
+                                  "match": "##"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[3], 'length of name incorrect')]",
+                                  "match": "###"
+                                }
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[4], 'length of name incorrect')]",
+                                  "match": "#"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[4], 'length of name incorrect')]",
+                                  "match": "##"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[4], 'length of name incorrect')]",
+                                  "match": "###"
+                                }
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[5], 'length of name incorrect')]",
+                                  "match": "#"
+                                },
+                                {
+                                  "value": "[if(greaterOrEquals(length(split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')), 6), split(field('Microsoft.Network/virtualNetworks/subnets[*].name')[0], '-')[5], 'length of name incorrect')]",
+                                  "match": "##"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "equals": 0
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {}
+      }
+    }
+  }
+}

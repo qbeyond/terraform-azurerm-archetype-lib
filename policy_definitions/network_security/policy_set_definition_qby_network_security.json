@@ -8,7 +8,7 @@
         "description": "Enforce namingconform NSG to have a rule that denys all inbound traffic in Vnet. Ensures all subnets and NSG to be namingconform and with their Vnet in name associated",
         "displayName": "NetworkSecurity",
         "metadata": {
-            "version": "0.1.0",
+            "version": "1.0.0",
             "category": "NetworkSecurity"
         },
         "parameters": {

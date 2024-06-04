@@ -80,7 +80,7 @@
                                 "greaterOrEquals": 7
                               },
                               {
-                                "value": "[if(greaterOrEquals(length(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')), '/')), 8), equals(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')),'/')[8], concat('nsg-', field('name'))), false)]",
+                                "value": "[if(empty(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')),bool('false'),startsWith(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')),'networkSecurityGroups/')),concat('nsg-',field('name'))))]",
                                 "equals": true
                               },
                               {

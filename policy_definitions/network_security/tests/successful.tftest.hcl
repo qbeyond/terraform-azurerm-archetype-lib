@@ -1,0 +1,32 @@
+# Run all tests that should be successful
+# Tests that are expected to fail are unfortunately not supported by terraform test
+# run the remaining tests manually
+
+run "setup" {
+    module {
+        source = "./NetworkSecurity_policy_deployment"
+    }
+}
+
+run "nsg_02_namingconform_deny_all_inbound_as_last_rule" {
+    module {
+        source = "./nsg_02_namingconform_deny_all_inbound_as_last_rule"
+    }
+}
+
+run "nsg_03_naminconform_deny_all_inbound_as_middle_rule" {
+    module {
+        source = "./nsg_03_naminconform_deny_all_inbound_as_middle_rule"
+    }
+}
+
+run "snet_01_namingconform_correct_nsg_attached" {
+    module {
+        source = "./snet_01_namingconform_correct_nsg_attached"
+    }
+}
+run "snet_07_namingconform_exemption_subnets_no_nsg_attached" {
+    module {
+        source = "./snet_07_namingconform_exemption_subnets_no_nsg_attached"
+    }
+}

@@ -14,8 +14,9 @@ The Rule that denys all inbound Traffic is checked based on following Properties
 
 ## Restrictions that come with this Set
 ### Inline creation subnet and vnet
-Terraform is not able to merge the Subnet with the vnet before checking wether the recources are conform. 
+
 The NSG association is a dedicated resource that is applied by Terraform after creating the subnet. See also this [Terraform Issue](https://github.com/hashicorp/terraform-provider-azurerm/issues/9022)
+
 Therefore the subnet has to be created inline with the vnet, eg. like this:
 
 ```terraform

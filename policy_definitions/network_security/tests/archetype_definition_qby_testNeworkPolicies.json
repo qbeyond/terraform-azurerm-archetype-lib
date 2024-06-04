@@ -1,14 +1,14 @@
 {
     "qby_testNetworkPolicies": {
         "policy_assignments": [
-            "QBY-NetworkSecurity"
+            "QBY-Network-Security"
         ],
         "policy_definitions": [
             "QBY-Deny-NSG-DenyAllInboundTraffic",
             "QBY-Deny-Vnet-Subnet-NSG"
         ],
         "policy_set_definitions": [
-            "QBY-NetworkSecurity"
+            "QBY-Network-Security"
         ],
         "role_definitions": [],
         "archetype_config": {

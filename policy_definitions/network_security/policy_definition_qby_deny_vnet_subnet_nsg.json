@@ -2,8 +2,8 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "name": "QBY-Deny-Vnet-Subnet-NSG",
   "properties": {
-    "displayName": "Vnet Subnet NSG Convention",
-    "description": "Test Vnet and Subnet For Naming Convention, and if the subnet has a rule that denys all inbound traffic. Checks if the subnet has the correct NSG attached to it.",
+    "displayName": "Deny Subnets and vNets without NSG or wrong name",
+    "description": "Checks if the subnet has the correct NSG attached to it. Test Vnet, Subnet and NSG for Naming Convention.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {

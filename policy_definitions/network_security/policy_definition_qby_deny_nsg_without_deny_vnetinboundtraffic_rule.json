@@ -1,6 +1,6 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "QBY-Deny-NSG-without-deny-vNetInboundTraffic-rule",
+  "name": "QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
   "properties": {
     "displayName": "Deny Network Security Groups without default deny rule",
     "description": "Check NSG For Naming Convention, and if it has a rule that denys all inbound traffic",

@@ -14,7 +14,7 @@
         "parameters": {
         },
         "policyDefinitions":  [ 
-            {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-NSG-DenyAllInboundTraffic"},
+            {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-NSG-without-deny-vNetInboundTraffic-rule"},
             {"policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-Vnet-Subnet-NSG"}
         ],             
         "policyDefinitionGroups": null

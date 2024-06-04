@@ -4,7 +4,7 @@
             "QBY-Network-Security"
         ],
         "policy_definitions": [
-            "QBY-Deny-NSG-DenyAllInboundTraffic",
+            "QBY-Deny-NSG-without-deny-vNetInboundTraffic-rule",
             "QBY-Deny-Vnet-Subnet-NSG"
         ],
         "policy_set_definitions": [

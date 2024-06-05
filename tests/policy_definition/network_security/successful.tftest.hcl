@@ -25,3 +25,9 @@ run "snet_allowed_namingconform_exemption_subnets_no_nsg_attached" {
         source = "./snet_allowed_namingconform_exemption_subnets_no_nsg_attached"
     }
 }
+
+run "vNet_allowed_namingconform" {
+    module {
+        source = "./vNet_allowed_namingconform"
+    }
+}

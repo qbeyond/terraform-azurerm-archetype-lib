@@ -142,7 +142,7 @@
             "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-VM-Backup",
             "QBY-Deploy-Vnet-Links",
-            "QBY-Deny-Vnet-Subnet-NSG",
+            "QBY-Allow-Subnet-NSG",
             "QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
             "QBY-Allow-Vnet-Name"
         ],

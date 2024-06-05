@@ -19,7 +19,7 @@
       },
       {
         "message": "NSG should be associated with the subnet with the same name as the vNet it is associated with",
-        "policyDefinitionReferenceId": "Deny Subnets and vNets without NSG or wrong name"
+        "policyDefinitionReferenceId": "Allow only Subnets with NSGs and correct names"
       },
       {
         "message": "vNet should be prefixed with 'vnet-', followed by the address space delimited by '-' and suffixed with the region. EG: vnet-10-0-0-0-16-eastus2",

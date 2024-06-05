@@ -5,7 +5,7 @@
         ],
         "policy_definitions": [
             "QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
-            "QBY-Deny-Vnet-Subnet-NSG",
+            "QBY-Allow-Subnet-NSG",
             "QBY-Allow-Vnet-Name"
         ],
         "policy_set_definitions": [

@@ -9,7 +9,8 @@
     "enforcementMode": null,
     "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Network-Security",
     "scope": "${current_scope_resource_id}",
-    "notScopes": ${jsonencode(notScopesForQbyNetworkSecurity)},
+    "notScopes": ${jsonencode(notScopesForQbyNetworkSecurity)
+    },
     "parameters": {},
     "nonComplianceMessages": [
       {
@@ -19,6 +20,10 @@
       {
         "message": "NSG should be associated with the subnet with the same name as the vNet it is associated with",
         "policyDefinitionReferenceId": "Deny Subnets and vNets without NSG or wrong name"
+      },
+      {
+        "message": "vNet should be prefixed with 'vnet-', followed by the address space delimited by '-' and suffixed with the region. EG: vnet-10-0-0-0-16-eastus2",
+        "policyDefinitionReferenceId": "Deny vNets with wrong name"
       }
     ]
   },

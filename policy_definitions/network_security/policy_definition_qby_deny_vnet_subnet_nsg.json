@@ -36,14 +36,6 @@
             "not": {
               "allOf": [
                 {
-                  "field": "name",
-                  "like": "vnet-*"
-                },
-                {
-                  "value": "[length(split(field('name'), '-'))]",
-                  "greaterOrEquals": 7
-                },
-                {
                   "count": {
                     "field": "Microsoft.Network/virtualNetworks/subnets[*]",
                     "where": {

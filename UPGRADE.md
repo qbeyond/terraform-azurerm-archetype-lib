@@ -4,6 +4,10 @@ This document includes guidelines what to do to upgrade to a new major version. 
 
 ## [Unreleased]
 
+## [5.0.0]
+
+To upgrade to this version you need to add the `template_file_variables` `notScopesForQbyNetworkSecurity`. To avoid any impact set it to `notScopesForQbyNetworkSecurity = ["/providers/Microsoft.Management/managementGroups/<root_id>"]`
+
 ## [3.0.0]
 
 ### MMA to AMA

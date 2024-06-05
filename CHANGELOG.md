@@ -11,6 +11,7 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 ### Added
 
 - added policy set for network Security. 
+- `template_file_variable` `notScopesForQbyNetworkSecurity` is required
 
 ### Removed
 

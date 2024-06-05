@@ -1,12 +1,7 @@
+# requires ./00_setup_policy_deployment to be deployed
 # Run all tests that should be successful
 # Tests that are expected to fail are unfortunately not supported by terraform test
 # run the remaining tests manually
-
-run "setup" {
-    module {
-        source = "./NetworkSecurity_policy_deployment"
-    }
-}
 
 run "nsg_02_namingconform_deny_all_inbound_as_last_rule" {
     module {

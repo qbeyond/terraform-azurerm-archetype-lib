@@ -23,7 +23,7 @@ module "caf" {
       parent_management_group_id = data.azurerm_client_config.current.tenant_id
       subscription_ids           = [data.azurerm_client_config.current.subscription_id]
       archetype_config = {
-        archetype_id = "qby_testNetworkPolicies"
+        archetype_id = "test_qby_nework_security"
         parameters = {
         }
         access_control = {}

@@ -184,8 +184,8 @@
                                     "exists": true
                                   },
                                   {
-                                    "value": "[last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')),'networkSecurityGroups/'))]",
-                                    "equals": "[concat('nsg-',first(split(last(split(field('id'),'virtualNetworks/')),'/subnets')))]"
+                                    "value": "[first(split(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')),'networkSecurityGroups/')),'\"'))]",
+                                    "equals": "[concat('nsg-',first(split(last(split(string(field('properties.subnets[*].id')),'virtualNetworks/')),'/subnets')))]"
                                   },
                                   {
                                     "anyOf": [

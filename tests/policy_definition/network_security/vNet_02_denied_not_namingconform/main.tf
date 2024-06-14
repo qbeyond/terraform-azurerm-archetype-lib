@@ -1,5 +1,5 @@
 # Expect Policy Definition to respect correct naming of vNet
-# Expect Deployment to work
+# Expect Deployment to not work
 
 resource "azurerm_resource_group" "this" {
   name     = "rg-TestingPoliciesNetworkSecurityvNet-tst-02"

@@ -5,7 +5,7 @@
     "displayName": "Allow only Subnets with NSGs and correct names",
     "description": "Checks if the subnet has the correct NSG attached to it. Test Subnet and NSG for Naming Convention.",
     "policyType": "Custom",
-    "mode": "Indexed",
+    "mode": "All",
     "metadata": {
       "version": "1.0.0",
       "category": "NetworkSecurity"

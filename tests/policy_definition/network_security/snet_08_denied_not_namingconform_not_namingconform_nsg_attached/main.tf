@@ -2,7 +2,7 @@
 #Expect Deployment to not work
 
 resource "azurerm_resource_group" "this" {
-  name     = "rg-TestingPoliciesNetworkSecuritySnet-tst-21"
+  name     = "rg-TestingPoliciesNetworkSecuritySnet-tst-08"
   location = "West Europe"
 }
 

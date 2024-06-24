@@ -1,4 +1,4 @@
-#Expect Policy Definition to see the naming is wrong in the vnet, so it does not care what is attached as snet it allows the deployment
+#Expect Policy Definition to see the naming is wrong in the vnet
 #Expect Deployment to not work
 
 resource "azurerm_resource_group" "this" {

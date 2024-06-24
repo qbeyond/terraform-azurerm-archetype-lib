@@ -14,7 +14,7 @@
     "parameters": {},
     "nonComplianceMessages": [
       {
-        "message": "NSG should contain a deny vNet Inbound Traffic Rule",
+        "message": "NSG should contain a deny vNet Inbound Traffic Rule and a correct name",
         "policyDefinitionReferenceId": "Deny Network Security Groups without default deny rule"
       },
       {

@@ -15,7 +15,7 @@ resource "azurerm_virtual_network" "this" {
 
 resource "azapi_resource" "subnet" {
   type      = "Microsoft.Network/virtualNetworks/subnets@2023-11-01"
-  name      = "nope"
+  name      = "snet-10-0-1-0-24-TestingPolicies1"
   parent_id = azurerm_virtual_network.this.id
   body = jsonencode({
     properties = {

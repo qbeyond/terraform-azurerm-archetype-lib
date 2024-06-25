@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [5.0.0]
 
 ### Added
+
+- added policy set for network Security. 
+- `template_file_variable` `notScopesForQbyNetworkSecurity` is required
 
 ### Removed
 
@@ -19,14 +22,12 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 ### Fixed
 
 - fixed mapping of update classifications
-- 
 
 ## [4.0.2]
 
 ### Fixed
 
 - Non compliance of VMs even if the Dependency Agent is correctly installed
-
 
 ## [4.0.1]
 

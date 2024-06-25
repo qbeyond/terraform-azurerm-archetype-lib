@@ -1,0 +1,133 @@
+{
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "QBY-Allow-Vnet-Name",
+  "properties": {
+    "displayName": "Deny vNets wit wrong name",
+    "description": "Check that the vNet name is vnet-<address space>",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "NetworkSecurity"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Deny",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The effect determines what happens when the policy rule is evaluated to match"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "not": {
+              "allOf": [
+                {
+                  "field": "name",
+                  "like": "vnet-*"
+                },
+                {
+                  "value": "[length(split(field('name'), '-'))]",
+                  "greaterOrEquals": 7
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[1], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[1], 'length of name incorrect')]",
+                      "match": "##"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[1], 'length of name incorrect')]",
+                      "match": "###"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[2], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[2], 'length of name incorrect')]",
+                      "match": "##"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[2], 'length of name incorrect')]",
+                      "match": "###"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[3], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[3], 'length of name incorrect')]",
+                      "match": "##"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[3], 'length of name incorrect')]",
+                      "match": "###"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[4], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[4], 'length of name incorrect')]",
+                      "match": "##"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[4], 'length of name incorrect')]",
+                      "match": "###"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[5], 'length of name incorrect')]",
+                      "match": "#"
+                    },
+                    {
+                      "value": "[if(greaterOrEquals(length(split(field('name'), '-')), 6), split(field('name'), '-')[5], 'length of name incorrect')]",
+                      "match": "##"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {}
+      }
+    }
+  }
+}

@@ -4,8 +4,6 @@
             "Audit-UnusedResources",
             "Deploy-AzActivity-Log",
             "Deploy-Resource-Diag",
-            "Deploy-VM-Monitoring",
-            "Deploy-VMSS-Monitoring",
             "QBY-Deploy-Tag-Structure"
         ],
         "policy_definitions": [

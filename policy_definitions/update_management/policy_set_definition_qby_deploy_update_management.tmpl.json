@@ -1,0 +1,106 @@
+{
+    "name": "QBY-Deploy-Update-Mgmt",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "Deploy Update Management for Windows VMs",
+        "description": "This policy set deploys maintenance configuration and configuration assignments based on the tag 'Severity Group Monthly'. It also changes the VM patch mode to AutomaticByPlatform, if necessary.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Azure Update Manager"
+        },
+        "parameters": {
+            "managementSubscriptionId": {
+                "type": "String",
+                "metadata": {
+                    "description": "Subscription ID of the management subscription."
+                }
+            },
+            "managementResourceGroup": {
+                "type": "String",
+                "metadata": {
+                    "description": "Name of the management resource group. The maintenance configuration will be deloyed there."
+                }
+            },
+            "location": {
+                "type": "String",
+                "metadata": {
+                    "description": "Location of the maintenance resources.",
+                    "strongType": "location"
+                }
+            },
+            "effectRequireUpdateAllowedTag": {
+                "type": "String",
+                "defaultValue": "Deny",
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "description": "Effect if the tag 'Update Allowed' is not 'yes'.",
+                    "displayName": "Effect Require Update Allowed"
+                }
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
+                "parameters": {
+                    "managementSubscriptionId": {
+                        "value": "[parameters('managementSubscriptionId')]"
+                    },
+                    "managementResourceGroup": {
+                        "value": "[parameters('managementResourceGroup')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Require a tag 'Severity Group Monthly' exists and is not empty",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Severity-Group-Tag",
+                "parameters": {},
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Audit patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of windows vm for Azure Update Manager",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Configure-Windows-Patch-Settings",
+                "parameters": {
+                    "effect": {
+                        "value": "AuditIfNotExists"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure periodic checking for missing system updates on azure virtual machines",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/59efceea-0c96-497e-a4a1-4eb2290dac15",
+                "parameters": {},
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure periodic checking for missing system updates on azure Arc-enabled servers",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bfea026e-043f-4ff4-9d1b-bf301ca7ff46",
+                "parameters": {},
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Require tag 'Update Allowed' to be 'yes'",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Update-Allowed-Tag",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectRequireUpdateAllowedTag')]"
+                    }
+                },
+                "groupNames": []
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

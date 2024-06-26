@@ -125,7 +125,12 @@
             "Deploy-VNET-HubSpoke",
             "Deploy-Windows-DomainJoin",
             "QBY-Deploy-VM-Backup",
-            "QBY-Deploy-Tags-To-RG"
+            "QBY-Deploy-Tags-To-RG",
+            "QBY-Configure-Windows-Patch-Settings",
+            "QBY-Deploy-Updates",
+            "QBY-Require-Severity-Group-Tag",
+            "QBY-Require-Update-Allowed-Tag",
+            "QBY-Deploy-DependencyAgent"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",
@@ -139,7 +144,9 @@
             "Enforce-ALZ-Sandbox",
             "Enforce-Encryption-CMK",
             "Enforce-Guardrails-KeyVault",
-            "QBY-Deploy-Tag-Inheritance"
+            "QBY-Deploy-Tag-Inheritance",
+            "QBY-Deploy-Update-Mgmt",
+            "QBY-Deploy-VM-Monitoring"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

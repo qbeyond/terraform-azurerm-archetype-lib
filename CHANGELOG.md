@@ -16,7 +16,7 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [5.0.0]
 
-### Fixed
+### Added
 
 - add two new policies for compability with caf version 6.0.0
 

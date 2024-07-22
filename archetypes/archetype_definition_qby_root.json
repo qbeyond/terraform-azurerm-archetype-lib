@@ -12,7 +12,8 @@
             "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
             "Enforce-ACSB",
-            "QBY-Tagging-Governance"
+            "QBY-Tagging-Governance",
+            "QBY-Network-Security"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",
@@ -140,7 +141,10 @@
             "QBY-Allowed-VM-SKUs",
             "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-VM-Backup",
-            "QBY-Deploy-Vnet-Links"
+            "QBY-Deploy-Vnet-Links",
+            "QBY-Allow-Subnet-NSG",
+            "QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
+            "QBY-Allow-Vnet-Name"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",
@@ -157,7 +161,8 @@
             "Enforce-Guardrails-KeyVault",
             "QBY-Deploy-Update-Mgmt",
             "QBY-Deploy-VM-Monitoring",
-            "QBY-Tagging-Governance"
+            "QBY-Tagging-Governance",
+            "QBY-Network-Security"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

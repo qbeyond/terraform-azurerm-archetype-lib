@@ -1,0 +1,20 @@
+{
+    "test_qby_nework_security": {
+        "policy_assignments": [
+            "QBY-Network-Security"
+        ],
+        "policy_definitions": [
+            "QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
+            "QBY-Allow-Subnet-NSG",
+            "QBY-Allow-Vnet-Name"
+        ],
+        "policy_set_definitions": [
+            "QBY-Network-Security"
+        ],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {},
+            "access_control": {}
+        }
+    }
+}

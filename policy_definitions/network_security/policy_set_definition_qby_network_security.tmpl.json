@@ -1,0 +1,31 @@
+{
+    "name": "QBY-Network-Security",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "description": "Enforce naming conform NSG to have a rule that denys all inbound traffic in Vnet. Ensures all subnets and NSG to be naming conform and with their Vnet in name associated",
+        "displayName": "NetworkSecurity",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "NetworkSecurity"
+        },
+        "parameters": {},
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "Deny Network Security Groups without default deny rule",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule"
+            },
+            {
+                "policyDefinitionReferenceId": "Allow only Subnets with NSGs and correct names",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Subnet-NSG"
+            },
+            {
+                "policyDefinitionReferenceId": "Deny vNets with wrong name",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Vnet-Name"
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

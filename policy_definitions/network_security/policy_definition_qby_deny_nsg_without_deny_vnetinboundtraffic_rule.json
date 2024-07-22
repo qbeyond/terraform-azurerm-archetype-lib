@@ -2,7 +2,7 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "name": "QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
   "properties": {
-    "displayName": "Deny Network Security Groups without default deny rule",
+    "displayName": "Deny Network Security Groups without default deny intra vnet rule",
     "description": "Deny NSGs without a rule denying all inbound traffic from the network it is used for. The address space is derived from the name, so the name must be like nsg-vnet-10-0-0-0-24",
     "policyType": "Custom",
     "mode": "Indexed",

@@ -2,8 +2,8 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "name": "QBY-Allow-Vnet-Name",
   "properties": {
-    "displayName": "Deny vNets wit wrong name",
-    "description": "Check that the vNet name is vnet-<address space>",
+    "displayName": "Deny vNets with wrong name",
+    "description": "Check that the vNet name starts with vnet-<address space>",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {

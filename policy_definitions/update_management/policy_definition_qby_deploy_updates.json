@@ -310,7 +310,7 @@
                   "recurEvery": "[concat(variables('splitSeverityGroup')[0], 'Month', ' ', variables('splitSeverityGroup')[1],' ', variables('splitSeverityGroup')[2])]",
                   "startTime": "[concat(substring(variables('splitSeverityGroup')[3], 0, 2), ':', substring(variables('splitSeverityGroup')[3], 2, 2)  )]",
                   "startDateTime": "[concat(parameters('startDate'), ' ', variables('startTime'))]",
-                  "updateClassification": "[map(range(0,length(replace(variables('splitSeverityGroup')[4],'X', ''))), lambda('i', variables('updateOptions')[substring(replace(variables('splitSeverityGroup')[4],'X',''), lambdaVariables('i'),1 )] )) ]                  ",
+                  "updateClassification": "[map(range(0,length(replace(variables('splitSeverityGroup')[4],'X', ''))), lambda('i', variables('updateOptions')[substring(replace(variables('splitSeverityGroup')[4],'X',''), lambdaVariables('i'),1 )] )) ]",
                   "rebootSetting": "[variables('rebootOptions')[variables('splitSeverityGroup')[5]]]",
                   "uniqueDeploymentName": "[concat('NestedDeploymentName-', uniqueString(deployment().name))]",
                   "scope": "[concat('Microsoft.Compute/virtualMachines', '/', parameters('vmName'))]",

@@ -12,7 +12,7 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 - added policy set for network Security. 
 - `template_file_variable` `notScopesForQbyNetworkSecurity` is required
-- - fixed mapping of update classifications
+- fixed mapping of update classifications
 
 ## [4.0.3]
 

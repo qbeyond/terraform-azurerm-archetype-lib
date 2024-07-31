@@ -17,6 +17,12 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ### Changed
 
+## [4.0.4]
+
+### Fixed
+
+- fixed mapping of update classifications
+
 ## [4.0.3]
 
 ### Fixed

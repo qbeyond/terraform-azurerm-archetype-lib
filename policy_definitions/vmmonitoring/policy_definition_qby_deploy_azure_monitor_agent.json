@@ -1,0 +1,371 @@
+{
+    "name": "QBY-Deploy-AzureMonitorAgent",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "properties": {
+        "displayName": "Deploy Azure Monitor agent",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "description": "Deploy Azure Monitor agent for Windows and Linux virtual machine scale sets and virtual machines if the agent is not installed.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Monitoring"
+        },
+        "parameters": {
+            "osTypeArc": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "OS type Arc machines included",
+                    "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
+                },
+                "allowedValues": [
+                    "All",
+                    "Windows",
+                    "Linux",
+                    "None"
+                ],
+                "defaultValue": "All"
+            },
+            "osOffers": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "OS offers included",
+                    "description": "Include only offers of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude VMs and scale sets."
+                },
+                "defaultValue": [
+                    "*"
+                ]
+            },
+            "osSKUs": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "OS SKUs included",
+                    "description": "Include only OS SKUs of VMs and Scale sets like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude VMs and scale sets."
+                },
+                "defaultValue": [
+                    "*"
+                ]
+            },
+            "effect": {
+                "type": "String",
+                "defaultValue": "DeployIfNotExists",
+                "allowedValues": [
+                    "AuditIfNotExist",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match."
+                }
+            },
+            "proxy": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Proxy URL",
+                    "description": "The URL of the proxy server used to reach Azure Monitor. Example values: 'http://10.0.0.125:8080', 'http://proxy.tld:8080'"
+                },
+                "defaultValue": "http://proxy.tld:8080"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "anyOf": [
+                    {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.HybridCompute/machines"
+                            },
+                            {
+                                "anyOf": [
+                                    {
+                                        "field": "Microsoft.HybridCompute/imageOffer",
+                                        "like": "[concat(parameters('osTypeArc'), '*')]"
+                                    },
+                                    {
+                                        "value": "[parameters('osTypeArc')]",
+                                        "equals": "All"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "allOf": [
+                            {
+                                "anyOf": [
+                                    {
+                                        "field": "type",
+                                        "equals": "Microsoft.Compute/virtualMachines"
+                                    },
+                                    {
+                                        "field": "type",
+                                        "equals": "Microsoft.Compute/virtualMachineScaleSets"
+                                    }
+                                ]
+                            },
+                            {
+                                "count": {
+                                    "name": "pattern",
+                                    "value": "[parameters('osOffers')]",
+                                    "where": {
+                                        "field": "Microsoft.Compute/ImageOffer",
+                                        "like": "[current('pattern')]"
+                                    }
+                                },
+                                "greater": 0
+                            },
+                            {
+                                "count": {
+                                    "name": "pattern",
+                                    "value": "[parameters('osSKUs')]",
+                                    "where": {
+                                        "field": "Microsoft.Compute/ImageSKU",
+                                        "like": "[current('pattern')]"
+                                    }
+                                },
+                                "greater": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "type": "[if(contains(createArray('Microsoft.Compute/virtualMachines', 'Microsoft.Compute/virtualMachineScaleSets', 'Microsoft.HybridCompute/machines'), field('type')), concat(field('type'), '/extensions'), 'Microsoft.Resources/resourceGroups')]",
+                    "evaluationDelay": "AfterProvisioningSuccess",
+                    "existenceCondition": {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "anyOf": [
+                                            {
+                                                "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                                                "equals": "AzureMonitorLinuxAgent"
+                                            },
+                                            {
+                                                "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                                                "equals": "AzureMonitorWindowsAgent"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                                        "equals": "Microsoft.Azure.Monitor"
+                                    },
+                                    {
+                                        "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+                                        "equals": "Succeeded"
+                                    }
+                                ]
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "anyOf": [
+                                            {
+                                                "field": "Microsoft.HybridCompute/machines/extensions/type",
+                                                "equals": "AzureMonitorLinuxAgent"
+                                            },
+                                            {
+                                                "field": "Microsoft.HybridCompute/machines/extensions/type",
+                                                "equals": "AzureMonitorWindowsAgent"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "field": "Microsoft.HybridCompute/machines/extensions/publisher",
+                                        "equals": "Microsoft.Azure.Monitor"
+                                    },
+                                    {
+                                        "field": "Microsoft.HybridCompute/machines/extensions/provisioningState",
+                                        "equals": "Succeeded"
+                                    }
+                                ]
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "anyOf": [
+                                            {
+                                                "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+                                                "equals": "AzureMonitorLinuxAgent"
+                                            },
+                                            {
+                                                "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+                                                "equals": "AzureMonitorWindowsAgent"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/publisher",
+                                        "equals": "Microsoft.Azure.Monitor"
+                                    },
+                                    {
+                                        "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/provisioningState",
+                                        "equals": "Succeeded"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "roleDefinitionIds": [
+                        "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+                    ],
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "template": {
+                                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "vmName": {
+                                        "type": "string"
+                                    },
+                                    "location": {
+                                        "type": "string"
+                                    },
+                                    "resourceType": {
+                                        "type": "string"
+                                    },
+                                    "platform": {
+                                        "type": "string"
+                                    },
+                                    "proxy": {
+                                        "type": "string"
+                                    }
+                                },
+                                "variables": {
+                                    "extensionName": "[concat('AzureMonitor', param('platform'), 'Agent')]",
+                                    "extensionPublisher": "Microsoft.Azure.Monitor",
+                                    "extensionType": "[concat('AzureMonitor', param('platform'), 'Agent')]"
+                                },
+                                "resources": [
+                                    {
+                                        "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                                        "type": "Microsoft.Compute/virtualMachines/extensions",
+                                        "condition": "[and(equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachines'),not(equals(parameters('proxy'),'http://proxy.tld:8080')))]",
+                                        "location": "[parameters('location')]",
+                                        "apiVersion": "2019-07-01",
+                                        "properties": {
+                                            "publisher": "[variables('extensionPublisher')]",
+                                            "type": "[variables('extensionType')]",
+                                            "autoUpgradeMinorVersion": true,
+                                            "enableAutomaticUpgrade": true,
+                                            "settings": {
+                                                "proxy": {
+                                                    "auth": "false",
+                                                    "mode": "application",
+                                                    "address": "[parameters('proxy')]"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                                        "type": "Microsoft.Compute/virtualMachines/extensions",
+                                        "condition": "[and(equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachines'),equals(parameters('proxy'),'http://proxy.tld:8080'))]",
+                                        "location": "[parameters('location')]",
+                                        "apiVersion": "2019-07-01",
+                                        "properties": {
+                                            "publisher": "[variables('extensionPublisher')]",
+                                            "type": "[variables('extensionType')]",
+                                            "autoUpgradeMinorVersion": true,
+                                            "enableAutomaticUpgrade": true
+                                        }
+                                    },
+                                    {
+                                        "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                                        "type": "Microsoft.HybridCompute/machines/extensions",
+                                        "condition": "[and(equals(parameters('resourceType'), 'Microsoft.HybridCompute/machines'),not(equals(parameters('proxy'),'http://proxy.tld:8080')))]",
+                                        "location": "[parameters('location')]",
+                                        "apiVersion": "2021-05-20",
+                                        "properties": {
+                                            "publisher": "[variables('extensionPublisher')]",
+                                            "type": "[variables('extensionType')]",
+                                            "autoUpgradeMinorVersion": true,
+                                            "enableAutomaticUpgrade": true,
+                                            "settings": {
+                                                "proxy": {
+                                                    "auth": "false",
+                                                    "mode": "application",
+                                                    "address": "[parameters('proxy')]"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                                        "type": "Microsoft.HybridCompute/machines/extensions",
+                                        "condition": "[and(equals(parameters('resourceType'), 'Microsoft.HybridCompute/machines'),equals(parameters('proxy'),'http://proxy.tld:8080'))]",
+                                        "location": "[parameters('location')]",
+                                        "apiVersion": "2021-05-20",
+                                        "properties": {
+                                            "publisher": "[variables('extensionPublisher')]",
+                                            "type": "[variables('extensionType')]",
+                                            "autoUpgradeMinorVersion": true,
+                                            "enableAutomaticUpgrade": true
+                                        }
+                                    },
+                                    {
+                                        "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+                                        "condition": "[and(equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachineScaleSets'),not(equals(parameters('proxy'),'http://proxy.tld:8080')))]",
+                                        "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                                        "apiVersion": "2021-04-01",
+                                        "location": "[parameters('location')]",
+                                        "properties": {
+                                            "publisher": "[variables('vmExtensionPublisher')]",
+                                            "type": "[variables('vmExtensionType')]",
+                                            "autoUpgradeMinorVersion": true,
+                                            "settings": {
+                                                "proxy": {
+                                                    "auth": "false",
+                                                    "mode": "application",
+                                                    "address": "[parameters('proxy')]"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+                                        "condition": "[and(equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachineScaleSets'),equals(parameters('proxy'),'http://proxy.tld:8080'))]",
+                                        "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                                        "apiVersion": "2021-04-01",
+                                        "location": "[parameters('location')]",
+                                        "properties": {
+                                            "publisher": "[variables('vmExtensionPublisher')]",
+                                            "type": "[variables('vmExtensionType')]",
+                                            "autoUpgradeMinorVersion": true
+                                        }
+                                    }
+                                ],
+                                "outputs": {
+                                    "policy": {
+                                        "type": "string",
+                                        "value": "[concat('Enabled extension for: ', parameters('vmName'))]"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "vmName": {
+                                    "value": "[field('name')]"
+                                },
+                                "location": {
+                                    "value": "[field('location')]"
+                                },
+                                "resourceType": {
+                                    "value": "[field('type')]"
+                                },
+                                "platform": {
+                                    "value": "[if(or(contains(field('Microsoft.Compute/ImageOffer'), 'Windows'), equals(field('Microsoft.HybridCompute/machines/osName'), 'windows')), 'Windows', 'Linux')]"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

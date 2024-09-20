@@ -240,7 +240,8 @@
                                 "variables": {
                                     "extensionName": "[concat('AzureMonitor', param('platform'), 'Agent')]",
                                     "extensionPublisher": "Microsoft.Azure.Monitor",
-                                    "extensionType": "[concat('AzureMonitor', param('platform'), 'Agent')]"
+                                    "extensionType": "[concat('AzureMonitor', param('platform'), 'Agent')]",
+                                    "extensionTypeHandlerVersion": "[if(equals(param('platform'),'Linux'),'1.29','1.1')]"
                                 },
                                 "resources": [
                                     {
@@ -252,6 +253,7 @@
                                         "properties": {
                                             "publisher": "[variables('extensionPublisher')]",
                                             "type": "[variables('extensionType')]",
+                                            "typeHandlerVersion": "[variables('extensionTypeHandlerVersion')]",
                                             "autoUpgradeMinorVersion": true,
                                             "enableAutomaticUpgrade": true,
                                             "settings": {
@@ -272,6 +274,7 @@
                                         "properties": {
                                             "publisher": "[variables('extensionPublisher')]",
                                             "type": "[variables('extensionType')]",
+                                            "typeHandlerVersion": "[variables('extensionTypeHandlerVersion')]",
                                             "autoUpgradeMinorVersion": true,
                                             "enableAutomaticUpgrade": true
                                         }
@@ -318,6 +321,7 @@
                                         "properties": {
                                             "publisher": "[variables('vmExtensionPublisher')]",
                                             "type": "[variables('vmExtensionType')]",
+                                            "typeHandlerVersion": "[variables('extensionTypeHandlerVersion')]",
                                             "autoUpgradeMinorVersion": true,
                                             "settings": {
                                                 "proxy": {
@@ -330,6 +334,7 @@
                                     },
                                     {
                                         "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+                                        "typeHandlerVersion": "[variables('extensionTypeHandlerVersion')]",
                                         "condition": "[and(equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachineScaleSets'),equals(parameters('proxy'),'http://proxy.tld:8080'))]",
                                         "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
                                         "apiVersion": "2021-04-01",

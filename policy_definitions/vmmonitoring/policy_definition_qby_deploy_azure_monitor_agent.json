@@ -238,10 +238,10 @@
                                     }
                                 },
                                 "variables": {
-                                    "extensionName": "[concat('AzureMonitor', param('platform'), 'Agent')]",
+                                    "extensionName": "[concat('AzureMonitor', parameters('platform'), 'Agent')]",
                                     "extensionPublisher": "Microsoft.Azure.Monitor",
-                                    "extensionType": "[concat('AzureMonitor', param('platform'), 'Agent')]",
-                                    "extensionTypeHandlerVersion": "[if(equals(param('platform'),'Linux'),'1.29','1.1')]"
+                                    "extensionType": "[concat('AzureMonitor', parameters('platform'), 'Agent')]",
+                                    "extensionTypeHandlerVersion": "[if(equals(parameters('platform'),'Linux'),'1.29','1.1')]"
                                 },
                                 "resources": [
                                     {
@@ -290,6 +290,7 @@
                                             "type": "[variables('extensionType')]",
                                             "autoUpgradeMinorVersion": true,
                                             "enableAutomaticUpgrade": true,
+											"typeHandlerVersion": "[variables('extensionTypeHandlerVersion')]",
                                             "settings": {
                                                 "proxy": {
                                                     "auth": "false",
@@ -308,6 +309,7 @@
                                         "properties": {
                                             "publisher": "[variables('extensionPublisher')]",
                                             "type": "[variables('extensionType')]",
+											"typeHandlerVersion": "[variables('extensionTypeHandlerVersion')]",
                                             "autoUpgradeMinorVersion": true,
                                             "enableAutomaticUpgrade": true
                                         }
@@ -315,7 +317,7 @@
                                     {
                                         "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
                                         "condition": "[and(equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachineScaleSets'),not(equals(parameters('proxy'),'http://proxy.tld:8080')))]",
-                                        "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                                        "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
                                         "apiVersion": "2021-04-01",
                                         "location": "[parameters('location')]",
                                         "properties": {
@@ -334,15 +336,15 @@
                                     },
                                     {
                                         "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
-                                        "typeHandlerVersion": "[variables('extensionTypeHandlerVersion')]",
                                         "condition": "[and(equals(parameters('resourceType'), 'Microsoft.Compute/virtualMachineScaleSets'),equals(parameters('proxy'),'http://proxy.tld:8080'))]",
-                                        "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                                        "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
                                         "apiVersion": "2021-04-01",
                                         "location": "[parameters('location')]",
                                         "properties": {
                                             "publisher": "[variables('vmExtensionPublisher')]",
                                             "type": "[variables('vmExtensionType')]",
-                                            "autoUpgradeMinorVersion": true
+                                            "autoUpgradeMinorVersion": true,
+											"typeHandlerVersion": "[variables('extensionTypeHandlerVersion')]"
                                         }
                                     }
                                 ],

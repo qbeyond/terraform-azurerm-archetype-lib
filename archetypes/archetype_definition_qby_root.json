@@ -140,6 +140,7 @@
             "QBY-Require-Tag",
             "QBY-Allowed-VM-SKUs",
             "QBY-Deploy-DependencyAgent",
+            "QBY-Deploy-AzureMonitorAgent",
             "QBY-Deploy-VM-Backup",
             "QBY-Deploy-Vnet-Links",
             "QBY-Allow-Subnet-NSG",

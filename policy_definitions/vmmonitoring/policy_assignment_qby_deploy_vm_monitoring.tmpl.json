@@ -30,6 +30,9 @@
       },
       "effect": {
         "value": "DeployIfNotExists"
+      },
+      "proxy": {
+        "value": "noproxy"
       }
     },
     "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Deploy-VM-Monitoring",

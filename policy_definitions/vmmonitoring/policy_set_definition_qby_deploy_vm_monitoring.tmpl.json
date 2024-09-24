@@ -100,7 +100,7 @@
                     "displayName": "Proxy URL",
                     "description": "The URL of the proxy server used to reach Azure Monitor. Example values: 'http://10.0.0.125:8080', 'http://proxy.tld:8080'"
                 },
-                "defaultValue": "http://proxy.tld:8080"
+                "defaultValue": "noproxy"
             }
         },
         "policyDefinitions": [

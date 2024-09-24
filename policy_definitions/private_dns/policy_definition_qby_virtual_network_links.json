@@ -16,7 +16,8 @@
                     "description": "Resource Id of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
                     "displayName": "Vnet Resource ID"
                 },
-                "type": "string"
+                "type": "string",
+                "defaultValue": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-resourcegroup-01/providers/Microsoft.Network/virtualNetworks/vnet-10-0-0-0-24-westeurope"
             },
             "registrationEnabled": {
                 "defaultValue": false,

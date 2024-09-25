@@ -5,6 +5,15 @@ All notable changes to this module will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.0]
+
+### Added
+- changed the 6 default Microsoft policies to one big policy for AMA deployment
+- added proxy parameter to the new AMA policy
+- note: not providing the proxy parameter will result in the default AMA installation
+
+### Fixed
+- the virtual network resource id of the private dns assignment needs default param
 
 ## [5.0.0]
 

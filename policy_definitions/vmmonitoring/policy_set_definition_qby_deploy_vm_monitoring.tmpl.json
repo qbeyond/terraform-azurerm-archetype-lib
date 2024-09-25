@@ -93,89 +93,35 @@
                     "displayName": "Effect",
                     "description": "The effect determines what happens when the policy rule is evaluated to match"
                 }
+            },
+            "proxy": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Proxy URL",
+                    "description": "The URL of the proxy server used to reach Azure Monitor. Example values: 'http://10.0.0.125:8080', 'http://proxy.tld:8080'"
+                },
+                "defaultValue": "noproxy"
             }
         },
         "policyDefinitions": [
             {
-                "policyDefinitionReferenceId": "Configure Windows Arc-enabled machines to run Azure Monitor Agent",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/94f686d6-9a24-4e19-91f1-de937dc171a4",
+                "policyDefinitionReferenceId": "Configure Azure Monitor agent on Windows & Linux virtual machines, virtual machine scale sets and Arc machines",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-AzureMonitorAgent",
                 "parameters": {
-                    "effect": {
-                        "value": "[parameters('effect')]"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Configure Windows virtual machine scale sets to run Azure Monitor Agent using system-assigned managed identity",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4efbd9d8-6bc6-45f6-9be2-7fe9dd5d89ff",
-                "parameters": {
-                    "scopeToSupportedImages": {
-                        "value": "[parameters('scopeToSupportedImages')]"
+                    "osTypeArc": {
+                        "value": "[parameters('osTypeArc')]"
                     },
-                    "listOfWindowsImageIdToInclude": {
-                        "value": "[parameters('listOfWindowsImageIdToInclude')]"
+                    "osOffers": {
+                        "value": "[parameters('osOffers')]"
+                    },
+                    "osSKUs": {
+                        "value": "[parameters('osSKUs')]"
                     },
                     "effect": {
                         "value": "[parameters('effect')]"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Configure Windows virtual machines to run Azure Monitor Agent using system-assigned managed identity",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e",
-                "parameters": {
-                    "scopeToSupportedImages": {
-                        "value": "[parameters('scopeToSupportedImages')]"
                     },
-                    "listOfWindowsImageIdToInclude": {
-                        "value": "[parameters('listOfWindowsImageIdToInclude')]"
-                    },
-                    "effect": {
-                        "value": "[parameters('effect')]"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Configure Linux Arc-enabled machines to run Azure Monitor Agent",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/845857af-0333-4c5d-bbbc-6076697da122",
-                "parameters": {
-                    "effect": {
-                        "value": "[parameters('effect')]"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Configure Linux virtual machine scale sets to run Azure Monitor Agent with system-assigned managed identity-based authentication",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/56a3e4f8-649b-4fac-887e-5564d11e8d3a",
-                "parameters": {
-                    "scopeToSupportedImages": {
-                        "value": "[parameters('scopeToSupportedImages')]"
-                    },
-                    "listOfLinuxImageIdToInclude": {
-                        "value": "[parameters('listOfLinuxImageIdToInclude')]"
-                    },
-                    "effect": {
-                        "value": "[parameters('effect')]"
-                    }
-                },
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Configure Linux virtual machines to run Azure Monitor Agent with system-assigned managed identity-based authentication",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4034bc6-ae50-406d-bf76-50f4ee5a7811",
-                "parameters": {
-                    "scopeToSupportedImages": {
-                        "value": "[parameters('scopeToSupportedImages')]"
-                    },
-                    "listOfLinuxImageIdToInclude": {
-                        "value": "[parameters('listOfLinuxImageIdToInclude')]"
-                    },
-                    "effect": {
-                        "value": "[parameters('effect')]"
+                    "proxy": {
+                        "value": "[parameters('proxy')]"
                     }
                 },
                 "groupNames": []

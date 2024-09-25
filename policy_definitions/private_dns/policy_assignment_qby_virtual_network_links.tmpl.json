@@ -6,7 +6,11 @@
         "description": "Create Private DNS Zone Virtual Network Link to specified Virtual Network for all private DNS zones.",
         "displayName": "Create Private DNS Zone Virtual Network Link to specified Virtual Network",
         "notScopes": [],
-        "parameters": {},
+        "parameters": {
+            "virtualNetworkResourceId": {
+                "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-resourcegroup-01/providers/Microsoft.Network/virtualNetworks/vnet-10-0-0-0-24-westeurope"
+            }
+        },
         "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Vnet-Links",
         "nonComplianceMessages": [],
         "scope": "${current_scope_resource_id}",

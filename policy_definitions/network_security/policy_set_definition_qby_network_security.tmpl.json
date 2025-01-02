@@ -49,7 +49,7 @@
             },
             {
                 "policyDefinitionReferenceId": "Allow only subnets with one DNS server matching the Firewall's IP address",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d8ebd9c5-3b41-41bc-845d-5069a808d3ea",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Audit-Vnet-DNS",
                 "parameters": {
                     "effect": {
                         "value": "[parameters('effectForDNS')]"

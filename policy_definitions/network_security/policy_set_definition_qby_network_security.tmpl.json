@@ -12,9 +12,9 @@
             "category": "NetworkSecurity"
         },
         "parameters": {
-            "effectForDNS": {
+            "effect": {
                 "type": "String",
-                "defaultValue": "Audit",
+                "defaultValue": "Deny",
                 "allowedValues": [
                     "Deny",
                     "Audit",
@@ -25,37 +25,51 @@
                     "description": "The effect determines what happens when the policy rule is evaluated to match"
                 }
             },
-            "DnsIp": {
-                "type": "String",
-                "defaultValue": "",
+            "DnsIps": {
+                "type": "Array",
                 "metadata": {
-                    "displayName": "DNS Server IP (should be the deployed firewall)",
-                    "description": "The DNS Server to forward all DNS requests from all VNets to - should be the IP of the deployed firewall"
+                    "displayName": "DNS Server IPs",
+                    "description": "Allowed DNS server IPs. Any other IP will be denied. Could be the firewall or domain controller or similar."
                 }
             }
         },
         "policyDefinitions": [
             {
                 "policyDefinitionReferenceId": "Deny Network Security Groups without default deny rule",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule"
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
             },
             {
                 "policyDefinitionReferenceId": "Allow only Subnets with NSGs and correct names",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Subnet-NSG"
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Subnet-NSG",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
             },
             {
                 "policyDefinitionReferenceId": "Deny vNets with wrong name",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Vnet-Name"
-            },
-            {
-                "policyDefinitionReferenceId": "Allow only subnets with one DNS server matching the Firewall's IP address",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Audit-Vnet-DNS",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Vnet-Name",
                 "parameters": {
                     "effect": {
-                        "value": "[parameters('effectForDNS')]"
+                        "value": "[parameters('effect')]"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "Allow only specified DNS servers",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-Vnet-DNS",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
                     },
                     "servers": {
-                        "value": ["[parameters('DnsIp')]"]
+                        "value": "[parameters('DnsIps')]"
                     }
                 }
             }

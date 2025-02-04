@@ -1,6 +1,6 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "QBY-Audit-Vnet-DNS",
+  "name": "QBY-Deny-Vnet-DNS",
   "properties": {
     "displayName": "Enforce VNET DNS servers",
     "description": "This policy prevent settings non authorized dns servers for vnets.",
@@ -31,7 +31,7 @@
           "Audit",
           "Disabled"
         ],
-        "defaultValue": "Audit"
+        "defaultValue": "Deny"
       }
     },
     "policyRule": {

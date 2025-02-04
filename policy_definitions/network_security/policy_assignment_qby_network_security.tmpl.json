@@ -11,11 +11,8 @@
     "scope": "${current_scope_resource_id}",
     "notScopes": ${jsonencode(notScopesForQbyNetworkSecurity)},
     "parameters": {
-      "effectForDNS": {
-        "value": "Audit"
-      },
-      "DnsIp": {
-        "value": ""
+      "effect": {
+        "value": "Deny"
       }
     },
     "nonComplianceMessages": [
@@ -32,8 +29,8 @@
         "policyDefinitionReferenceId": "Deny vNets with wrong name"
       },
       {
-        "message": "vNet must use the firewall IP as the primary DNS server",
-        "policyDefinitionReferenceId": "Allow only subnets with one DNS server matching the Firewall's IP address"
+        "message": "vNet must only have allowed DNS servers",
+        "policyDefinitionReferenceId": "Allow only specified DNS servers"
       }
     ]
   },

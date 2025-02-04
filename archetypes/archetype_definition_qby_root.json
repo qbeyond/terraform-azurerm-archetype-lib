@@ -12,8 +12,7 @@
             "Deploy-MDFC-SqlAtp",
             "Deploy-Resource-Diag",
             "Enforce-ACSB",
-            "QBY-Tagging-Governance",
-            "QBY-Network-Security"
+            "QBY-Tagging-Governance"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",

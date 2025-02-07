@@ -162,7 +162,7 @@
                         "value": "[parameters('effect')]"
                     },
                     "scopeToSupportedImages": {
-                        "value": "[parameter('scopeToSupportedImages')]"
+                        "value": "[parameters('scopeToSupportedImages')]"
                     }
                 }
             },
@@ -183,7 +183,7 @@
                         "value": "[parameters('effect')]"
                     },
                     "scopeToSupportedImages": {
-                        "value": "[parameter('scopeToSupportedImages')]"
+                        "value": "[parameters('scopeToSupportedImages')]"
                     }
                 }
             },
@@ -210,7 +210,7 @@
                             value: "[parameters('effect')]"
                         },
                         scopeToSupportedImages: {
-                            "value": "[parameter('scopeToSupportedImages')]"
+                            "value": "[parameters('scopeToSupportedImages')]"
                         }
                     }
                 }    
@@ -233,7 +233,7 @@
                             value: "[parameters('effect')]"
                         },
                         scopeToSupportedImages: {
-                            "value": "[parameter('scopeToSupportedImages')]"
+                            "value": "[parameters('scopeToSupportedImages')]"
                         }
                     }
                 }

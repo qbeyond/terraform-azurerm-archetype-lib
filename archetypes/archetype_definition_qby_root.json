@@ -13,7 +13,8 @@
             "Deploy-Resource-Diag",
             "Enforce-ACSB",
             "QBY-Tagging-Governance",
-            "QBY-Allowed-VM-SKUs"
+            "QBY-Allowed-VM-SKUs",
+            "QBY-Allowed-Locations"
         ],
         "policy_definitions": [
             "Append-AppService-httpsonly",
@@ -189,7 +190,9 @@
             "QBY-Allow-Subnet-NSG",
             "QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
             "QBY-Allow-Vnet-Name",
-            "QBY-Deny-Vnet-DNS"
+            "QBY-Deny-Vnet-DNS",
+            "QBY-Allowed-Locations-For-Resource-Groups",
+            "QBY-Allowed-Locations-For-Resources"
         ],
         "policy_set_definitions": [
             "Audit-UnusedResourcesCostOptimization",
@@ -207,7 +210,8 @@
             "QBY-Deploy-Update-Mgmt",
             "QBY-Deploy-VM-Monitoring",
             "QBY-Tagging-Governance",
-            "QBY-Network-Security"
+            "QBY-Network-Security",
+            "QBY-Allowed-Locations"
         ],
         "role_definitions": [
             "Network-Subnet-Contributor",

@@ -6,7 +6,6 @@
         "description": "Deny the creation of VMs with size SKUs that are not part of the allowed list.",
         "displayName": "Allowed VM/VMSS SKUs",
         "notScopes": [],
-        "parameters": {},
         "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allowed-VM-SKUs",
         "nonComplianceMessages": [],
         "scope": "${current_scope_resource_id}",

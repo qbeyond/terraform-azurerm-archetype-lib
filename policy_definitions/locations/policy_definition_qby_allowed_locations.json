@@ -12,21 +12,9 @@
             "category": "General"
         },
         "parameters": {
-            "effect": {
-                "type": "String",
-                "defaultValue": "Deny",
-                "allowedValues": [
-                    "Deny",
-                    "Audit",
-                    "Disabled"
-                ],
-                "metadata": {
-                    "displayName": "Effect",
-                    "description": "The effect determines what happens when the policy rule is evaluated to match"
-                }
-            },
             "listOfAllowedLocations": {
                 "type": "Array",
+                "defaultValue": [],
                 "metadata": {
                     "description": "The list of locations that can be specified when deploying resources.",
                     "strongType": "location",
@@ -48,11 +36,17 @@
                     {
                         "field": "type",
                         "notEquals": "Microsoft.AzureActiveDirectory/b2cDirectories"
+                    },
+                    {
+                        "count": {
+                            "value": "[parameters('listOfAllowedLocations')]"
+                        },
+                        "notEquals": 0
                     }
                 ]
             },
             "then": {
-                "effect": "[parameters('effect')]"
+                "effect": "Deny"
             }
         }
     }

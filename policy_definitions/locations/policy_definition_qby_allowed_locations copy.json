@@ -12,21 +12,9 @@
             "category": "General"
         },
         "parameters": {
-            "effect": {
-                "type": "String",
-                "defaultValue": "Deny",
-                "allowedValues": [
-                    "Deny",
-                    "Audit",
-                    "Disabled"
-                ],
-                "metadata": {
-                    "displayName": "Effect",
-                    "description": "The effect determines what happens when the policy rule is evaluated to match"
-                }
-            },
             "listOfAllowedLocations": {
                 "type": "Array",
+                "defaultValue": [],
                 "metadata": {
                     "description": "The list of locations that resource groups can be created in.",
                     "strongType": "location",
@@ -44,11 +32,17 @@
                     {
                         "field": "location",
                         "notIn": "[parameters('listOfAllowedLocations')]"
+                    },
+                    {
+                        "count": {
+                            "value": "[parameters('listOfAllowedLocations')]"
+                        },
+                        "notEquals": 0
                     }
                 ]
             },
             "then": {
-                "effect": "[parameters('effect')]"
+                "effect": "Deny"
             }
         }
     }

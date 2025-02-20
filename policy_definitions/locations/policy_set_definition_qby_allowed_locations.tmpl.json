@@ -12,19 +12,6 @@
             "category": "AllowedLocations"
         },
         "parameters": {
-            "effect": {
-                "type": "String",
-                "defaultValue": "Deny",
-                "allowedValues": [
-                    "Deny",
-                    "Audit",
-                    "Disabled"
-                ],
-                "metadata": {
-                    "displayName": "Effect",
-                    "description": "The effect determines what happens when the policy rule is evaluated to match"
-                }
-            },
             "listOfAllowedLocations": {
                 "type": "Array",
                 "metadata": {
@@ -38,9 +25,6 @@
                 "policyDefinitionReferenceId": "Allow resources to be deployed only to specific locations.",
                 "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allowed-Locations-For-Resources",
                 "parameters": {
-                    "effect": {
-                        "value": "[parameters('effect')]"
-                    },
                     "listOfAllowedLocations": {
                         "value": "[parameters('listOfAllowedLocations')]"
                     }
@@ -50,9 +34,6 @@
                 "policyDefinitionReferenceId": "Allow resource groups to be deployed only to specific locations.",
                 "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allowed-Locations-For-Resource-Groups",
                 "parameters": {
-                    "effect": {
-                        "value": "[parameters('effect')]"
-                    },
                     "listOfAllowedLocations": {
                         "value": "[parameters('listOfAllowedLocations')]"
                     }

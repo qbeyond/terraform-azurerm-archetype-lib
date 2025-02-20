@@ -8,11 +8,18 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 ## [6.0.0]
 
 ### Added
-- added network security policy that enforces an array of DNS server on all vnets
-- added effect parameter that defaults to `Deny`
+- added network security policy that enforces an array of DNS servers on all vnets
+- added effect parameter to network security (defaults to `Deny`)
+- added location policy set that ensures resources to be deployed to allowed locations only
+- added default assignment vmskus policy
+- added assignment for location policy set (requires a `listOfAllowedLocations` that can be empty to disable the policy)
 
 ### Changed
 - limited network security assignment to managed subscriptions (msp)
+
+### Fixed
+
+- vmmonitoring: pass the parameter "scopeToSupportedImages" to all policies in set definition
 
 ## [5.1.0]
 

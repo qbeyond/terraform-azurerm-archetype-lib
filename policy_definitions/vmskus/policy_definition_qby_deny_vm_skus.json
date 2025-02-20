@@ -16,9 +16,37 @@
             "listOfAllowedSKUs": {
                 "type": "Array",
                 "metadata": {
-                    "description": "The list of size SKUs that can be used for virtual machines. Items may contain wildcards.",
+                    "description": "The list of default size SKUs that can be used for virtual machines. Items may contain wildcards.",
                     "displayName": "Allowed Size SKUs"
-                }
+                },
+                "defaultValue": [
+                    "Standard_B1ms",
+                    "Standard_B2ms",
+                    "Standard_B4ms",
+                    "Standard_B8ms",
+                    "Standard_B1s",
+                    "Standard_B2s",
+                    "Standard_D1_v",
+                    "Standard_Ds1_v",
+                    "Standard_D2_v",
+                    "Standard_D3_v",
+                    "Standard_D4_v",
+                    "Standard_D6_v",
+                    "Standard_D8_v",
+                    "Standard_D2s_v",
+                    "Standard_D3s_v",
+                    "Standard_D4s_v",
+                    "Standard_D6s_v",
+                    "Standard_D8s_v"
+                ]
+            },
+            "additionalSKUs": {
+                "type": "Array",
+                "metadata": {
+                    "description": "Additional SKUs that can be used for virtual machines. Items may contain wildcards.",
+                    "displayName": "Additional Allowed Size SKUs"
+                },
+                "defaultValue": []
             },
             "effect": {
                 "type": "String",
@@ -54,6 +82,17 @@
                                     }
                                 },
                                 "equals": 0
+                            },
+                            {
+                                "count": {
+                                    "value": "[parameters('additionalSKUs')]",
+                                    "name": "pattern",
+                                    "where": {
+                                        "field": "Microsoft.Compute/virtualMachines/sku.name",
+                                        "like": "[concat(current('pattern'),'*')]"
+                                    }
+                                },
+                                "equals": 0
                             }
                         ]
                     },
@@ -66,6 +105,17 @@
                             {
                                 "count": {
                                     "value": "[parameters('listOfAllowedSKUs')]",
+                                    "name": "pattern",
+                                    "where": {
+                                        "field": "Microsoft.Compute/virtualMachineScaleSets/sku.name",
+                                        "like": "[concat(current('pattern'),'*')]"
+                                    }
+                                },
+                                "equals": 0
+                            },
+                            {
+                                "count": {
+                                    "value": "[parameters('additionalSKUs')]",
                                     "name": "pattern",
                                     "where": {
                                         "field": "Microsoft.Compute/virtualMachineScaleSets/sku.name",

@@ -10,30 +10,7 @@
         "nonComplianceMessages": [],
         "scope": "${current_scope_resource_id}",
         "enforcementMode": null,
-        "parameters": {
-            "listOfAllowedSKUs": {
-                "value": [
-                    "Standard_B1ms",
-                    "Standard_B2ms",
-                    "Standard_B4ms",
-                    "Standard_B8ms",
-                    "Standard_B1s",
-                    "Standard_B2s",
-                    "Standard_D1_v",
-                    "Standard_Ds1_v",
-                    "Standard_D2_v",
-                    "Standard_D3_v",
-                    "Standard_D4_v",
-                    "Standard_D6_v",
-                    "Standard_D8_v",
-                    "Standard_D2s_v",
-                    "Standard_D3s_v",
-                    "Standard_D4s_v",
-                    "Standard_D6s_v",
-                    "Standard_D8s_v"
-                ]
-            }
-        }
+        "parameters": {}
     },
     "location": "${default_location}",
     "identity": {

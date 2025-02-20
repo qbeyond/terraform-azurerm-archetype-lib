@@ -10,11 +10,11 @@
         "nonComplianceMessages": [
             {
                 "message": "The resource must be deployed to a supported location.",
-                "policyDefinitionReferenceId": "Allow resources to be deployed only to specific locations."
+                "policyDefinitionReferenceId": "Allow resources to be deployed only to specific locations"
             },
             {
                 "message": "The resource group must be deployed to a supported location.",
-                "policyDefinitionReferenceId": "Allow resource groups to be deployed only to specific locations."
+                "policyDefinitionReferenceId": "Allow resource groups to be deployed only to specific locations"
             }
         ],
         "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Allowed-Locations",

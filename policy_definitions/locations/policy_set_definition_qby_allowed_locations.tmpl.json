@@ -22,7 +22,7 @@
         },
         "policyDefinitions": [
             {
-                "policyDefinitionReferenceId": "Allow resources to be deployed only to specific locations.",
+                "policyDefinitionReferenceId": "Allow resources to be deployed only to specific locations",
                 "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allowed-Locations-For-Resources",
                 "parameters": {
                     "listOfAllowedLocations": {
@@ -31,7 +31,7 @@
                 }
             },
             {
-                "policyDefinitionReferenceId": "Allow resource groups to be deployed only to specific locations.",
+                "policyDefinitionReferenceId": "Allow resource groups to be deployed only to specific locations",
                 "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allowed-Locations-For-Resource-Groups",
                 "parameters": {
                     "listOfAllowedLocations": {

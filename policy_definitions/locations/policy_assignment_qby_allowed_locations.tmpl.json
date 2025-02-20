@@ -9,11 +9,11 @@
         "enforcementMode": null,
         "nonComplianceMessages": [
             {
-                "message": "The resource must be deployed to a supported location.",
+                "message": "The resource must be deployed to a allowed location.",
                 "policyDefinitionReferenceId": "Allow resources to be deployed only to specific locations"
             },
             {
-                "message": "The resource group must be deployed to a supported location.",
+                "message": "The resource group must be deployed to a allowed location.",
                 "policyDefinitionReferenceId": "Allow resource groups to be deployed only to specific locations"
             }
         ],

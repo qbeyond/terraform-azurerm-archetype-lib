@@ -16,7 +16,7 @@
             "listOfAllowedSKUs": {
                 "type": "Array",
                 "metadata": {
-                    "description": "The list of default size SKUs that can be used for virtual machines. Items may contain wildcards.",
+                    "description": "The list of default size SKUs that can be used for virtual machines. Items are prefixes. Example: 'Standard_D' matches any SKU of the D series.",
                     "displayName": "Allowed Size SKUs"
                 },
                 "defaultValue": [
@@ -41,7 +41,7 @@
             "additionalSKUs": {
                 "type": "Array",
                 "metadata": {
-                    "description": "Additional SKUs that can be used for virtual machines. Items may contain wildcards.",
+                    "description": "Additional SKUs that can be used for virtual machines. Items are prefixes. Example: 'Standard_D' matches any SKU of the D series.",
                     "displayName": "Additional Allowed Size SKUs"
                 },
                 "defaultValue": []

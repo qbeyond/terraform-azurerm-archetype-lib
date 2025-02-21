@@ -1,7 +1,8 @@
 # Network Security Policy Set
 
-This Network Security Policy Set forces NSG's to have a rule that denys all inbound traffic in Vnet. It also ensures all subnets to have an matching NSG with their Vnet in name associated. Furthermore, it verifies that the DNS server assigned to a Vnet matches the ip of the firewall deployed.
-Exemptions are made for subnets that are named "AzureFirewallSubnet", "RouteServerSubnet", "GatewaySubnet" and "AzureBastionSubnet"
+This Network Security Policy Set forces NSG's to have a rule that denys all inbound traffic in Vnet. It also ensures all subnets to have an matching NSG with their Vnet in name associated.
+Furthermore, it ensures that Vnets have the correct DNS servers assigned. These may be the firewall but some environments use dedicated DNS servers or Domain Controllers for DNS.
+Exceptions are made for subnets that are named "AzureFirewallSubnet", "RouteServerSubnet", "GatewaySubnet" and "AzureBastionSubnet"
 
 The Rule that denys all inbound Traffic is checked based on following Properties:
 - direction                   = "Inbound"

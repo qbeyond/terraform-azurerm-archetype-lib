@@ -1,0 +1,19 @@
+{
+    "name": "QBY-Allowed-VM-SKUs",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+        "description": "Deny the creation of VMs with size SKUs that are not part of the allowed list.",
+        "displayName": "Allowed VM/VMSS SKUs",
+        "notScopes": [],
+        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allowed-VM-SKUs",
+        "nonComplianceMessages": [],
+        "scope": "${current_scope_resource_id}",
+        "enforcementMode": null,
+        "parameters": {}
+    },
+    "location": "${default_location}",
+    "identity": {
+        "type": "SystemAssigned"
+    }
+}

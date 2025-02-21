@@ -1,0 +1,45 @@
+{
+    "name": "QBY-Allowed-Locations",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "description": "Enforces specific locations for azure resources and resource groups.",
+        "displayName": "AllowedLocations",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "AllowedLocations"
+        },
+        "parameters": {
+            "listOfAllowedLocations": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "ListOfAllowedLocations",
+                    "description": "The list of allowed locations contains the only locations in which resources and resource groups can be deployed to."
+                }
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "Allow resources to be deployed only to specific locations",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allowed-Locations-For-Resources",
+                "parameters": {
+                    "listOfAllowedLocations": {
+                        "value": "[parameters('listOfAllowedLocations')]"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "Allow resource groups to be deployed only to specific locations",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allowed-Locations-For-Resource-Groups",
+                "parameters": {
+                    "listOfAllowedLocations": {
+                        "value": "[parameters('listOfAllowedLocations')]"
+                    }
+                }
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

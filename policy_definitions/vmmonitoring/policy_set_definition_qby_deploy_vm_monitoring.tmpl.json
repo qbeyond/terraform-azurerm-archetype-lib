@@ -160,6 +160,9 @@
                     },
                     "effect": {
                         "value": "[parameters('effect')]"
+                    },
+                    "scopeToSupportedImages": {
+                        "value": "[parameters('scopeToSupportedImages')]"
                     }
                 }
             },
@@ -178,6 +181,9 @@
                     },
                     "effect": {
                         "value": "[parameters('effect')]"
+                    },
+                    "scopeToSupportedImages": {
+                        "value": "[parameters('scopeToSupportedImages')]"
                     }
                 }
             },
@@ -202,6 +208,9 @@
                         },
                         effect: {
                             value: "[parameters('effect')]"
+                        },
+                        scopeToSupportedImages: {
+                            "value": "[parameters('scopeToSupportedImages')]"
                         }
                     }
                 }    
@@ -222,6 +231,9 @@
                         },
                         effect: {
                             value: "[parameters('effect')]"
+                        },
+                        scopeToSupportedImages: {
+                            "value": "[parameters('scopeToSupportedImages')]"
                         }
                     }
                 }

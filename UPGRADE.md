@@ -4,6 +4,37 @@ This document includes guidelines what to do to upgrade to a new major version. 
 
 ## [Unreleased]
 
+## [6.0.0]
+
+### VM SKUs, Locations
+
+With this update, policies for allowed locations and VM SKUs are being assigned automatically.
+Consider removing manual assignments prior to this update.
+
+Specify allowed SKUs for `QBY-Allowed-VM-SKUs` via the parameters `additionalSKUs` (SKUs on top of default ones) and `listOfAllowedSKUs`
+(erasing defaults). Specify allowed locations for `QBY-Allowed-Locations` via the parameter `listOfAllowedLocations`.
+
+### Network Security
+
+Network security policies are now set to `Deny`, so make sure that all your network resources comply with the policies,
+otherwise future deployments will be denied.
+
+A new DNS policy now enforces DNS servers on all Vnets. You must provide the enforced DNS servers:
+
+```terraform
+    "msp" = {
+      // ...
+      archetype_config = {
+        archetype_id   = "qby_msp"
+        parameters = {
+          QBY-Network-Security = {
+            dnsServers = ["10.40.0.68"]     # Firewall
+          }
+        }
+      }
+    }
+```
+
 ## [5.0.0]
 
 To upgrade to this version you need to add the `template_file_variables` `notScopesForQbyNetworkSecurity`. To avoid any impact set it to `notScopesForQbyNetworkSecurity = ["/providers/Microsoft.Management/managementGroups/<root_id>"]`

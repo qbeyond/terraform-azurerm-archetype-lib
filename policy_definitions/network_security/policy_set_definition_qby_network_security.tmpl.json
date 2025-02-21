@@ -11,19 +11,67 @@
             "version": "1.0.0",
             "category": "NetworkSecurity"
         },
-        "parameters": {},
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "defaultValue": "Deny",
+                "allowedValues": [
+                    "Deny",
+                    "Audit",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                }
+            },
+            "dnsServers": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "DNS Server IPs",
+                    "description": "Allowed DNS server IPs (e.g. DCs, firewall), where any other dns server will be denied"
+                }
+            }
+        },
         "policyDefinitions": [
             {
                 "policyDefinitionReferenceId": "Deny Network Security Groups without default deny rule",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule"
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-NSG-Without-Deny-vNetInboundTraffic-Rule",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
             },
             {
                 "policyDefinitionReferenceId": "Allow only Subnets with NSGs and correct names",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Subnet-NSG"
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Subnet-NSG",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
             },
             {
                 "policyDefinitionReferenceId": "Deny vNets with wrong name",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Vnet-Name"
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Allow-Vnet-Name",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "Allow only specified DNS servers",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deny-Vnet-DNS",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    },
+                    "servers": {
+                        "value": "[parameters('dnsServers')]"
+                    }
+                }
             }
         ],
         "policyDefinitionGroups": null

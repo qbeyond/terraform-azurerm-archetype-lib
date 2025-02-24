@@ -16,7 +16,7 @@
                 "type": "Array",
                 "metadata": {
                     "displayName": "ListOfAllowedLocations",
-                    "description": "The list of allowed locations contains the only locations in which resources and resource groups can be deployed to."
+                    "description": "The list of allowed locations contains the only locations in which resources and resource groups can be deployed to. Leave it empty to disable the policy set."
                 }
             }
         },

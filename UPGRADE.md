@@ -12,7 +12,8 @@ With this update, policies for allowed locations and VM SKUs are being assigned 
 Consider removing manual assignments prior to this update.
 
 Specify allowed SKUs for `QBY-Allowed-VM-SKUs` via the parameters `additionalSKUs` (SKUs on top of default ones) and `listOfAllowedSKUs`
-(erasing defaults). Specify allowed locations for `QBY-Allowed-Locations` via the parameter `listOfAllowedLocations`.
+(erasing defaults). Specify allowed locations for `QBY-Allowed-Locations` via the parameter `listOfAllowedLocations` or leave
+it empty to implicitly disable the policy set.
 
 ### Network Security
 

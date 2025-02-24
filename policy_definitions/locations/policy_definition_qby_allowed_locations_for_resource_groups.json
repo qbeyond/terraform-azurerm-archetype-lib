@@ -16,7 +16,7 @@
                 "type": "Array",
                 "defaultValue": [],
                 "metadata": {
-                    "description": "The list of locations that resource groups can be created in.",
+                    "description": "The list of locations that resource groups can be created in. Leave it empty to disable the policy.",
                     "strongType": "location",
                     "displayName": "Allowed locations"
                 }

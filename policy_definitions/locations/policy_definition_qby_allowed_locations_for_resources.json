@@ -16,7 +16,7 @@
                 "type": "Array",
                 "defaultValue": [],
                 "metadata": {
-                    "description": "The list of locations that can be specified when deploying resources.",
+                    "description": "The list of locations that can be specified when deploying resources. Leave it empty to disable the policy.",
                     "strongType": "location",
                     "displayName": "Allowed locations"
                 }

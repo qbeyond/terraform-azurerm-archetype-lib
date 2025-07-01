@@ -14,6 +14,7 @@
             "Enforce-ACSB",
             "QBY-Tagging-Governance",
             "QBY-Allowed-VM-SKUs",
+            "Qby-Allowed-VM-Images",
             "QBY-Allowed-Locations"
         ],
         "policy_definitions": [
@@ -184,6 +185,7 @@
             "QBY-Require-Tag-on-ResourceGroup",
             "QBY-Require-Tag",
             "QBY-Allowed-VM-SKUs",
+            "Qby-Allowed-VM-Images",
             "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-AzureMonitorAgent",
             "QBY-Deploy-VM-Backup",

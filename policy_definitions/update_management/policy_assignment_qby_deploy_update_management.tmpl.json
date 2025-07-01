@@ -1,39 +1,57 @@
 {
-  "name": "QBY-Deploy-Update-Mgmt",
-  "type": "Microsoft.Authorization/policyAssignments",
-  "apiVersion": "2022-06-01",
-  "dependsOn": [],
-  "properties": {
-    "description": "Automatically generated policy set that deploys update management resources based on required tags.",
-    "displayName": "Deploy Update Management for Windows VMs",
-    "enforcementMode": null,
-    "nonComplianceMessages": [
-      {
-        "message": "The tag 'Severity Group Monthly' is either missing, empty or the syntax is incorrect.",
-        "policyDefinitionReferenceId": "Require a tag 'Severity Group Monthly' exists and is not empty"
-      },
-      {
-        "message": "Disabling Updates is not implemented yet. The tag 'Update Allowed' must be set to 'yes' to avoid disruptions of Updates, when the effect of this tag is implemented in a later version.",
-        "policyDefinitionReferenceId": "Require tag 'Update Allowed' to be 'yes'"
-      }
-    ],
-    "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Deploy-Update-Mgmt",
-    "scope": "${current_scope_resource_id}",
-    "notScopes": [],
-    "parameters": {
-      "managementSubscriptionId": {
-        "value": "00000000-0000-0000-0000-000000000000"
-      },
-      "managementResourceGroup": {
-        "value": "rg-Management-prd-01"
-      },
-      "location": {
-        "value": "westeurope"
-      }
+    "name": "Qby-Deploy-Update-Mgmt",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2022-06-01",
+    "dependsOn": [],
+    "properties": {
+        "description": "Automatically generated policy set that deploys update management resources based on required tags.",
+        "displayName": "Deploy Update Management for Azure VMs",
+        "enforcementMode": null,
+        "nonComplianceMessages": [
+            {
+                "message": "The tag 'update allowed' is set to 'no' or no update configuration is present",
+                "policyDefinitionReferenceId": "Configure update management for Linux virtual machines with a given tag using Azure Update Manager"
+            }
+        ],
+        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/Qby-Deploy-Update-Mgmt",
+        "scope": "${current_scope_resource_id}",
+        "notScopes": [],
+        "parameters": {
+            "noMaintenanceConfigurationId": {
+                "value": ""
+            },
+            "managementSubscriptionId": {
+                "value": "00000000-0000-0000-0000-000000000000"
+            },
+            "managementResourceGroup": {
+                "value": "rg-Management-prd-01"
+            },
+            "location": {
+                "value": "westeurope"
+            },
+            "timeZone": {
+                "value": "W. Europe Standard Time"
+            },
+            "osTypeArc": {
+                "value": "None"
+            },
+            "osOffersLinux": {
+                "value": [
+                    "RHEL*"
+                ]
+            },
+            "osSKUsLinux": {
+                "value": [
+                    "*"
+                ]
+            },
+            "effect": {
+                "value": "DeployIfNotExists"
+            }
+        }
+    },
+    "location": "${default_location}",
+    "identity": {
+        "type": "SystemAssigned"
     }
-  },
-  "location": "${default_location}",
-  "identity": {
-    "type": "SystemAssigned"
-  }
 }

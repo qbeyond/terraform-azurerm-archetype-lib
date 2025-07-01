@@ -1,0 +1,102 @@
+{
+    "name": "Qby-Require-Update-Tags",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "Require Update Tags",
+        "description": "This policy set requires virtual machines to have the tags 'update allowed' and 'severity group monthly'",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Azure Update Manager"
+        },
+        "parameters": {
+            "osTypeArc": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "OS type Arc machines included",
+                    "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
+                },
+                "allowedValues": [
+                    "All",
+                    "Windows",
+                    "Linux",
+                    "None"
+                ],
+                "defaultValue": "None"
+            },
+            "osOffers": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "OS offers included",
+                    "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
+                },
+                "defaultValue": [
+                    "Windows*",
+                    "Linux*"
+                ]
+            },
+            "osSKUs": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "OS SKUs included",
+                    "description": "Include only OS SKUs of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+                },
+                "defaultValue": [
+                    "*"
+                ]
+            },
+            "updateAllowedTagValues": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Allowed values for the tag update allowed",
+                    "description": "Allowed values for the tag update allowed"
+                },
+                "allowedValues": [
+                    "yes",
+                    "no"
+                ],
+                "defaultValue": "yes"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "Require a tag 'Severity Group Monthly' exists and is not empty",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Severity-Group-Tag",
+                "parameters": {
+                    "osTypeArc": {
+                        "value": "[parameters('osTypeArc')]"
+                    },
+                    "osOffers": {
+                        "value": "[parameters('osOffers')]"
+                    },
+                    "osSKUs": {
+                        "value": "[parameters('osSKUs')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Require tag 'Update Allowed' to be 'yes'",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Update-Allowed-Tag",
+                "parameters": {
+                    "updateAllowedTagValues": {
+                        "value": "[parameters('updateAllowedTagValues')]"
+                    },
+                    "osTypeArc": {
+                        "value": "[parameters('osTypeArc')]"
+                    },
+                    "osOffers": {
+                        "value": "[parameters('osOffers')]"
+                    },
+                    "osSKUs": {
+                        "value": "[parameters('osSKUs')]"
+                    }
+                },
+                "groupNames": []
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

@@ -176,6 +176,7 @@
             "Modify-NSG",
             "Modify-UDR",
             "QBY-Deploy-Updates",
+            "QBY-Deploy-Updates-Linux",
             "QBY-Require-Severity-Group-Tag",
             "QBY-Configure-Windows-Patch-Settings",
             "QBY-Require-Update-Allowed-Tag",

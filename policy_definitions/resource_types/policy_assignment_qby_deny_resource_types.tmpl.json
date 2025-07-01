@@ -12,9 +12,7 @@
         "enforcementMode": null,
         "parameters": {
             "listOfResourceTypesNotAllowed": {
-                "value": [
-                    "Microsoft.Network/bastionHosts"
-                ]
+                "value": []
             }
         }
     },

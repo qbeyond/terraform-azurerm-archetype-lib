@@ -1,5 +1,5 @@
 {
-    "name": "Qby-Deploy-Update-Mgmt",
+    "name": "QBY-Deploy-Update-Mgmt",
     "type": "Microsoft.Authorization/policySetDefinitions",
     "apiVersion": "2021-06-01",
     "scope": null,
@@ -76,7 +76,7 @@
                     "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
                 },
                 "defaultValue": [
-                    "RHEL*"
+                    "*"
                 ]
             },
             "osSKUsLinux": {
@@ -101,12 +101,38 @@
                     "displayName": "Effect for policy set Update management",
                     "description": "The effect determines what happens when the policy rule is evaluated to match"
                 }
+            },
+            "effectLinux": {
+                "type": "string",
+                "defaultValue": "DeployIfNotExists",
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect for policy set Update management",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                }
+            },
+            "effectWindows": {
+                "type": "string",
+                "defaultValue": "DeployIfNotExists",
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect for policy set Update management",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                }
             }
         },
         "policyDefinitions": [
             {
                 "policyDefinitionReferenceId": "Configure update management for Linux virtual machines with a given tag using Azure Update Manager",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/Qby-Deploy-Updates-Linux",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates-Linux",
                 "parameters": {
                     "noMaintenanceConfigurationId": {
                         "value": "[parameters('noMaintenanceConfigurationId')]"

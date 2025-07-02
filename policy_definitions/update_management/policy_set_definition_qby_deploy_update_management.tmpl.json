@@ -111,7 +111,7 @@
                     "Disabled"
                 ],
                 "metadata": {
-                    "displayName": "Effect for policy set Update management",
+                    "displayName": "Effect for policy Deploy Updates Linux",
                     "description": "The effect determines what happens when the policy rule is evaluated to match"
                 }
             },
@@ -124,7 +124,7 @@
                     "Disabled"
                 ],
                 "metadata": {
-                    "displayName": "Effect for policy set Update management",
+                    "displayName": "Effect for policy Deploy Updates (Windows)",
                     "description": "The effect determines what happens when the policy rule is evaluated to match"
                 }
             }
@@ -162,7 +162,7 @@
                         "value": "[parameters('osSKUsLinux')]"
                     },
                     "effect": {
-                        "value": "[parameters('effect')]"
+                        "value": "[parameters('effectLinux')]"
                     }
                 },
                 "groupNames": []
@@ -182,6 +182,9 @@
                     },
                     "location": {
                         "value": "[parameters('location')]"
+                    },
+                    "effect": {
+                        "value": "[parameters('effectWindows')]"
                     }
                 },
                 "groupNames": []

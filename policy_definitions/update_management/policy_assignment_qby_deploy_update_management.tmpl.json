@@ -37,16 +37,22 @@
             },
             "osOffersLinux": {
                 "value": [
-                    "None"
+                    "Disabled"
                 ]
             },
             "osSKUsLinux": {
                 "value": [
-                    "None"
+                    "Disabled"
                 ]
             },
             "effect": {
                 "value": "DeployIfNotExists"
+            },
+            "effectWindows": {
+                "value": "DeployIfNotExists"
+            },
+            "effectLinux": {
+                "value": "Disabled"
             }
         }
     },

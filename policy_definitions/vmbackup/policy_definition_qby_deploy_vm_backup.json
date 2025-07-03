@@ -76,7 +76,8 @@
         "allowedValues": [
           "DefaultPolicy",
           "EnhancedPolicy",
-          "QbyDefault"
+          "QbyDefault",
+          "BackupPolicyDefaultLS"
         ],
         "defaultValue": "QbyDefault"
       }

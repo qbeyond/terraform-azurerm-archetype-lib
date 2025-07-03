@@ -164,7 +164,8 @@
                     "allowedValues": [
                       "DefaultPolicy",
                       "EnhancedPolicy",
-                      "QbyDefault"
+                      "QbyDefault",
+                      "BackupPolicyDefaultLS"
                     ],
                     "defaultValue": "QbyDefault"
                   }
@@ -285,6 +286,67 @@
                               "instantRpRetentionRangeInDays": 6,
                               "timeZone": "UTC",
                               "protectedItemsCount": 0
+                            }
+                          },
+                          {
+                            "name": "[concat(variables('vaultName'), '/', 'BackupPolicyDefaultLS')]",
+                            "apiVersion": "2021-12-01",
+                            "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+                            "location": "[parameters('location')]",
+                            "dependsOn": [
+                              "[resourceId(subscription().subscriptionId, variables('rgName'), 'Microsoft.RecoveryServices/vaults/', variables('vaultName'))]"
+                            ],
+                            "properties": {
+                              "backupManagementType": "AzureIaasVM",
+                              "policyType": "V2",
+                              "instantRPDetails": {
+                                "azureBackupRGNamePrefix": "[take(variables('rgName'), sub(length(variables('rgName')), 1))]"
+                              },
+                              "schedulePolicy": {
+                                "policyType": "Full",
+                                "schedulePolicy": {
+                                  "schedulePolicyType": "SimpleSchedulePolicy",
+                                  "scheduleRunFrequency": "Daily",
+                                  "scheduleRunTimes": [
+                                    "2023-03-20T02:00:00Z"
+                                  ],
+                                  "scheduleWeeklyFrequency": 1
+                                },
+                                "retentionPolicy": {
+                                  "retentionPolicyType": "LongTermRetentionPolicy",
+                                  "dailySchedule": {
+                                    "retentionTimes": [
+                                      "2023-03-20T02:00:00Z"
+                                    ],
+                                    "retentionDuration": {
+                                      "count": 14,
+                                      "durationType": "Days"
+                                    }
+                                  },
+                                  "weeklySchedule": {
+                                    "daysOfTheWeek": [
+                                      "Monday"
+                                    ],
+                                    "retentionTimes": [
+                                      "2023-03-20T02:00:00Z"
+                                    ],
+                                    "retentionDuration": {
+                                      "count": 1,
+                                      "durationType": "Weeks"
+                                    }
+                                  }
+                                },
+                                "tieringPolicy": {
+                                  "ArchivedRP": {
+                                    "tieringMode": "DoNotTier",
+                                    "duration": 0,
+                                    "durationType": "Invalid"
+                                  }
+                                },
+                                "instantRpRetentionRangeInDays": 1,
+                                "timeZone": "UTC",
+                                "protectedItemsCount": 0
+                              }
                             }
                           }
                         ],

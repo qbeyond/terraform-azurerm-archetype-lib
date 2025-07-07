@@ -55,9 +55,9 @@
         "type": "string",
         "metadata": {
           "displayName": "Backup Policy Logical Name",
-          "description": "Logical name of the custom backup policy that will be used (PascalCase)"
+          "description": "Logical name of the custom backup policy that will be used (PascalCase). If empty, the activeBackupPolicy parameter is being used"
         },
-        "defaultValue": "QbyDefault"
+        "defaultValue": ""
       },
       "rgLogicalNameOverride": {
         "type": "string",

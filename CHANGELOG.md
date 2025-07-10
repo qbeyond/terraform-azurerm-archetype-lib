@@ -5,6 +5,15 @@ All notable changes to this module will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.2.0]
+
+### Added
+- added "BackupPolicyDefaultLS" option to list of selectable backup policies `QBY-Deploy-VM-Backup.activeBackupPolicy`
+
+### Changed
+- `QBY-Deploy-VM-Backup.backupPolicyLogicalName` defaults to empty string "" now. Leaving it empty results in
+`QBY-Deploy-VM-Backup.activeBackupPolicy` being used, which, if used, has always been the old default parameter "QbyDefault". Hence no breaking change.
+
 ## [6.1.0]
 
 ### Added

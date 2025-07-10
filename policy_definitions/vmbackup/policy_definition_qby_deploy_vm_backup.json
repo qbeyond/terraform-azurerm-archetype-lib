@@ -55,9 +55,9 @@
         "type": "string",
         "metadata": {
           "displayName": "Backup Policy Logical Name",
-          "description": "Logical name of the custom backup policy that will be used (PascalCase)"
+          "description": "Logical name of the custom backup policy that will be used (PascalCase). If empty, the activeBackupPolicy parameter is being used"
         },
-        "defaultValue": "QbyDefault"
+        "defaultValue": ""
       },
       "rgLogicalNameOverride": {
         "type": "string",
@@ -76,7 +76,8 @@
         "allowedValues": [
           "DefaultPolicy",
           "EnhancedPolicy",
-          "QbyDefault"
+          "QbyDefault",
+          "BackupPolicyDefaultLS"
         ],
         "defaultValue": "QbyDefault"
       }
@@ -145,9 +146,9 @@
                   "backupPolicyLogicalName": {
                     "type": "string",
                     "metadata": {
-                      "description": "Logical name of the custom backup policy that will be used (PascalCase). Defaults to QbyDefault"
+                      "description": "Logical name of the custom backup policy that will be used (PascalCase). If empty, the activeBackupPolicy parameter is being used"
                     },
-                    "defaultValue": "QbyDefault"
+                    "defaultValue": ""
                   },
                   "rgLogicalNameOverride": {
                     "type": "string",
@@ -164,15 +165,21 @@
                     "allowedValues": [
                       "DefaultPolicy",
                       "EnhancedPolicy",
-                      "QbyDefault"
+                      "QbyDefault",
+                      "BackupPolicyDefaultLS"
                     ],
                     "defaultValue": "QbyDefault"
                   }
                 },
                 "variables": {
                   "backupFabric": "Azure",
-                  "backupPolicy": "[concat('bkpol-', parameters('backupPolicyLogicalName'), '-vm')]",
-                  "activeBackupPolicy": "[if(equals(parameters('activeBackupPolicy'), 'QbyDefault'), variables('backupPolicy'), parameters('activeBackupPolicy'))]",
+                  "azurePolicies": [
+                    "DefaultPolicy",
+                    "EnhancedPolicy"
+                  ],
+                  "backupPolicyLogicalName": "[if(equals(parameters('backupPolicyLogicalName'), ''), parameters('activeBackupPolicy'), parameters('backupPolicyLogicalName'))]",
+                  "backupPolicy": "[concat('bkpol-', variables('backupPolicyLogicalName'), '-vm')]",
+                  "activeBackupPolicy": "[if(contains(variables('azurePolicies'), parameters('activeBackupPolicy')), parameters('activeBackupPolicy'), variables('backupPolicy'))]",
                   "v2VmType": "Microsoft.Compute/virtualMachines",
                   "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
                   "v2Vm": "vm;iaasvmcontainerv2;",
@@ -229,6 +236,68 @@
                             }
                           },
                           {
+                            "condition": "[equals(parameters('activeBackupPolicy'), 'BackupPolicyDefaultLS')]",
+                            "name": "[concat(variables('vaultName'), '/', variables('backupPolicy'))]",
+                            "apiVersion": "2021-12-01",
+                            "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+                            "location": "[parameters('location')]",
+                            "dependsOn": [
+                              "[resourceId(subscription().subscriptionId, variables('rgName'), 'Microsoft.RecoveryServices/vaults/', variables('vaultName'))]"
+                            ],
+                            "properties": {
+                              "backupManagementType": "AzureIaasVM",
+                              "policyType": "V2",
+                              "instantRpRetentionRangeInDays": "1",
+                              "schedulePolicy": {
+                                "schedulePolicyType": "SimpleSchedulePolicyV2",
+                                "scheduleRunFrequency": "Daily",
+                                "hourlySchedule": null,
+                                "dailySchedule": {
+                                  "scheduleRunTimes": [
+                                    "2025-07-04T03:00:00.000Z"
+                                  ]
+                                },
+                                "weeklySchedule": null
+                              },
+                              "timeZone": "W. Europe Standard Time",
+                              "retentionPolicy": {
+                                "retentionPolicyType": "LongTermRetentionPolicy",
+                                "dailySchedule": {
+                                  "retentionTimes": [
+                                    "2025-07-04T03:00:00.000Z"
+                                  ],
+                                  "retentionDuration": {
+                                    "count": 14,
+                                    "durationType": "Days"
+                                  }
+                                },
+                                "weeklySchedule": {
+                                  "daysOfTheWeek": [
+                                    "Sunday"
+                                  ],
+                                  "retentionTimes": [
+                                    "2025-07-04T03:00:00.000Z"
+                                  ],
+                                  "retentionDuration": {
+                                    "count": 1,
+                                    "durationType": "Weeks"
+                                  }
+                                },
+                                "monthlySchedule": null,
+                                "yearlySchedule": null
+                              },
+                              "instantRPDetails": {
+                                "azureBackupRGNamePrefix": "[take(variables('rgName'), sub(length(variables('rgName')), 1))]"
+                              },
+                              "tieringPolicy": {
+                                "ArchivedRP": {
+                                  "tieringMode": "DoNotTier"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "condition": "[equals(parameters('activeBackupPolicy'), 'QbyDefault')]",
                             "name": "[concat(variables('vaultName'), '/', variables('backupPolicy'))]",
                             "apiVersion": "2021-12-01",
                             "type": "Microsoft.RecoveryServices/vaults/backupPolicies",

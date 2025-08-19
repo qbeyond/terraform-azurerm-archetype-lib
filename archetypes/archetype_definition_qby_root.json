@@ -14,6 +14,7 @@
             "Enforce-ACSB",
             "QBY-Tagging-Governance",
             "QBY-Allowed-VM-SKUs",
+            "QBY-Allowed-VM-Images",
             "QBY-Allowed-Locations"
         ],
         "policy_definitions": [
@@ -176,6 +177,7 @@
             "Modify-NSG",
             "Modify-UDR",
             "QBY-Deploy-Updates",
+            "QBY-Deploy-Updates-Linux",
             "QBY-Require-Severity-Group-Tag",
             "QBY-Configure-Windows-Patch-Settings",
             "QBY-Require-Update-Allowed-Tag",
@@ -183,6 +185,7 @@
             "QBY-Require-Tag-on-ResourceGroup",
             "QBY-Require-Tag",
             "QBY-Allowed-VM-SKUs",
+            "QBY-Allowed-VM-Images",
             "QBY-Deploy-DependencyAgent",
             "QBY-Deploy-AzureMonitorAgent",
             "QBY-Deploy-VM-Backup",

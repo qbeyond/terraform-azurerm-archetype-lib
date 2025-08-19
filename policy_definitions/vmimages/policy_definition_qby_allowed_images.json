@@ -1,0 +1,144 @@
+{
+    "name": "QBY-Allowed-VM-Images",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2025-03-01",
+    "properties": {
+        "displayName": "Allowed vm images",
+        "policyType": "Custom",
+        "mode": "All",
+        "description": "Allowed vm images",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "General"
+        },
+        "parameters": {
+            "allowedImageOffers": {
+                "type": "Array",
+                "metadata": {
+                    "description": "Offers listed here are the only ones approved to be deployed. Use this command to get a list of Offers: Get-AzVMImageOffer -Location '' -PublisherName ''",
+                    "displayName": "Allowed Image Offers"
+                },
+                "defaultValue": []
+            },
+            "allowedImagePublishers": {
+                "type": "Array",
+                "metadata": {
+                    "description": "Publishers listed here are the only ones approved to be deployed. Use this command to get a list of Publishers: Get-AzVMImagePublisher -Location ''",
+                    "displayName": "Allowed Image Publishers"
+                },
+                "defaultValue": []
+            },
+            "allowedImageSkus": {
+                "type": "Array",
+                "metadata": {
+                    "description": "SKUs listed here are the only ones approved to be deployed. Use this command to get a list of SKUs: Get-AzVMImageSku -Location '' -PublisherName ''  -Offer ''",
+                    "displayName": "Allowed Image SKUs"
+                },
+                "defaultValue": []
+            },
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Deny"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "anyOf": [
+                    {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Compute/virtualMachines"
+                            },
+                            {
+                                "count": {
+                                    "value": "[parameters('allowedImagePublishers')]",
+                                    "name": "pattern",
+                                    "where": {
+                                        "field": "Microsoft.Compute/virtualMachines/imagePublisher",
+                                        "like": "[concat(current('pattern'),'*')]"
+                                    }
+                                },
+                                "equals": 0
+                            },
+                            {
+                                "count": {
+                                    "value": "[parameters('allowedImageOffers')]",
+                                    "name": "pattern",
+                                    "where": {
+                                        "field": "Microsoft.Compute/virtualMachines/imageOffer",
+                                        "like": "[concat(current('pattern'),'*')]"
+                                    }
+                                },
+                                "equals": 0
+                            },
+                            {
+                                "count": {
+                                    "value": "[parameters('allowedImageSkus')]",
+                                    "name": "pattern",
+                                    "where": {
+                                        "field": "Microsoft.Compute/virtualMachines/imageSku",
+                                        "like": "[concat(current('pattern'),'*')]"
+                                    }
+                                },
+                                "equals": 0
+                            }
+                        ]
+                    },
+                    {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Compute/virtualMachineScaleSets"
+                            },
+                            {
+                                "count": {
+                                    "value": "[parameters('allowedImagePublishers')]",
+                                    "name": "pattern",
+                                    "where": {
+                                        "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.imageReference.publisher",
+                                        "like": "[concat(current('pattern'),'*')]"
+                                    }
+                                },
+                                "equals": 0
+                            },
+                            {
+                                "count": {
+                                    "value": "[parameters('allowedImageOffers')]",
+                                    "name": "pattern",
+                                    "where": {
+                                        "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.imageReference.offer",
+                                        "like": "[concat(current('pattern'),'*')]"
+                                    }
+                                },
+                                "equals": 0
+                            },
+                            {
+                                "count": {
+                                    "value": "[parameters('allowedImageSkus')]",
+                                    "name": "pattern",
+                                    "where": {
+                                        "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.imageReference.sku",
+                                        "like": "[concat(current('pattern'),'*')]"
+                                    }
+                                },
+                                "equals": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}

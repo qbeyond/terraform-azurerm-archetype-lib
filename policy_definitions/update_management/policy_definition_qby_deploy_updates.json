@@ -2,7 +2,7 @@
   "name": "QBY-Deploy-Updates",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Configure Updates for VMs and Arc machines based on Tag Severity Group Monthly",
+    "displayName": "Configure Updates for Windows VMs and Arc machines based on Tag Severity Group Monthly",
     "description": "Configure Updates for VMs and Arc machines based on Tag Severity Group Monthly via Update Manager",
     "policyType": "Custom",
     "mode": "Indexed",
@@ -16,6 +16,14 @@
     },
     "version": "1.0.0",
     "parameters": {
+      "noMaintenanceConfigurationId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "noMaintenanceConfigurationId",
+          "description": "Id of the maintenance configuration NoMaintenance"
+        },
+        "defaultValue": ""
+      },
       "managementSubscriptionId": {
         "type": "String",
         "metadata": {
@@ -172,8 +180,16 @@
           "evaluationDelay": "AfterProvisioningSuccess",
           "name": "[concat('cas-', field('name'))]",
           "existenceCondition": {
-            "field": "Microsoft.Maintenance/configurationAssignments/maintenanceConfigurationId",
-            "equals": "[concat('/subscriptions/', parameters('managementSubscriptionId'), '/resourcegroups/', parameters('managementResourceGroup'), '/providers/microsoft.maintenance/maintenanceconfigurations/', field(concat('tags[Severity Group Monthly]')))]"
+            "allOf": [
+              {
+                "field": "Microsoft.Maintenance/configurationAssignments/maintenanceConfigurationId",
+                "equals": "[concat('/subscriptions/', parameters('managementSubscriptionId'), '/resourcegroups/', parameters('managementResourceGroup'), '/providers/microsoft.maintenance/maintenanceconfigurations/', field(concat('tags[Severity Group Monthly]')))]"
+              },
+              {
+                "value": "[field(concat('tags[Update allowed]'))]",
+                "equals": "Yes"
+              }
+            ]
           },
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -184,6 +200,12 @@
               "parameters": {
                 "severityGroupName": {
                   "value": "[field(concat('tags[Severity Group Monthly]'))]"
+                },
+                "updateAllowed": {
+                  "value": "[field(concat('tags[Update allowed]'))]"
+                },
+                "noMaintenanceConfigurationId": {
+                  "value": "[parameters('noMaintenanceConfigurationId')]"
                 },
                 "managementSubscriptionId": {
                   "value": "[parameters('managementSubscriptionId')]"
@@ -224,6 +246,19 @@
                     "type": "string",
                     "metadata": {
                       "description": "Name of the severity group/ maintenance configuration."
+                    }
+                  },
+                  "updateAllowed": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Update allowed flag"
+                    }
+                  },
+                  "noMaintenanceConfigurationId": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "noMaintenanceConfigurationId",
+                      "description": "Id of the maintenance configuration NoMaintenance"
                     }
                   },
                   "managementSubscriptionId": {
@@ -330,6 +365,7 @@
                 },
                 "resources": [
                   {
+                    "condition": "[equals(parameters('updateAllowed'), 'yes')]",
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
                     "name": "[variables('uniqueDeploymentName')]",
@@ -384,6 +420,7 @@
                     }
                   },
                   {
+                    "condition": "[equals(parameters('updateAllowed'), 'yes')]",
                     "type": "Microsoft.Maintenance/configurationAssignments",
                     "apiVersion": "2023-04-01",
                     "name": "[concat('cas-', parameters('vmName'))]",
@@ -395,6 +432,21 @@
                     "scope": "[variables('scope')]",
                     "properties": {
                       "maintenanceConfigurationId": "[concat('/subscriptions/', parameters('managementSubscriptionId'), '/resourcegroups/', parameters('managementResourceGroup'), '/providers/microsoft.maintenance/maintenanceconfigurations/', parameters('severityGroupName'))]",
+                      "resourceId": "[parameters('vmResourceId')]"
+                    }
+                  },
+                  {
+                    "condition": "[equals(parameters('updateAllowed'), 'no')]",
+                    "type": "Microsoft.Maintenance/configurationAssignments",
+                    "apiVersion": "2023-04-01",
+                    "name": "[concat('cas-', parameters('vmName'))]",
+                    "dependsOn": [
+                      "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+                    ],
+                    "location": "[parameters('locationVm')]",
+                    "scope": "[variables('scope')]",
+                    "properties": {
+                      "maintenanceConfigurationId": "[parameters('noMaintenanceConfigurationId')]",
                       "resourceId": "[parameters('vmResourceId')]"
                     }
                   }

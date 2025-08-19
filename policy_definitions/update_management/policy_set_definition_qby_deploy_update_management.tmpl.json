@@ -5,13 +5,20 @@
     "scope": null,
     "properties": {
         "policyType": "Custom",
-        "displayName": "Deploy Update Management for Windows VMs",
+        "displayName": "Deploy Update Management for Azure VMs",
         "description": "This policy set deploys maintenance configuration and configuration assignments based on the tag 'Severity Group Monthly'. It also changes the VM patch mode to AutomaticByPlatform, if necessary.",
         "metadata": {
             "version": "1.0.0",
             "category": "Azure Update Manager"
         },
         "parameters": {
+            "noMaintenanceConfigurationId": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "noMaintenanceConfigurationId",
+                    "description": "Id of the maintenance configuration NoMaintenance"
+                }
+            },
             "managementSubscriptionId": {
                 "type": "String",
                 "metadata": {
@@ -31,25 +38,112 @@
                     "strongType": "location"
                 }
             },
-            "effectRequireUpdateAllowedTag": {
+            "duration": {
                 "type": "String",
-                "defaultValue": "Deny",
+                "metadata": {
+                    "displayName": "duration",
+                    "description": "Duration of the maintance window in format hh:mm. Maximum value is 03:55."
+                },
+                "defaultValue": "03:55"
+            },
+            "timeZone": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "timeZone",
+                    "description": "Time zone to use for the maintenance windows configuration."
+                },
+                "defaultValue": "W. Europe Standard Time"
+            },
+            "osTypeArc": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "OS type Arc machines included",
+                    "description": "Filter Arc machines by osType. None excludes arc machines. All includes any Arc machine."
+                },
                 "allowedValues": [
-                    "Audit",
-                    "Deny",
+                    "All",
+                    "Windows",
+                    "Linux",
+                    "None"
+                ],
+                "defaultValue": "None"
+            },
+            "osOffersLinux": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Linux OS offers included",
+                    "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
+                },
+                "defaultValue": [
+                    "*"
+                ]
+            },
+            "osSKUsLinux": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Linux OS SKUs included",
+                    "description": "Include only OS SKUs of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+                },
+                "defaultValue": [
+                    "*"
+                ]
+            },
+            "osOffersWindows": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Windows OS offers included",
+                    "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
+                },
+                "defaultValue": [
+                    "WindowsServer*"
+                ]
+            },
+            "osSKUsWindows": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Windows OS SKUs included",
+                    "description": "Include only OS SKUs of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+                },
+                "defaultValue": [
+                    "2019-datacenter*",
+                    "2022-datacenter*"
+                ]
+            },
+            "effectLinux": {
+                "type": "string",
+                "defaultValue": "DeployIfNotExists",
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "DeployIfNotExists",
                     "Disabled"
                 ],
                 "metadata": {
-                    "description": "Effect if the tag 'Update Allowed' is not 'yes'.",
-                    "displayName": "Effect Require Update Allowed"
+                    "displayName": "Effect for Linux Update Management",
+                    "description": "The effect determines what happens when the policy rule for Linux update management is evaluated to match"
+                }
+            },
+            "effectWindows": {
+                "type": "string",
+                "defaultValue": "DeployIfNotExists",
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect for Windows Update Management",
+                    "description": "The effect determines what happens when the policy rule for Windows update management is evaluated to match"
                 }
             }
         },
         "policyDefinitions": [
             {
-                "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
+                "policyDefinitionReferenceId": "Configure update management for Linux virtual machines with a given tag using Azure Update Manager",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates-Linux",
                 "parameters": {
+                    "noMaintenanceConfigurationId": {
+                        "value": "[parameters('noMaintenanceConfigurationId')]"
+                    },
                     "managementSubscriptionId": {
                         "value": "[parameters('managementSubscriptionId')]"
                     },
@@ -58,14 +152,63 @@
                     },
                     "location": {
                         "value": "[parameters('location')]"
+                    },
+                    "duration": {
+                        "value": "[parameters('duration')]"
+                    },
+                    "timeZone": {
+                        "value": "[parameters('timeZone')]"
+                    },
+                    "osTypeArc": {
+                        "value": "[parameters('osTypeArc')]"
+                    },
+                    "osOffersLinux": {
+                        "value": "[parameters('osOffersLinux')]"
+                    },
+                    "osSKUsLinux": {
+                        "value": "[parameters('osSKUsLinux')]"
+                    },
+                    "effect": {
+                        "value": "[parameters('effectLinux')]"
                     }
                 },
                 "groupNames": []
             },
             {
-                "policyDefinitionReferenceId": "Require a tag 'Severity Group Monthly' exists and is not empty",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Severity-Group-Tag",
-                "parameters": {},
+                "policyDefinitionReferenceId": "Configure update management for Windows virtual machines with a given tag using Azure Update Manager",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
+                "parameters": {
+                    "managementSubscriptionId": {
+                        "value": "[parameters('managementSubscriptionId')]"
+                    },
+                    "noMaintenanceConfigurationId": {
+                        "value": "[parameters('noMaintenanceConfigurationId')]"
+                    },
+                    "managementResourceGroup": {
+                        "value": "[parameters('managementResourceGroup')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "duration": {
+                        "value": "[parameters('duration')]"
+                    },
+                    "timeZone": {
+                        "value": "[parameters('timeZone')]"
+                    },
+                    "osTypeArc": {
+                        "value": "[parameters('osTypeArc')]"
+                    },
+                    "osOffers": {
+                        "value": "[parameters('osOffersWindows')]"
+                    },
+                    "osSKUs": {
+                        "value": "[parameters('osSKUsWindows')]"
+                    },
+                    "effect": {
+                        "value": "[parameters('effectWindows')]"
+                    }
+                },
                 "groupNames": []
             },
             {
@@ -79,7 +222,17 @@
                 "groupNames": []
             },
             {
-                "policyDefinitionReferenceId": "Configure periodic checking for missing system updates on azure virtual machines",
+                "policyDefinitionReferenceId": "Configure periodic checking for missing system updates on Linux azure virtual machines",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/59efceea-0c96-497e-a4a1-4eb2290dac15",
+                "parameters": {
+                    "osType": {
+                        "value": "Linux"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure periodic checking for missing system updates on Windows azure virtual machines",
                 "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/59efceea-0c96-497e-a4a1-4eb2290dac15",
                 "parameters": {},
                 "groupNames": []
@@ -88,16 +241,6 @@
                 "policyDefinitionReferenceId": "Configure periodic checking for missing system updates on azure Arc-enabled servers",
                 "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bfea026e-043f-4ff4-9d1b-bf301ca7ff46",
                 "parameters": {},
-                "groupNames": []
-            },
-            {
-                "policyDefinitionReferenceId": "Require tag 'Update Allowed' to be 'yes'",
-                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Require-Update-Allowed-Tag",
-                "parameters": {
-                    "effect": {
-                        "value": "[parameters('effectRequireUpdateAllowedTag')]"
-                    }
-                },
                 "groupNames": []
             }
         ],

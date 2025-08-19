@@ -17,8 +17,7 @@
                 "metadata": {
                     "displayName": "noMaintenanceConfigurationId",
                     "description": "Id of the maintenance configuration NoMaintenance"
-                },
-                "defaultValue": ""
+                }
             },
             "managementSubscriptionId": {
                 "type": "String",
@@ -89,18 +88,26 @@
                     "*"
                 ]
             },
-            "effect": {
-                "type": "string",
-                "defaultValue": "DeployIfNotExists",
-                "allowedValues": [
-                    "AuditIfNotExists",
-                    "DeployIfNotExists",
-                    "Disabled"
-                ],
+            "osOffersWindows": {
+                "type": "Array",
                 "metadata": {
-                    "displayName": "Effect for policy set Update management",
-                    "description": "The effect determines what happens when the policy rule is evaluated to match"
-                }
+                    "displayName": "Windows OS offers included",
+                    "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
+                },
+                "defaultValue": [
+                    "WindowsServer*"
+                ]
+            },
+            "osSKUsWindows": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Windows OS SKUs included",
+                    "description": "Include only OS SKUs of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any SKU. Use an empty array [] to exclude Azure VMs and scale sets."
+                },
+                "defaultValue": [
+                    "2019-datacenter*",
+                    "2022-datacenter*"
+                ]
             },
             "effectLinux": {
                 "type": "string",
@@ -111,8 +118,8 @@
                     "Disabled"
                 ],
                 "metadata": {
-                    "displayName": "Effect for policy Deploy Updates Linux",
-                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                    "displayName": "Effect for Linux Update Management",
+                    "description": "The effect determines what happens when the policy rule for Linux update management is evaluated to match"
                 }
             },
             "effectWindows": {
@@ -124,8 +131,8 @@
                     "Disabled"
                 ],
                 "metadata": {
-                    "displayName": "Effect for policy Deploy Updates (Windows)",
-                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                    "displayName": "Effect for Windows Update Management",
+                    "description": "The effect determines what happens when the policy rule for Windows update management is evaluated to match"
                 }
             }
         },
@@ -168,7 +175,7 @@
                 "groupNames": []
             },
             {
-                "policyDefinitionReferenceId": "Configure update management for virtual machines with a given tag using Azure Update Manager",
+                "policyDefinitionReferenceId": "Configure update management for Windows virtual machines with a given tag using Azure Update Manager",
                 "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Deploy-Updates",
                 "parameters": {
                     "managementSubscriptionId": {
@@ -182,6 +189,21 @@
                     },
                     "location": {
                         "value": "[parameters('location')]"
+                    },
+                    "duration": {
+                        "value": "[parameters('duration')]"
+                    },
+                    "timeZone": {
+                        "value": "[parameters('timeZone')]"
+                    },
+                    "osTypeArc": {
+                        "value": "[parameters('osTypeArc')]"
+                    },
+                    "osOffers": {
+                        "value": "[parameters('osOffersWindows')]"
+                    },
+                    "osSKUs": {
+                        "value": "[parameters('osSKUsWindows')]"
                     },
                     "effect": {
                         "value": "[parameters('effectWindows')]"

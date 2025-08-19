@@ -3,8 +3,8 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
   "properties": {
-    "displayName": "Require the tag 'Update Allowed' to be 'yes' on VMs and Arc machines",
-    "description": "Require the tag 'Update Allowed' to be 'yes' on VMs and Arc machines as disabling updates is not supported as the moment.",
+    "displayName": "Require the tag 'Update Allowed' to be 'yes' or 'no' on VMs",
+    "description": "Require the tag 'Update Allowed' to be 'yes' or 'no' on VMs and Arc machines.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
@@ -26,6 +26,17 @@
           "None"
         ],
         "defaultValue": "None"
+      },
+      "updateAllowedTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed values for the tag update allowed",
+          "description": "Allowed values for the tag update allowed"
+        },
+        "defaultValue": [
+          "yes",
+          "no"
+        ]
       },
       "osOffers": {
         "type": "Array",
@@ -121,7 +132,7 @@
           {
             "not": {
               "field": "[concat('tags[Update allowed]')]",
-              "equals": "yes"
+              "in": "[parameters('updateAllowedTagValues')]"
             }
           }
         ]

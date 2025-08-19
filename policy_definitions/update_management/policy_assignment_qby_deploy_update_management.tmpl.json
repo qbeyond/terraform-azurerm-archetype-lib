@@ -8,9 +8,13 @@
         "displayName": "Deploy Update Management for Azure VMs",
         "enforcementMode": null,
         "nonComplianceMessages": [
-            {
+             {
                 "message": "The tag 'update allowed' is set to 'no' or no update configuration is present",
                 "policyDefinitionReferenceId": "Configure update management for Linux virtual machines with a given tag using Azure Update Manager"
+            },
+            {
+                "message": "The tag 'update allowed' is set to 'no' or no update configuration is present",
+                "policyDefinitionReferenceId": "Configure update management for Windows virtual machines with a given tag using Azure Update Manager"
             }
         ],
         "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policySetDefinitions/QBY-Deploy-Update-Mgmt",
@@ -45,8 +49,16 @@
                     "Disabled"
                 ]
             },
-            "effect": {
-                "value": "DeployIfNotExists"
+            "osOffersWindows": {
+                "value": [
+                    "Windows*"
+                ]
+            },
+            "osSKUsWindows": {
+                "value": [
+                    "2019-datacenter*",
+                    "2022-datacenter*"
+                ]
             },
             "effectWindows": {
                 "value": "DeployIfNotExists"

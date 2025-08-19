@@ -11,6 +11,13 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - added vm images policy that only allows specific images
 - added separate `effectWindows` and `effectLinux` parameters for update management
 
+### Added
+- added "BackupPolicyDefaultLS" option to list of selectable backup policies `QBY-Deploy-VM-Backup.activeBackupPolicy`
+
+### Changed
+- `QBY-Deploy-VM-Backup.backupPolicyLogicalName` defaults to empty string "" now. Leaving it empty results in
+`QBY-Deploy-VM-Backup.activeBackupPolicy` being used, which, if used, has always been the old default parameter "QbyDefault". Hence no breaking change.
+
 ## [6.1.0]
 
 ### Added

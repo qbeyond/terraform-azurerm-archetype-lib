@@ -188,6 +188,14 @@
               {
                 "value": "[field(concat('tags[Update allowed]'))]",
                 "equals": "Yes"
+              },
+              {
+                "value": "[field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule')]",
+                "equals": true
+              },
+              {
+                "value": "[field('Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode')]",
+                "equals": "AutomaticByPlatform"
               }
             ]
           },

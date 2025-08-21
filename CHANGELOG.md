@@ -8,9 +8,10 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 ## [6.4.0]
 ### Added
 - added configure patch settings linux policy
+- added NonCompliance messages for configure patch mode policies
 
 ### Changed
-- change configure patch settings windows policy effect from AuditIfNotExists to `effectWindows`
+- change configure patch settings windows policy effect from `AuditIfNotExists` to `effectWindows`
 
 ## [6.3.0]
 ### Added

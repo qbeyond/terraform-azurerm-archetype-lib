@@ -180,6 +180,7 @@
             "QBY-Deploy-Updates-Linux",
             "QBY-Require-Severity-Group-Tag",
             "QBY-Configure-Windows-Patch-Settings",
+            "QBY-Configure-Linux-Patch-Settings",
             "QBY-Require-Update-Allowed-Tag",
             "QBY-Inherit-Tag-from-Subscription",
             "QBY-Require-Tag-on-ResourceGroup",

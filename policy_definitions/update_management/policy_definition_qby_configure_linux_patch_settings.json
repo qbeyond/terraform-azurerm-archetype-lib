@@ -1,9 +1,9 @@
 {
-  "name": "QBY-Configure-Windows-Patch-Settings",
+  "name": "QBY-Configure-Linux-Patch-Settings",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Configure Patch settings of Windows VMs for Update Manager",
-    "description": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule of Windows VM to work with Update Manager.",
+    "displayName": "Configure Patch settings of Linux VMs for Update Manager",
+    "description": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule of Linux VM to work with Update Manager.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
@@ -23,7 +23,7 @@
           "description": "Include only offers of Azure VMs like specified strings. Can contain * as wildcard. ['*'] includes any offer. Use an empty array [] to exclude Azure VMs and scale sets."
         },
         "defaultValue": [
-          "Windows*"
+          "*"
         ]
       },
       "osSKUs": {
@@ -96,11 +96,11 @@
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule",
+                "field": "Microsoft.Compute/virtualMachines/osProfile.linuxConfiguration.patchSettings.automaticByPlatformSettings.bypassPlatformSafetyChecksOnUserSchedule",
                 "equals": true
               },
               {
-                "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.patchMode",
+                "field": "Microsoft.Compute/virtualMachines/osProfile.linuxConfiguration.patchSettings.patchMode",
                 "equals": "AutomaticByPlatform"
               }
             ]
@@ -134,8 +134,8 @@
                   }
                 },
                 "variables": {
-                  "windowsOSProfile": {
-                    "windowsConfiguration": {
+                  "linuxOSProfile": {
+                    "linuxConfiguration": {
                       "patchSettings": {
                         "patchMode": "AutomaticByPlatform",
                         "automaticByPlatformSettings": {
@@ -152,7 +152,7 @@
                     "name": "[parameters('machineName')]",
                     "location": "[parameters('location')]",
                     "properties": {
-                      "osProfile": "[variables('windowsOSProfile')]"
+                      "osProfile": "[variables('linuxOSProfile')]"
                     }
                   }
                 ]

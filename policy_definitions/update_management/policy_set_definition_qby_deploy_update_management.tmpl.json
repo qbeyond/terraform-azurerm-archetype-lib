@@ -212,11 +212,27 @@
                 "groupNames": []
             },
             {
-                "policyDefinitionReferenceId": "Audit patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of windows vm for Azure Update Manager",
+                "policyDefinitionReferenceId": "Configure the patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of Windows VMs for Azure Update Manager",
                 "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Configure-Windows-Patch-Settings",
                 "parameters": {
-                    "effect": {
-                        "value": "AuditIfNotExists"
+                    "osOffers": {
+                        "value": "[parameters('osOffersWindows')]"
+                    },
+                    "osSKUs": {
+                        "value": "[parameters('osSKUsWindows')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "Configure patch mode and bypassPlatformSafetyChecksOnUserSchedule setting of Linux VMs for Azure Update Manager",
+                "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Configure-Linux-Patch-Settings",
+                "parameters": {
+                    "osOffers": {
+                        "value": "[parameters('osOffersLinux')]"
+                    },
+                    "osSKUs": {
+                        "value": "[parameters('osSKUsLinux')]"
                     }
                 },
                 "groupNames": []

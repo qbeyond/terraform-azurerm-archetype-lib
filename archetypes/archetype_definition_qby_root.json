@@ -15,8 +15,7 @@
             "QBY-Tagging-Governance",
             "QBY-Allowed-VM-SKUs",
             "QBY-Allowed-VM-Images",
-            "QBY-Allowed-Locations",
-            "QBY-Disable-Shared-Key"
+            "QBY-Allowed-Locations"
         ],
         "policy_definitions": [
             "Append-AppService-latestTLS",

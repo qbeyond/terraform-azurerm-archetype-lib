@@ -5,6 +5,10 @@ All notable changes to this module will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.5.0]
+## Addded
+- added policy definition for disabling shared key on storage account
+
 ## [6.4.0]
 ### Added
 - added configure patch settings linux policy

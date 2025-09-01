@@ -1,0 +1,19 @@
+{
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2022-06-01",
+    "name": "QBY-Disable-Shared-Key",
+    "location": "${default_location}",
+    "dependsOn": [],
+    "identity": {
+        "type": "SystemAssigned"
+    },
+    "properties": {
+        "description": "Disable shared key access for storage accounts",
+        "displayName": "Disable - Storage accounts shared key access",
+        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/QBY-Disable-Shared-Key",
+        "enforcementMode": "Default",
+        "parameters": {}
+    },
+    "scope": "${current_scope_resource_id}",
+    "notScopes": []
+}

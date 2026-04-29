@@ -210,7 +210,7 @@
             "Enforce-ACSB",
             "Enforce-ALZ-Decomm",
             "Enforce-ALZ-Sandbox",
-            "Enforce-EncryptTransit_20241211",
+            "Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
             "QBY-Deploy-Update-Mgmt",
             "QBY-Deploy-VM-Monitoring",

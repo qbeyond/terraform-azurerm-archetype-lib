@@ -210,7 +210,7 @@
             "Enforce-ACSB",
             "Enforce-ALZ-Decomm",
             "Enforce-ALZ-Sandbox",
-            "Enforce-EncryptTransit_20241211",
+            "QBY-Enforce-EncryptTransit",
             "Enforce-Guardrails-KeyVault",
             "QBY-Deploy-Update-Mgmt",
             "QBY-Deploy-VM-Monitoring",
@@ -226,12 +226,7 @@
             "Subscription-Owner"
         ],
         "archetype_config": {
-            "parameters": {
-                "Enforce-EncryptTransit_20241211": {
-                    "Effect": "Deny",
-                    "defaultValue": "Deny"
-                }
-            },
+            "parameters": {},
             "access_control": {}
         }
     }

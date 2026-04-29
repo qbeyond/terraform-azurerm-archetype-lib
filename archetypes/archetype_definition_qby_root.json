@@ -228,7 +228,8 @@
         "archetype_config": {
             "parameters": {
                 "Enforce-EncryptTransit_20241211": {
-                    "effect": "Deny"
+                    "Effect": "Deny",
+                    "defaultValue": "Deny"
                 }
             },
             "access_control": {}

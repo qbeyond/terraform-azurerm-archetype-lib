@@ -947,7 +947,8 @@
         "policyDefinitionReferenceId": "Deny-Synapse-Tls-Version"
       }
     ],
-    "policyType": "Custom"
+    "policyType": "Custom",
+    "policyDefinitionGroups": null
   },
   "type": "Microsoft.Authorization/policySetDefinitions"
 }

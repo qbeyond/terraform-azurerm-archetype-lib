@@ -226,7 +226,11 @@
             "Subscription-Owner"
         ],
         "archetype_config": {
-            "parameters": {},
+            "parameters": {
+                "Enforce-EncryptTransit_20241211": {
+                    "effect": "Deny"
+                }
+            },
             "access_control": {}
         }
     }
